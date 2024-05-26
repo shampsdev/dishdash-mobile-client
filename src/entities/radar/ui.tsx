@@ -7,7 +7,6 @@ import {
   SkPoint,
   canvas2Polar,
   polar2Canvas,
-  useCanvasRef,
   useImage,
   vec,
 } from '@shopify/react-native-skia';
@@ -23,7 +22,6 @@ import {
 } from 'react-native-reanimated';
 
 export const Radar = ({ ...props }) => {
-  const logo = useImage(require('./assets/icon_logo.png'));
 
   const r = useSharedValue(0);
   useEffect(() => {
@@ -32,15 +30,15 @@ export const Radar = ({ ...props }) => {
       -1
     );
   }, [r]);
+  
 
+  const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));
   const icon2 = useImage(require('./assets/icon2.png'));
   const icon3 = useImage(require('./assets/icon3.png'));
   const icon4 = useImage(require('./assets/icon4.png'));
   const icon5 = useImage(require('./assets/icon5.png'));
   const icon6 = useImage(require('./assets/icon6.png'));
-
-  const ref = useCanvasRef();
 
   const [center, setCenter] = useState<{ x: number; y: number }>({
     x: 0,
@@ -53,7 +51,7 @@ export const Radar = ({ ...props }) => {
   };
 
   return (
-    <Canvas onLayout={handleLayout} style={{ flex: 1 }} ref={ref} {...props}>
+    <Canvas className='flex-1' onLayout={handleLayout} {...props}>
       <Circle c={center} r={80} style='stroke' strokeWidth={1.6}>
         <LinearGradient
           start={vec(0, 0)}

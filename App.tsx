@@ -1,9 +1,9 @@
-import { HomePage } from './src/pages/home.page';
+import { SwipePage } from '@/pages/swipes.page';
 
 export default function App() {
   return (
     <>
-      <HomePage />
+      <SwipePage />
     </>
   );
 }

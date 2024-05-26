@@ -1,8 +1,8 @@
 import { View, Image } from 'react-native';
 
-export const Header = () => {
+export const Header = ({ ...props }) => {
   return (
-    <View className='flex'>
+    <View className='flex' {...props}>
       <Image
         source={require('./assets/logo.png')}
         style={{

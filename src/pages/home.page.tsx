@@ -1,5 +1,5 @@
 import { Header } from '@/entities/header';
-import { Radar } from '@/entities/home';
+import { Radar } from '@/entities/radar';
 import { View, Text, Button, Pressable } from 'react-native';
 
 export const HomePage = () => {
