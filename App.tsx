@@ -30,6 +30,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           header: Header,
+          animationEnabled: false,
         }}
       >
         <Stack.Screen name='home' component={HomePage} />
