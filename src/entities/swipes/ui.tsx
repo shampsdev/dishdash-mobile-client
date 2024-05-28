@@ -28,6 +28,8 @@ export const SwipeSection = ({ ...props }) => {
 
   const icon1 = useImage(require('./assets/fuck.jpg'));
 
+  
+
   return (
     <Canvas className='flex-1' onLayout={handleLayout} {...props}>
       <Group>

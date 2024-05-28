@@ -1,6 +1,8 @@
 import { Header } from '@/entities/header';
 import { Radar } from '@/entities/radar';
-import { View, Text, Button, Pressable } from 'react-native';
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
+import { CustomButton } from '@/features/ui/custom-button'
 
 export const HomePage = () => {
   return (
@@ -15,12 +17,8 @@ export const HomePage = () => {
           </Text>
         </View>
         <View className='flex-row gap-5 py-10'>
-          <Pressable className='p-4 px-10 bg-secondary rounded-full'>
-            <Text className='text-black text-lg'>Одному</Text>
-          </Pressable>
-          <Pressable className='p-4 bg-primary rounded-full'>
-            <Text className='text-white text-lg'>С компанией</Text>
-          </Pressable>
+          <CustomButton>Одному</CustomButton>
+          <CustomButton type='primary'>С компанией</CustomButton>
         </View>
       </View>
     </View>
