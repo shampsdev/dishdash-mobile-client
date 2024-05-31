@@ -1,4 +1,3 @@
-import { Header } from '@/entities/header';
 import { Radar } from '@/entities/radar';
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
@@ -6,6 +5,9 @@ import { CustomButton } from '@/shared/ui/custom-button'
 import axios from 'axios';
 import { API_HOST } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/useLobby';
+import { NavigationProps } from '../../App';
+import { useNavigation } from '@react-navigation/native';
+
 
 const locationData = {
   lat: 59.957441,
@@ -13,6 +15,8 @@ const locationData = {
 };
 
 export const HomePage = () => {
+  const navigator = useNavigation<NavigationProps>();
+  
   const { lobbyID, setLobbyID } = useLobby();
 
   const createLobby = async () => {
@@ -38,19 +42,23 @@ export const HomePage = () => {
       console.error('There was a problem with your axios operation:', error);
     }
   };
+  
   return (
-    <View className='flex-1 mt-10'>
-      <Header />
+    <View className='flex-1'>
       <View className='flex-1 bg-whit items-center'>
         <Radar className='h-3/5 w-screen' />
         <View>
-          <Text className='text-xl text-muted text-center'>Куда пойти сегодня?</Text>
+          <Text className='text-xl text-muted text-center'>
+            Куда пойти сегодня?
+          </Text>
           <Text className='text-3xl text-center font-normal'>
             Открывайте новые места для прогулок
           </Text>
         </View>
         <View className='flex-row gap-5 py-10'>
-          <CustomButton>Одному</CustomButton>
+          <CustomButton
+            onPressOut={() => navigator.push('swipes')} 
+          >Одному</CustomButton>
           <CustomButton onPress={createLobby} type='primary'>С компанией</CustomButton>
         </View>
       </View>

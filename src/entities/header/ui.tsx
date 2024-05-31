@@ -2,7 +2,7 @@ import { View, Image } from 'react-native';
 
 export const Header = ({ ...props }) => {
   return (
-    <View className='flex' {...props}>
+    <View className='flex mt-10' {...props}>
       <Image
         source={require('./assets/logo.png')}
         style={{
