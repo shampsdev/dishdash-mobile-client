@@ -1,12 +1,14 @@
 import { Header } from '@/entities/header';
 import { SwipeSection } from '@/features/swipes';
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export const SwipePage = () => {
   return (
-    <View className='flex-1 mt-10'>
-      <Header />
-      <SwipeSection className='h-3/5 w-screen'/>
-    </View>
+    <GestureHandlerRootView>
+      <SafeAreaView>
+        <SwipeSection/>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };

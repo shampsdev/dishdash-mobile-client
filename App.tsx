@@ -42,11 +42,6 @@ export default function App() {
 //        }
 //        </View>
 //      </View> */}
-//      {/* <SafeAreaView style={{ flex: 1 }}> */}
-//      {/* <GestureHandlerRootView>
-//        <SwipePage />
-//      </GestureHandlerRootView> */}
-//      {/* </SafeAreaView> */}
 //      <HomePage/>
 //    </>
     <NavigationContainer
@@ -70,5 +65,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-

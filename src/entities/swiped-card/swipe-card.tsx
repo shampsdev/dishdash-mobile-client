@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Image, StyleSheet, Text, Pressable, ViewStyle, ImageProps } from 'react-native'
+import { View, Image, StyleSheet, Text, Pressable, ViewStyle, ImageProps, ImageBackground } from 'react-native'
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import {
@@ -55,7 +55,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
       { translateX: offsetX.value },
       { rotate: `${rotate.value}deg` },
     ],
-    marginBottom: -props.index * 10,
+    // marginBottom: -props.index * 10,
     zIndex: -props.index
   }));
 
@@ -66,10 +66,14 @@ export const SwipeCard = (props: SwipeCardProps) => {
       <GestureDetector gesture={pan}>
         <Animated.View style={[animatedStyles, {
           width: '80%',
+          height: '100%'
         }, shadowStyle]}>
-          <View className='relative'>
-            <Image 
-              className='w-full h-96 rounded-3xl'
+          <View className='relative h-3/4'>
+            <ImageBackground 
+              className='h-full'
+              imageStyle={{
+                borderRadius: 24,
+              }}
               source={props.card.imgSrc}
             />
 
@@ -109,7 +113,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
             shadowRadius: 4,
             shadowOffset: { width: 10, height: 5 },
             shadowOpacity: 0.5
-          }} className='w-full py-2 h-48 bg-white -translate-y-9 rounded-3xl items-center'>
+          }} className='w-full py-2 h-44 bg-white -translate-y-9 rounded-3xl items-center'>
             <View className='flex-row flex-wrap max-w-[96%] gap-1'>
             {
               categories.map((category, index) => 
@@ -134,7 +138,7 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   activeCardShadow: {
     shadowColor: 'black',
