@@ -2,6 +2,9 @@ import { useLobby } from '@/app/stores/useLobby';
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import { HeartIcon } from './assets/icons/heart.icon';
+import { CrossIcon } from './assets/icons/cross.icon';
+import { ButtonIcon } from '@/shared/ui/button.icon';
 
 export const SwipeSection = ({ ...props }) => {
   const { lobbyID } = useLobby();
@@ -38,12 +41,30 @@ export const SwipeSection = ({ ...props }) => {
   const visibleCards = cards.slice(0, 3);
 
   return (
-    <View className='flex-1'>
-      { 
-        visibleCards.map((value, index) => (
-          <SwipeCard key={value.id} index={index} card={value} onSwipe={handleSwipe}/>
-        )) 
-      }
+    <View className='h-full justify-between'>
+      <View className='h-3/4'>
+        { 
+          visibleCards.map((value, index) => (
+            <SwipeCard key={value.id} index={index} card={value} onSwipe={handleSwipe}/>
+          )) 
+        }
+      </View>
+
+      <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
+        <ButtonIcon styles={{
+          backgroundColor: 'rgb(220, 220, 220)'
+        }}>
+          <CrossIcon color='black'/>
+        </ButtonIcon>
+        <ButtonIcon
+          onPress={ () => {} }
+          styles={{
+            backgroundColor: 'black'
+          }}
+        >
+          <HeartIcon color='white'/>
+        </ButtonIcon>
+      </View>
     </View>
   );
 };

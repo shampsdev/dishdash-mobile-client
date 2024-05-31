@@ -35,6 +35,7 @@ export const HomePage = () => {
       console.info(data);
       if (data.id) {
         setLobbyID(lobbyID);
+        navigator.push('swipes');
       } else {
         console.error('Response did not contain an "id" field');
       }
