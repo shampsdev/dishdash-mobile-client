@@ -1,7 +1,6 @@
+import { API_HOST } from '@/app/app.settings';
 import { useEffect, useState, useCallback } from 'react';
 import io from 'socket.io-client';
-
-const SOCKET_URL = "https://dishdash.ru"; // Замените на ваш URL
 
 interface Socket {
   on(event: string, callback: (...args: any[]) => void): this;
@@ -14,7 +13,7 @@ const useSocket = (event: string) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const newSocket = io(SOCKET_URL, {
+    const newSocket = io(API_HOST, {
       transports: ['websocket'],
       reconnectionAttempts: 5,
       timeout: 20000,

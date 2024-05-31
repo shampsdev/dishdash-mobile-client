@@ -1,20 +1,21 @@
 import { HomePage } from '@/pages/home.page';
 import { SwipePage } from '@/pages/swipes.page';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
-import useSocket from '@/entities/swipes/hooks/useSocket';
+import useSocket from '@/features/swipes/hooks/useSocket';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native';
 
 export default function App() {
-  const [input, setInput] = useState(JSON.stringify({lobbyID: 1}));
-  const { messages, sendMessage } = useSocket("echo");
+  // const [input, setInput] = useState(JSON.stringify({lobbyID: 1}));
+  // const { messages, sendMessage } = useSocket("echo");
 
-  const handleSubmit = () => {
-    sendMessage(input);
-  };
+  // const handleSubmit = () => {
+  //   sendMessage(input);
+  // };
 
   return (
     <>
-      <View className='flex-1 mt-10'>
+      {/* <View className='flex-1 mt-10'>
         <Pressable className='bg-red-300' onPress={handleSubmit}>
           <Text>Send</Text>
         </Pressable>
@@ -23,9 +24,15 @@ export default function App() {
           messages.map((text, index) => <Text key={index}>hello: { text }</Text>)
         }
         </View>
-      </View>
-      {/* <SwipePage /> */}
-      {/* <HomePage/> */}
+      </View> */}
+      {/* <SafeAreaView style={{ flex: 1 }}> */}
+      {/* <GestureHandlerRootView>
+        <SwipePage />
+      </GestureHandlerRootView> */}
+      {/* </SafeAreaView> */}
+      <HomePage/>
     </>
   );
 }
+
+
