@@ -6,17 +6,12 @@ import {
   Gesture,
   GestureDetector
 } from 'react-native-gesture-handler';
+import { ICard } from './card.interface';
 
 const categories = ['Кофе', 'Развлечения', 'Чай', 'Новые ощущения']
 
-export interface ISwipeCard {
-  id: number;
-  title: string;
-  imgSrc: ImageProps; 
-}
-
 export interface SwipeCardProps {
-  card: ISwipeCard;
+  card: ICard;
   index: number;
   onSwipe: (id: number) => void;
 }
@@ -74,7 +69,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
               imageStyle={{
                 borderRadius: 24,
               }}
-              source={props.card.imgSrc}
+              source={{ uri: props.card.image }}
             />
 
             <View style={{
@@ -125,7 +120,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
             </View>
 
             <Text className='p-3'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At odit reiciendis ex excepturi! Fugit provident nobis in
+              { props.card.shortDescription }
             </Text>
           </View>
         </Animated.View>
