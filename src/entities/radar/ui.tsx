@@ -3,34 +3,48 @@ import {
   Circle,
   Image,
   LinearGradient,
-  SkImage,
-  SkPoint,
-  canvas2Polar,
-  polar2Canvas,
   useImage,
   vec,
 } from '@shopify/react-native-skia';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {
   Easing,
-  SharedValue,
   useDerivedValue,
   useSharedValue,
+  withDecay,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import { Icon } from './icon';
+import { Ring } from './ring';
 
 export const Radar = ({ ...props }) => {
+  const spin = useSharedValue(0);
+  const scale = useSharedValue(1);
+  const offset_anim = useSharedValue(0);
 
-  const r = useSharedValue(0);
   useEffect(() => {
-    r.value = withRepeat(
-      withTiming(1, { duration: 100000, easing: Easing.linear }),
+    spin.value = withRepeat(
+      withTiming(5, { duration: 50000, easing: Easing.linear }, () => {
+        console.log('eh');
+      }),
       -1
     );
-  }, [r]);
-  
+  }, []);
+
+  const startAnimation = () => {
+    scale.value = withRepeat(
+      withTiming(1.1, { duration: 250, easing: Easing.ease }, (finished) => {
+        if (finished) {
+          scale.value = withTiming(1, { duration: 500, easing: Easing.ease });
+        }
+      }),
+      -1,
+      true
+    );
+  };
 
   const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));
@@ -45,104 +59,122 @@ export const Radar = ({ ...props }) => {
     y: 0,
   });
 
+  const gesture = Gesture.Pan()
+    .onChange((e) => {
+      const deltaX =
+        e.absoluteY > center.y ? e.changeX * 0.005 : -e.changeX * 0.005;
+      const deltaY =
+        e.absoluteX > center.x ? -e.changeY * 0.005 : e.changeY * 0.005;
+
+      offset_anim.value += deltaX + deltaY;
+    })
+    .onEnd((e) => {
+      const velocityX = e.velocityX * (e.absoluteY > center.y ? 0.005 : -0.005);
+      const velocityY = e.velocityY * (e.absoluteX > center.x ? -0.005 : 0.005);
+
+      const totalVelocity = velocityX + velocityY;
+
+      const decayConfig = {
+        velocity: totalVelocity * 1.2,
+        deceleration: 0.996,
+      };
+
+      console.log(-totalVelocity);
+
+      offset_anim.value = withDecay(decayConfig);
+    });
+
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setCenter({ x: width / 2, y: height / 2 });
   };
 
   return (
-    <Canvas className='flex-1' onLayout={handleLayout} {...props}>
-      <Circle c={center} r={80} style='stroke' strokeWidth={1.6}>
-        <LinearGradient
-          start={vec(0, 0)}
-          end={vec(256, 0)}
-          colors={[
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 100%, 0.2)',
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 100%, 0.2)',
-          ]}
+    <GestureDetector gesture={gesture}>
+      <Canvas
+        className='flex-1'
+        onTouch={() => startAnimation()}
+        onLayout={handleLayout}
+        {...props}
+      >
+        <Ring c={center} scale={scale} radius={80} />
+        <Ring c={center} scale={scale} radius={155} />
+        <Ring c={center} scale={scale} radius={230} />
+        <Image
+          x={useDerivedValue(() => center.x - 25 * scale.value)}
+          y={useDerivedValue(() => center.y - 25 * scale.value)}
+          image={logo}
+          fit='contain'
+          height={useDerivedValue(() => 50 * scale.value)}
+          width={useDerivedValue(() => 50 * scale.value)}
         />
-      </Circle>
-      <Circle c={center} r={155} style='stroke' strokeWidth={1.6}>
-        <LinearGradient
-          start={vec(0, 0)}
-          end={vec(256, 0)}
-          colors={[
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 100%, 0.2)',
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 93%, 0.2)',
-          ]}
+        <Icon
+          scale={scale}
+          icon={icon1}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((0 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
         />
-      </Circle>
-      <Circle c={center} r={230} style='stroke' strokeWidth={1.6}>
-        <LinearGradient
-          start={vec(0, 0)}
-          end={vec(256, 0)}
-          colors={[
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 100%, 0.2)',
-            'hsla(0, 0%, 93%, 1)',
-            'hsla(0, 0%, 100%, 0.2)',
-          ]}
+        <Icon
+          scale={scale}
+          icon={icon2}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((1 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
         />
-      </Circle>
-      <Image
-        x={center.x - 25}
-        y={center.y - 25}
-        image={logo}
-        fit='contain'
-        height={50}
-        width={50}
-      />
-      <Icon icon={icon1} center={center} r={r} offset={0} />
-      <Icon icon={icon2} center={center} r={r} offset={Math.PI/3} />
-      <Icon icon={icon3} center={center} r={r} offset={2 * Math.PI/3} />
-      <Icon icon={icon4} center={center} r={r} offset={3 * Math.PI/3} />
-      <Icon icon={icon5} center={center} r={r} offset={4 * Math.PI/3} />
-      <Icon icon={icon6} center={center} r={r} offset={5 * Math.PI/3} />
-    </Canvas>
-  );
-};
-
-interface IconProps {
-  icon: SkImage | null;
-  center: SkPoint;
-  r: SharedValue<number>;
-  offset: number;
-}
-
-const Icon = ({ icon, center, r, offset }: IconProps) => {
-  const x = useDerivedValue(() => {
-    const polar = canvas2Polar({ x: center.x - 155, y: center.y }, center);
-
-    const { x } = polar2Canvas(
-      {
-        theta: -Math.PI * 2 * r.value + offset,
-        radius: polar.radius,
-      },
-      center
-    );
-
-    return x - 35;
-  });
-
-  const y = useDerivedValue(() => {
-    const polar = canvas2Polar({ x: center.x, y: center.y - 155 }, center);
-
-    const { y } = polar2Canvas(
-      {
-        theta: -Math.PI * 2 * r.value + offset,
-        radius: polar.radius,
-      },
-      center
-    );
-
-    return y - 35;
-  });
-
-  return (
-    <Image x={x} y={y} image={icon} fit='contain' height={70} width={70} />
+        <Icon
+          scale={scale}
+          icon={icon3}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((2 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
+        />
+        <Icon
+          scale={scale}
+          icon={icon4}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((3 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
+        />
+        <Icon
+          scale={scale}
+          icon={icon5}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((4 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
+        />
+        <Icon
+          scale={scale}
+          icon={icon6}
+          center={center}
+          spin={spin}
+          ring_offset={useDerivedValue(
+            () => ((5 + offset_anim.value) * Math.PI) / 3
+          )}
+          offset={155}
+          size={70}
+        />
+      </Canvas>
+    </GestureDetector>
   );
 };

@@ -1,8 +1,17 @@
 import { View, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const Header = ({ ...props }) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View className='flex mt-10' {...props}>
+    <View
+      className='flex px-4 pb-3 flex-row justify-between'
+      style={{
+        paddingTop: insets.top,
+      }}
+      {...props}
+    >
       <Image
         source={require('./assets/logo.png')}
         style={{
@@ -10,7 +19,6 @@ export const Header = ({ ...props }) => {
           width: 134,
           position: 'relative',
         }}
-        className='m-5'
       />
     </View>
   );

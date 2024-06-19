@@ -1,12 +1,9 @@
 import React from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   Text,
   Pressable,
-  ViewStyle,
-  ImageProps,
   ImageBackground,
 } from 'react-native';
 import Animated, {
