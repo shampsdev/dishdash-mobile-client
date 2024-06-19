@@ -7,6 +7,8 @@ import {
   StackNavigationProp,
   createStackNavigator,
 } from '@react-navigation/stack';
+import { Toast } from '@/entities/toast';
+import { ToastProvider } from '@/entities/toast/toast-provider';
 
 type RootStackParamList = {
   home: undefined;
@@ -20,25 +22,27 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer
-        theme={{
-          ...DefaultTheme,
-          colors: {
-            ...DefaultTheme.colors,
-            background: 'white',
-          },
-        }}
-      >
-        <Stack.Navigator
-          screenOptions={{
-            header: Header,
-            animationEnabled: false,
+      <ToastProvider>
+        <NavigationContainer
+          theme={{
+            ...DefaultTheme,
+            colors: {
+              ...DefaultTheme.colors,
+              background: 'white',
+            },
           }}
         >
-          <Stack.Screen name='home' component={HomePage} />
-          <Stack.Screen name='swipes' component={SwipePage} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              header: Header,
+              animationEnabled: false,
+            }}
+          >
+            <Stack.Screen name='home' component={HomePage} />
+            <Stack.Screen name='swipes' component={SwipePage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ToastProvider>
     </SafeAreaProvider>
   );
 }

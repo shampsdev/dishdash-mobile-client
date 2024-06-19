@@ -1,34 +1,34 @@
 import { Radar } from '@/entities/radar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { CustomButton } from '@/shared/ui/custom-button'
+import { CustomButton } from '@/shared/ui/custom-button';
 import axios from 'axios';
 import { API_HOST } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/useLobby';
 import { NavigationProps } from '../../App';
 import { useNavigation } from '@react-navigation/native';
-
+import { useToast } from '@/entities/toast/hooks/useToast';
 
 const locationData = {
   lat: 59.957441,
-  lng: 30.308091
+  lng: 30.308091,
 };
 
 export const HomePage = () => {
   const navigator = useNavigation<NavigationProps>();
-  
+
   const { lobbyID, setLobbyID } = useLobby();
 
   const createLobby = async () => {
     const jsonData = {
-      location: JSON.stringify(locationData)
+      location: JSON.stringify(locationData),
     };
 
     try {
       const response = await axios.post(`${API_HOST}/api/v1/lobby`, jsonData, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
 
       const data = response.data;
@@ -43,7 +43,21 @@ export const HomePage = () => {
       console.error('There was a problem with your axios operation:', error);
     }
   };
-  
+
+  const toast = useToast();
+
+  useEffect(() => {
+    const promise = new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    })
+
+    toast.promise(promise, {
+      message: 'Searching for a lobby',
+    });
+  }, []);
+
   return (
     <View className='flex-1'>
       <View className='flex-1 bg-whit items-center'>
