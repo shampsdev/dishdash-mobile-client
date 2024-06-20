@@ -7,6 +7,8 @@ import { CrossIcon } from './assets/icons/cross.icon';
 import { ButtonIcon } from '@/shared/ui/button.icon';
 import io from 'socket.io-client';
 import { ICard } from '@/entities/swiped-card/card.interface';
+import { CardModeProvider } from '@/entities/swiped-card/swipe-card.provider';
+import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
 
 const apiHost = "https://dishdash.ru";
 
@@ -19,9 +21,6 @@ interface Socket {
 export const SwipeSection = ({ ...props }) => {
   const { lobbyID } = useLobby();
   const [socket, setSocket] = useState<Socket | null>(null);
-  // const [cards, setCards] = useState<ICard[]>([]);
-
-  // console.info(cards)
 
   const [cards, setCards] = useState<ICard[]>([
     {
@@ -35,17 +34,17 @@ export const SwipeSection = ({ ...props }) => {
       price: 900,
       image: 'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13'
     },
-    // {
-    //   id: 2,
-    //   title: 'Дворик 1',
-    //   description: 'Lorem ipsum',
-    //   shortDescription: 'Lorem ipsum',
-    //   location: 'Петроградская 49',
-    //   address: 'Петроградская 49',
-    //   type: 'CAFE',
-    //   price: 900,
-    //   image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
-    // },
+    {
+      id: 2,
+      title: 'Дворик 1',
+      description: 'Lorem ipsum',
+      shortDescription: 'Lorem ipsum',
+      location: 'Петроградская 49',
+      address: 'Петроградская 49',
+      type: 'CAFE',
+      price: 900,
+      image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
+    },
     // {
     //   id: 3,
     //   title: 'Блоик 3',
@@ -70,35 +69,34 @@ export const SwipeSection = ({ ...props }) => {
     // }
   ]);
 
-  useEffect(() => {
-    const newSocket = io(apiHost, { 
-      transports: ['websocket'],
-      reconnectionAttempts: 5,
-      timeout: 20000,
-    });
-    setSocket(newSocket);
+  // useEffect(() => {
+  //   const newSocket = io(apiHost, {
+  //     transports: ['websocket'],
+  //     reconnectionAttempts: 5,
+  //     timeout: 20000,
+  //   });
+  //   setSocket(newSocket);
 
-    newSocket.on('connect', () => {
-      newSocket.emit('joinLobby', JSON.stringify({ lobbyID }));
-    });
+  //   newSocket.on('connect', () => {
+  //     newSocket.emit('joinLobby', JSON.stringify({ lobbyID }));
+  //   });
 
-    newSocket.on('card', (data) => {
-      const cardData = data["card"];
-      setCards((prevCards) => [...prevCards, cardData]);
-      console.info(cards)
-    });
+  //   newSocket.on('card', (data) => {
+  //     const cardData = data["card"];
+  //     setCards((prevCards) => [...prevCards, cardData]);
+  //     console.info(cards)
+  //   });
 
-    newSocket.on('match', (data) => {
-      const matchData = data["card"];
-      setCards((prevCards) => [...prevCards, matchData]);
-      console.info(cards)
-    });
+  //   newSocket.on('match', (data) => {
+  //     const matchData = data["card"];
+  //     setCards((prevCards) => [...prevCards, matchData]);
+  //     console.info(cards)
+  //   });
 
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [lobbyID]);
-
+  //   return () => {
+  //     newSocket.disconnect();
+  //   };
+  // }, [lobbyID]);
 
   const handleSwipe = (id: number) => {
     setTimeout(() => {
@@ -112,14 +110,27 @@ export const SwipeSection = ({ ...props }) => {
   return (
     <View className='h-full justify-center'>
       <View className='h-3/4'>
-        { 
-          visibleCards.map((value, index) => (
-            <SwipeCard key={value.id} index={index} card={value} onSwipe={handleSwipe}/>
-          )) 
-        }
+          <SwipeCard 
+            key={cards[0].id} 
+            index={0} 
+            card={cards[0]} 
+            onSwipe={handleSwipe} 
+          />
+          {/* <SwipeShortInfo
+            card={{...cards[1]}}
+            style={{
+              zIndex: -1,
+              width: '80%',
+              marginHorizontal: 'auto'
+            }}
+          /> */}
       </View>
+    </View>
+  );
+};
 
-      {/* <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
+{
+  /* <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
         <ButtonIcon styles={{
           backgroundColor: 'rgb(220, 220, 220)'
         }}>
@@ -133,7 +144,5 @@ export const SwipeSection = ({ ...props }) => {
         >
           <HeartIcon color='white'/>
         </ButtonIcon>
-      </View> */}
-    </View>
-  );
-};
+      </View> */
+}
