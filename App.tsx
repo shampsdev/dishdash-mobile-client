@@ -38,7 +38,7 @@ export default function App() {
               animationEnabled: false,
             }}
           >
-            <Stack.Screen name='home' component={HomePage} />
+            {/* <Stack.Screen name='home' component={HomePage} /> */}
             <Stack.Screen name='swipes' component={SwipePage} />
           </Stack.Navigator>
         </NavigationContainer>

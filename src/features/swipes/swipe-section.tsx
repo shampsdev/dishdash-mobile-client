@@ -19,32 +19,56 @@ interface Socket {
 export const SwipeSection = ({ ...props }) => {
   const { lobbyID } = useLobby();
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [cards, setCards] = useState<ICard[]>([]);
+  // const [cards, setCards] = useState<ICard[]>([]);
 
-  console.info(cards)
+  // console.info(cards)
 
-  // const [cards, setCards] = useState([
-  //   {
-  //     id: 1,
-  //     title: 'Вольчек1',
-  //     imgSrc: require('./assets/fuck.jpg')
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Дворчик2',
-  //     imgSrc: require('./assets/fuck.jpg')
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Дворчик3',
-  //     imgSrc: require('./assets/fuck.jpg')
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'Дворчик4',
-  //     imgSrc: require('./assets/fuck.jpg')
-  //   }
-  // ]);
+  const [cards, setCards] = useState<ICard[]>([
+    {
+      id: 1,
+      title: 'Вольчек 1',
+      description: 'Lorem ipsum',
+      shortDescription: 'Lorem ipsum',
+      location: 'Петроградская 49',
+      address: 'Петроградская 49',
+      type: 'CAFE',
+      price: 900,
+      image: 'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13'
+    },
+    // {
+    //   id: 2,
+    //   title: 'Дворик 1',
+    //   description: 'Lorem ipsum',
+    //   shortDescription: 'Lorem ipsum',
+    //   location: 'Петроградская 49',
+    //   address: 'Петроградская 49',
+    //   type: 'CAFE',
+    //   price: 900,
+    //   image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
+    // },
+    // {
+    //   id: 3,
+    //   title: 'Блоик 3',
+    //   description: 'Lorem ipsum',
+    //   shortDescription: 'Lorem ipsum',
+    //   location: 'Петроградская 49',
+    //   address: 'Петроградская 49',
+    //   type: 'CAFE',
+    //   price: 900,
+    //   image: require('./assets/fuck.jpg')
+    // },
+    // {
+    //   id: 4,
+    //   title: 'Голик 1',
+    //   description: 'Lorem ipsum',
+    //   shortDescription: 'Lorem ipsum',
+    //   location: 'Петроградская 49',
+    //   address: 'Петроградская 49',
+    //   type: 'CAFE',
+    //   price: 900,
+    //   image: require('./assets/fuck.jpg')
+    // }
+  ]);
 
   useEffect(() => {
     const newSocket = io(apiHost, { 
@@ -86,7 +110,7 @@ export const SwipeSection = ({ ...props }) => {
   const visibleCards = cards.slice(0, 3);
 
   return (
-    <View className='h-full justify-between'>
+    <View className='h-full justify-center'>
       <View className='h-3/4'>
         { 
           visibleCards.map((value, index) => (
@@ -95,7 +119,7 @@ export const SwipeSection = ({ ...props }) => {
         }
       </View>
 
-      <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
+      {/* <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
         <ButtonIcon styles={{
           backgroundColor: 'rgb(220, 220, 220)'
         }}>
@@ -109,7 +133,7 @@ export const SwipeSection = ({ ...props }) => {
         >
           <HeartIcon color='white'/>
         </ButtonIcon>
-      </View>
+      </View> */}
     </View>
   );
 };
