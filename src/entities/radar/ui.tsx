@@ -27,9 +27,7 @@ export const Radar = ({ ...props }) => {
 
   useEffect(() => {
     spin.value = withRepeat(
-      withTiming(5, { duration: 50000, easing: Easing.linear }, () => {
-        console.log('eh');
-      }),
+      withTiming(5, { duration: 50000, easing: Easing.linear }),
       -1
     );
   }, []);
@@ -93,7 +91,7 @@ export const Radar = ({ ...props }) => {
     <GestureDetector gesture={gesture}>
       <Canvas
         className='flex-1'
-        onTouch={() => startAnimation()}
+        onTouchStart={() => startAnimation()}
         onLayout={handleLayout}
         {...props}
       >

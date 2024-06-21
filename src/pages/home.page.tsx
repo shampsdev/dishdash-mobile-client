@@ -1,12 +1,13 @@
+import axios from 'axios';
 import { Radar } from '@/entities/radar';
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
-import axios from 'axios';
+import { View, Text } from 'react-native';
 import { API_HOST } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/useLobby';
 import { NavigationProps } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
+import { Added } from '@/entities/toast/icons/added';
 
 const locationData = {
   lat: 59.957441,
@@ -46,14 +47,27 @@ export const HomePage = () => {
   const toast = useToast();
 
   useEffect(() => {
-    const promise = new Promise<void>((resolve, reject) => {
+    const promise1 = new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 2500);
+    }).finally(() => {
+      toast.message(500, {
+        message: 'hello',
+      });
+    });
+    const promise2 = new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
       }, 5000);
-    })
+    });
 
-    toast.promise(promise, {
-      message: 'Searching for a lobby',
+    toast.promise(promise1, {
+      message: 'This is a very long message that should take 2 lines',
+    });
+
+    toast.promise(promise2, {
+      message: 'Message 2',
     });
   }, []);
 
