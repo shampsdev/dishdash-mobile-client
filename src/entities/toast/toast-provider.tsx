@@ -25,7 +25,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <Context.Provider value={{ toasts, addToast }}>
       {toasts.flatMap((toast, idx) => {
-        return <Toast dismissed={false} index={idx} key={idx} {...toast} />;
+        return <Toast index={idx} key={idx} {...toast} />;
       })}
       {children}
     </Context.Provider>
