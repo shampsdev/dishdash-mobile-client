@@ -9,8 +9,8 @@ export interface ToastProps {
   icon?: JSX.Element;
 }
 
-interface InternalToastProps {
-  dismissed: boolean;
+export interface InternalToastProps {
+  promise: Promise<void>;
 }
 
 interface Help {
@@ -19,10 +19,10 @@ interface Help {
 
 export const Toast = ({
   message,
+  promise,
   icon,
   index,
-  dismissed,
-}: ToastProps & Help & InternalToastProps) => {
+}: ToastProps & InternalToastProps & Help) => {
   const insets = useSafeAreaInsets();
   const slideAnim = useRef(new Animated.Value(-200)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -31,15 +31,11 @@ export const Toast = ({
 
   useEffect(() => {
     slideIn();
+    promise.then(() => {
+      setResolved(true);
+      setTimeout(() => slideOut(), 500);
+    });
   }, []);
-
-  useEffect(() => {
-    if (dismissed) onDismiss();
-  }, [dismissed]);
-
-  const onDismiss = () => {
-    slideOut();
-  };
 
   const slideIn = () => {
     Animated.timing(slideAnim, {

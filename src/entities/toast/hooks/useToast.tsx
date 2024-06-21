@@ -6,7 +6,7 @@ export const useToast = () => {
   const { addToast } = useContext(Context);
 
   const promise = (promise: Promise<void>, toast: ToastProps) => {
-    addToast(toast);
+    addToast(toast, promise);
   };
 
   const message = (duration: number, toast: ToastProps) => {
@@ -16,7 +16,7 @@ export const useToast = () => {
       }, duration);
     });
 
-    addToast(toast);
+    addToast(toast, promise);
   };
 
   return {
