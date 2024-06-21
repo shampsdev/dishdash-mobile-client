@@ -13,6 +13,7 @@ import { ToastProvider } from '@/entities/toast/toast-provider';
 type RootStackParamList = {
   home: undefined;
   swipes: undefined;
+  match: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;

@@ -1,7 +1,6 @@
 import { Radar } from '@/entities/radar';
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { CustomButton } from '@/shared/ui/custom-button';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import axios from 'axios';
 import { API_HOST } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/useLobby';
