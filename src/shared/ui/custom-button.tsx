@@ -27,7 +27,7 @@ export const CustomButton: React.FC<ButtonProps> = ({ type = 'default', children
       className={buttonStyles} 
       {...rest}
     >
-      <Text className={textStyle}>{children}</Text>
+      <Text adjustsFontSizeToFit numberOfLines={1}  className={textStyle}>{children}</Text>
     </Pressable>
   );
 };
