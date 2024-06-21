@@ -24,7 +24,7 @@ export const Toast = ({
   index,
 }: ToastProps & InternalToastProps & Help) => {
   const insets = useSafeAreaInsets();
-  const slideAnim = useRef(new Animated.Value(-200)).current;
+  const slideAnim = useRef(new Animated.Value(-20)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
   const [resolved, setResolved] = useState(false);
@@ -33,7 +33,9 @@ export const Toast = ({
     slideIn();
     promise.then(() => {
       setResolved(true);
-      setTimeout(() => slideOut(), 500);
+      setTimeout(() => {
+        slideOut();
+      }, 500);
     });
   }, []);
 

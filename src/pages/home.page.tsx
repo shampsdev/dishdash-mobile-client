@@ -47,16 +47,16 @@ export const HomePage = () => {
   const toast = useToast();
 
   useEffect(() => {
-    const promise1 = new Promise<void>((resolve, reject) => {
+    const promise1 = new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
       }, 2500);
-    }).then(() => {
-      toast.message(1000, {
+    }).finally(() => {
+      toast.message(500, {
         message: 'hello',
       });
     });
-    const promise2 = new Promise<void>((resolve, reject) => {
+    const promise2 = new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
       }, 5000);
