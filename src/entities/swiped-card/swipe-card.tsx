@@ -68,27 +68,11 @@ export const SwipeCard = (props: SwipeCardProps) => {
 
   const adjustRotation = () => {
     if (cardMode === 'card') {
-      rotateY.value = 0;
-    } else {
       rotateY.value = 180;
+    } else {
+      rotateY.value = 0;
     }
   };
-
-  // useEffect(() => {
-  //   if (cardMode === "card") {
-  //     rotateY.value = withSpring(rotateY.value + 180, {}, (isFinished) => {
-  //       if (isFinished) {
-  //         runOnJS(adjustRotation)();
-  //       }
-  //     });
-  //   } else {
-  //     rotateY.value = withSpring(rotateY.value - 180, {}, (isFinished) => {
-  //       if (isFinished) {
-  //         runOnJS(adjustRotation)();
-  //       }
-  //     });
-  //   }
-  // }, [cardMode]);
 
   const shadowStyle = props.index === 0 ? styles.activeCardShadow : {};
 
@@ -106,7 +90,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
         }
       });
     }
-
+    zIndex: -10
     setCardMode(cardMode === 'card' ? 'description' : 'card');
   };
 

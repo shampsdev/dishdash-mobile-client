@@ -2,6 +2,7 @@ import React from 'react'
 import { ImageBackground, View, Text, ViewStyle } from 'react-native'
 import { SwipeCardHader } from './swipe-card-header'
 import { ICard } from './card.interface'
+import { BlurView } from 'expo-blur';
 
 const categories = ['Кофе', 'Развлечения', 'Чай', 'Новые ощущения'];
 
@@ -11,7 +12,7 @@ export const SwipeShortInfo = ({
   style
 }: {
   card: ICard,
-  onInfoPress: () => void,
+  onInfoPress?: () => void,
   style?: ViewStyle
 }) => {
   return (

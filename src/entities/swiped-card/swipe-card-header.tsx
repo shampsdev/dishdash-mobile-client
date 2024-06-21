@@ -8,7 +8,7 @@ export const SwipeCardHader = ({
   onInfoPress
 }: {
   title: string,
-  onInfoPress: () => void
+  onInfoPress?: () => void
 }) => {
   // const { cardMode, setCardMode } = useCardMode();
   
@@ -42,17 +42,8 @@ export const SwipeCardHader = ({
           borderRadius: 999
         }}
         onPress={
-        //   () => {
-        //   console.log(cardMode)
-
-        //   if (cardMode === 'card') {
-        //     setCardMode('description')
-        //   } else {
-        //     setCardMode('card')
-        //   }
-        // }
-        onInfoPress
-      }
+          onInfoPress
+        }
       >
         <InfoIcon />
       </Pressable>

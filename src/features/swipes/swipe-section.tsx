@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import { ICard } from '@/entities/swiped-card/card.interface';
 import { CardModeProvider } from '@/entities/swiped-card/swipe-card.provider';
 import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
+import { BlurView } from 'expo-blur';
 
 const apiHost = "https://dishdash.ru";
 
@@ -36,6 +37,28 @@ export const SwipeSection = ({ ...props }) => {
     },
     {
       id: 2,
+      title: 'Дворик 1',
+      description: 'Lorem ipsum',
+      shortDescription: 'Lorem ipsum',
+      location: 'Петроградская 49',
+      address: 'Петроградская 49',
+      type: 'CAFE',
+      price: 900,
+      image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
+    },
+    {
+      id: 3,
+      title: 'Вольчек 1',
+      description: 'Lorem ipsum',
+      shortDescription: 'Lorem ipsum',
+      location: 'Петроградская 49',
+      address: 'Петроградская 49',
+      type: 'CAFE',
+      price: 900,
+      image: 'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13'
+    },
+    {
+      id: 4,
       title: 'Дворик 1',
       description: 'Lorem ipsum',
       shortDescription: 'Lorem ipsum',
@@ -110,20 +133,7 @@ export const SwipeSection = ({ ...props }) => {
   return (
     <View className='h-full justify-center'>
       <View className='h-3/4'>
-          <SwipeCard 
-            key={cards[0].id} 
-            index={0} 
-            card={cards[0]} 
-            onSwipe={handleSwipe} 
-          />
-          {/* <SwipeShortInfo
-            card={{...cards[1]}}
-            style={{
-              zIndex: -1,
-              width: '80%',
-              marginHorizontal: 'auto'
-            }}
-          /> */}
+        <SwipeCard key={cards[0].id} index={0} card={cards[0]} onSwipe={handleSwipe}/>
       </View>
     </View>
   );

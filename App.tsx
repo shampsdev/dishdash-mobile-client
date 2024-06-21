@@ -9,7 +9,6 @@ import {
 } from '@react-navigation/stack';
 import { Toast } from '@/entities/toast';
 import { ToastProvider } from '@/entities/toast/toast-provider';
-import { MatchPage } from '@/pages/match.page';
 
 type RootStackParamList = {
   home: undefined;
@@ -42,7 +41,6 @@ export default function App() {
           >
             {/* <Stack.Screen name='home' component={HomePage} /> */}
             <Stack.Screen name='swipes' component={SwipePage} />
-            {/* <Stack.Screen name='match' component={MatchPage}/> */}
           </Stack.Navigator>
         </NavigationContainer>
       </ToastProvider>
