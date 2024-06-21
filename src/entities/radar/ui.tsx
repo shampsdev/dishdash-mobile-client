@@ -1,16 +1,14 @@
-import {
-  Canvas,
-  Circle,
-  Image,
-  LinearGradient,
-  useImage,
-  vec,
-} from '@shopify/react-native-skia';
+import { Canvas, Image, useImage } from '@shopify/react-native-skia';
 import React, { useEffect, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  PanGesture,
+} from 'react-native-gesture-handler';
 import {
   Easing,
+  runOnJS,
   useDerivedValue,
   useSharedValue,
   withDecay,
@@ -20,10 +18,16 @@ import {
 import { Icon } from './icon';
 import { Ring } from './ring';
 
-export const Radar = ({ ...props }) => {
+interface RadarProps {
+  onSpin: () => void;
+  [key: string]: any;
+}
+
+export const Radar = ({ onSpin, ...props }: RadarProps) => {
   const spin = useSharedValue(0);
   const scale = useSharedValue(1);
   const offset_anim = useSharedValue(0);
+  const gestureActive = useSharedValue(true);
 
   useEffect(() => {
     spin.value = withRepeat(
@@ -59,6 +63,7 @@ export const Radar = ({ ...props }) => {
 
   const gesture = Gesture.Pan()
     .onChange((e) => {
+      if (!gestureActive.value) return;
       const deltaX =
         e.absoluteY > center.y ? e.changeX * 0.005 : -e.changeX * 0.005;
       const deltaY =
@@ -67,6 +72,7 @@ export const Radar = ({ ...props }) => {
       offset_anim.value += deltaX + deltaY;
     })
     .onEnd((e) => {
+      if (!gestureActive.value) return;
       const velocityX = e.velocityX * (e.absoluteY > center.y ? 0.005 : -0.005);
       const velocityY = e.velocityY * (e.absoluteX > center.x ? -0.005 : 0.005);
 
@@ -77,9 +83,19 @@ export const Radar = ({ ...props }) => {
         deceleration: 0.996,
       };
 
-      console.log(-totalVelocity);
-
-      offset_anim.value = withDecay(decayConfig);
+      if (-totalVelocity < 20) {
+        offset_anim.value = withDecay(decayConfig);
+      } else {
+        offset_anim.value = withRepeat(
+          withTiming(-10000, {
+            duration: 50000,
+            easing: Easing.linear,
+          }),
+          -1
+        );
+        gestureActive.value = false;
+        runOnJS(onSpin)();
+      }
     });
 
   const handleLayout = (event: LayoutChangeEvent) => {

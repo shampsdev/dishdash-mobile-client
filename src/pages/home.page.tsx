@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Radar } from '@/entities/radar';
-import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { API_HOST } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/useLobby';
-import { NavigationProps } from '../../App';
+import { NavigationProps, RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
-import { Added } from '@/entities/toast/icons/added';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const locationData = {
   lat: 59.957441,
@@ -17,64 +17,54 @@ const locationData = {
 export const HomePage = () => {
   const navigator = useNavigation<NavigationProps>();
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   const { lobbyID, setLobbyID } = useLobby();
 
   const createLobby = async () => {
-    const jsonData = {
-      location: JSON.stringify(locationData),
-    };
-
     try {
-      const response = await axios.post(`${API_HOST}/api/v1/lobby`, jsonData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.post(
+        `${API_HOST}/api/v1/lobby`,
+        JSON.stringify(locationData),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       const data = response.data;
       console.info(data);
       if (data.id) {
         setLobbyID(lobbyID);
-        navigator.push('swipes');
+        navigation.navigate('lobby');
       } else {
-        console.error('Response did not contain an "id" field');
+        throw Error('Response did not contain an "id" field');
       }
     } catch (error) {
-      console.error('There was a problem with your axios operation:', error);
+      throw Error(`There was a problem with your axios operation: ${error}`);
     }
   };
 
   const toast = useToast();
 
-  useEffect(() => {
-    const promise1 = new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 2500);
-    }).finally(() => {
-      toast.message(500, {
-        message: 'hello',
-      });
-    });
-    const promise2 = new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 5000);
-    });
-
-    toast.promise(promise1, {
-      message: 'This is a very long message that should take 2 lines',
-    });
-
-    toast.promise(promise2, {
-      message: 'Message 2',
-    });
-  }, []);
-
   return (
     <View className='flex-1'>
       <View className='flex-1 bg-whit items-center'>
-        <Radar className='h-5/6 w-screen' />
+        <Radar
+          onSpin={() => {
+            // const promise = createLobby();
+
+            toast
+              .message(1000, {
+                message: 'Looking for a lobby',
+              })
+              .finally(() => {
+                navigation.navigate('lobby');
+              });
+          }}
+          className='h-5/6 w-screen'
+        />
       </View>
     </View>
   );

@@ -1,4 +1,4 @@
-import { Header } from '@/entities/header';
+import { MainHeader, UsersHeader } from '@/entities/header';
 import { HomePage } from '@/pages/home.page';
 import { SwipePage } from '@/pages/swipes.page';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -7,11 +7,10 @@ import {
   StackNavigationProp,
   createStackNavigator,
 } from '@react-navigation/stack';
-import { Toast } from '@/entities/toast';
 import { ToastProvider } from '@/entities/toast/toast-provider';
 import { LobbyPage } from '@/pages/lobby.page';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   home: undefined;
   swipes: undefined;
   lobby: undefined;
@@ -36,13 +35,24 @@ export default function App() {
         >
           <Stack.Navigator
             screenOptions={{
-              header: Header,
               animationEnabled: false,
             }}
           >
-            {/* <Stack.Screen name='home' component={HomePage} /> */}
-            {/* <Stack.Screen name='swipes' component={SwipePage} /> */}
-            <Stack.Screen name='lobby' component={LobbyPage}/>
+            <Stack.Screen
+              options={{ header: MainHeader }}
+              name='home'
+              component={HomePage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='swipes'
+              component={SwipePage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='lobby'
+              component={LobbyPage}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </ToastProvider>
