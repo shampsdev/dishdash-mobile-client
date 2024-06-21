@@ -13,6 +13,7 @@ import { ToastProvider } from '@/entities/toast/toast-provider';
 type RootStackParamList = {
   home: undefined;
   swipes: undefined;
+  match: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
@@ -38,7 +39,7 @@ export default function App() {
               animationEnabled: false,
             }}
           >
-            <Stack.Screen name='home' component={HomePage} />
+            {/* <Stack.Screen name='home' component={HomePage} /> */}
             <Stack.Screen name='swipes' component={SwipePage} />
           </Stack.Navigator>
         </NavigationContainer>
