@@ -53,11 +53,15 @@ export const HomePage = () => {
       <View className='flex-1 bg-whit items-center'>
         <Radar
           onSpin={() => {
-            const promise = createLobby();
+            // const promise = createLobby();
 
-            toast.promise(promise, {
-              message: 'Looking for a lobby',
-            });
+            toast
+              .message(1000, {
+                message: 'Looking for a lobby',
+              })
+              .finally(() => {
+                navigation.navigate('lobby');
+              });
           }}
           className='h-5/6 w-screen'
         />

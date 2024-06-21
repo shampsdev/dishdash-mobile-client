@@ -1,3 +1,5 @@
+import BottomSheet from '@gorhom/bottom-sheet';
+import { useCallback, useRef } from 'react';
 import { View, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,6 +28,14 @@ export const MainHeader = ({ ...props }) => {
 
 export const UsersHeader = ({ ...props }) => {
   const insets = useSafeAreaInsets();
+
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   return (
     <View

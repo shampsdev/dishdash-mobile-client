@@ -1,4 +1,4 @@
-import { MainHeader } from '@/entities/header';
+import { MainHeader, UsersHeader } from '@/entities/header';
 import { HomePage } from '@/pages/home.page';
 import { SwipePage } from '@/pages/swipes.page';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -44,12 +44,12 @@ export default function App() {
               component={HomePage}
             />
             <Stack.Screen
-              options={{ header: MainHeader }}
+              options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
             />
             <Stack.Screen
-              options={{ header: MainHeader }}
+              options={{ header: UsersHeader }}
               name='lobby'
               component={LobbyPage}
             />
