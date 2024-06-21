@@ -21,11 +21,10 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const addToast = useCallback((toast: ToastProps, promise: Promise<void>) => {
     setToasts((prevToasts) => [...prevToasts, { ...toast, promise }]);
   }, []);
-
   return (
     <Context.Provider value={{ toasts, addToast }}>
       {toasts.flatMap((toast, idx) => {
-        return <Toast key={idx} {...toast} />;
+        return <Toast index={idx} key={idx} {...toast} />;
       })}
       {children}
     </Context.Provider>
