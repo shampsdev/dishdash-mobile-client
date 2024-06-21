@@ -15,8 +15,6 @@ const locationData = {
 };
 
 export const HomePage = () => {
-  const navigator = useNavigation<NavigationProps>();
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const { lobbyID, setLobbyID } = useLobby();

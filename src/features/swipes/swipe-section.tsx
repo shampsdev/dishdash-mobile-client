@@ -10,7 +10,7 @@ import { ICard } from '@/entities/swiped-card/card.interface';
 import { CardModeProvider } from '@/entities/swiped-card/swipe-card.provider';
 import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
 
-const apiHost = "https://dishdash.ru";
+const apiHost = 'https://dishdash.ru';
 
 interface Socket {
   on(event: string, callback: (...args: any[]) => void): this;
@@ -32,7 +32,8 @@ export const SwipeSection = ({ ...props }) => {
       address: 'Петроградская 49',
       type: 'CAFE',
       price: 900,
-      image: 'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13'
+      image:
+        'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13',
     },
     {
       id: 2,
@@ -43,7 +44,8 @@ export const SwipeSection = ({ ...props }) => {
       address: 'Петроградская 49',
       type: 'CAFE',
       price: 900,
-      image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
+      image:
+        'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13',
     },
     {
       id: 3,
@@ -54,7 +56,8 @@ export const SwipeSection = ({ ...props }) => {
       address: 'Петроградская 49',
       type: 'CAFE',
       price: 900,
-      image: 'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13'
+      image:
+        'https://avatars.mds.yandex.net/i?id=334b3e7b14fc60313dd2da2c1925815b93b4ed80-12579803-images-thumbs&n=13',
     },
     {
       id: 4,
@@ -65,7 +68,8 @@ export const SwipeSection = ({ ...props }) => {
       address: 'Петроградская 49',
       type: 'CAFE',
       price: 900,
-      image: 'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13'
+      image:
+        'https://avatars.mds.yandex.net/i?id=c875f729e9669aea8af1af136c58450f1a7872cb-9856874-images-thumbs&n=13',
     },
     // {
     //   id: 3,
@@ -124,15 +128,22 @@ export const SwipeSection = ({ ...props }) => {
     setTimeout(() => {
       setCards((prevCards) => prevCards.filter((card) => card.id !== id));
       socket?.emit('swipe', JSON.stringify({ swipeType: 'DISLIKE' }));
-    }, 100)
-  }
+    }, 100);
+  };
 
   const visibleCards = cards.slice(0, 3);
 
   return (
     <View className='h-full justify-center'>
       <View className='h-3/4'>
-        <SwipeCard key={cards[0].id} index={0} card={cards[0]} onSwipe={handleSwipe}/>
+        {visibleCards.map((value, index) => (
+          <SwipeCard
+            key={cards[index].id}
+            index={index}
+            card={cards[index]}
+            onSwipe={handleSwipe}
+          />
+        ))}
       </View>
     </View>
   );

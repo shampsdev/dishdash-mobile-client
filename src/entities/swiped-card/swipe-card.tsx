@@ -38,7 +38,6 @@ export const SwipeCard = (props: SwipeCardProps) => {
     .onUpdate((event) => {
       offsetX.value = event.translationX;
       rotate.value = event.translationX * 0.1;
-      console.log(rotateY.value)
     })
     .onEnd(() => {
       const valueX = offsetX.value;
@@ -133,8 +132,8 @@ const styles = StyleSheet.create({
   activeCardShadow: {
     shadowColor: 'black',
     elevation: 8,
-    shadowRadius: 4,
+    shadowRadius: 10,
     shadowOffset: { width: 10, height: 5 },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.2,
   },
 });

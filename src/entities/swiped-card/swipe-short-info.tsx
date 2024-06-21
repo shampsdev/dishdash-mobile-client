@@ -31,14 +31,6 @@ export const SwipeShortInfo = ({
         />
       </View>
       <View
-        style={{
-          shadowColor: 'gray',
-          elevation: 8,
-          shadowRadius: 4,
-          shadowOffset: { width: 10, height: 5 },
-          paddingHorizontal: 8,
-          shadowOpacity: 0.5,
-        }}
         className='py-2 h-44 bg-white -translate-y-10 rounded-3xl items-center'
       >
         <View className='flex-row flex-wrap w-full gap-1'>
