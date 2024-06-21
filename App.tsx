@@ -9,11 +9,12 @@ import {
 } from '@react-navigation/stack';
 import { Toast } from '@/entities/toast';
 import { ToastProvider } from '@/entities/toast/toast-provider';
+import { LobbyPage } from '@/pages/lobby.page';
 
 type RootStackParamList = {
   home: undefined;
   swipes: undefined;
-  match: undefined;
+  lobby: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
@@ -40,7 +41,8 @@ export default function App() {
             }}
           >
             {/* <Stack.Screen name='home' component={HomePage} /> */}
-            <Stack.Screen name='swipes' component={SwipePage} />
+            {/* <Stack.Screen name='swipes' component={SwipePage} /> */}
+            <Stack.Screen name='lobby' component={LobbyPage}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ToastProvider>
