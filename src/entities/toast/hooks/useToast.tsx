@@ -20,6 +20,8 @@ export const useToast = () => {
 
   const promise = (promise: Promise<void>, toast: ToastProps) => {
     addToast(toast, promise);
+
+    return promise;
   };
 
   const message = (duration: number, toast: ToastProps) => {
@@ -34,6 +36,8 @@ export const useToast = () => {
     ]);
 
     addToast(toast, promise);
+
+    return promise;
   };
 
   return {
