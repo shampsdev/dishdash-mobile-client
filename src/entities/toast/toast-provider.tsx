@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { InternalToastProps, Toast, ToastProps } from './ui';
+import { Toast, ToastProps } from './ui';
 
 interface ContextProps {
-  toasts: (ToastProps & InternalToastProps)[];
-  addToast: (toast: ToastProps, promise: Promise<void>) => void;
+  toasts: ToastProps[];
+  addToast: (toast: ToastProps) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
@@ -16,11 +16,12 @@ interface ToastProviderProps {
 }
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const [toasts, setToasts] = useState<(ToastProps & InternalToastProps)[]>([]);
+  const [toasts, setToasts] = useState<ToastProps[]>([]);
 
-  const addToast = useCallback((toast: ToastProps, promise: Promise<void>) => {
-    setToasts((prevToasts) => [...prevToasts, { ...toast, promise }]);
+  const addToast = useCallback((toast: ToastProps) => {
+    setToasts((prevToasts) => [...prevToasts, { ...toast }]);
   }, []);
+
   return (
     <Context.Provider value={{ toasts, addToast }}>
       {toasts.flatMap((toast, idx) => {
