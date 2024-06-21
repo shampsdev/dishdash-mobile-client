@@ -26,7 +26,7 @@ export const CategorySelector = ({
 
   const borderColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#ccc', '#000'],
+    outputRange: ['#efefef', '#1f212e'],
   });
 
   return (
@@ -40,8 +40,9 @@ export const CategorySelector = ({
           alignItems: 'center',
           width: '100%',
           height: 64,
-          borderRadius: 24,
+          borderRadius: 18,
           paddingHorizontal: 16,
+          marginBottom: 12,
         }}
       >
         <Image source={category.imgSrc} />

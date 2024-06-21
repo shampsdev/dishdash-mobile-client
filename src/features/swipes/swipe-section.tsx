@@ -9,7 +9,6 @@ import io from 'socket.io-client';
 import { ICard } from '@/entities/swiped-card/card.interface';
 import { CardModeProvider } from '@/entities/swiped-card/swipe-card.provider';
 import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
-import { BlurView } from 'expo-blur';
 
 const apiHost = "https://dishdash.ru";
 
