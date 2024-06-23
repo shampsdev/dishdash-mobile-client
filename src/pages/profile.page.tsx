@@ -1,5 +1,10 @@
-import { View } from 'react-native';
+import { Profile } from '@/features/profile';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 export const ProfilePage = () => {
-  return <View></View>;
+  return (
+    <BottomSheetModalProvider>
+      <Profile/>
+    </BottomSheetModalProvider>
+  );
 };

@@ -82,6 +82,7 @@ export const UsersDrawer = () => {
       }}
       handleIndicatorStyle={{
         backgroundColor: '#D2D2D2',
+        paddingHorizontal: 30,
       }}
     >
       <View
