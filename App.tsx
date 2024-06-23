@@ -38,11 +38,11 @@ export default function App() {
               animationEnabled: false,
             }}
           >
-            {/* <Stack.Screen
+            <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
-            /> */}
+            />
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='lobby'
