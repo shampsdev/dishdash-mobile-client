@@ -9,11 +9,14 @@ import {
 } from '@react-navigation/stack';
 import { ToastProvider } from '@/entities/toast/toast-provider';
 import { LobbyPage } from '@/pages/lobby.page';
+import { VotingPage } from '@/pages/vote.page';
+import { Match } from '@/features/match/match';
 
 export type RootStackParamList = {
   home: undefined;
   swipes: undefined;
   lobby: undefined;
+  voting: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
@@ -23,7 +26,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <SafeAreaProvider>
-      <ToastProvider>
+      <Match/>
+
+      {/* <ToastProvider>
         <NavigationContainer
           theme={{
             ...DefaultTheme,
@@ -53,9 +58,14 @@ export default function App() {
               name='lobby'
               component={LobbyPage}
             />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='voting'
+              component={VotingPage}
+            />
           </Stack.Navigator>
         </NavigationContainer>
-      </ToastProvider>
+      </ToastProvider> */}
     </SafeAreaProvider>
   );
 }

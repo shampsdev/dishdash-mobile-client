@@ -89,7 +89,6 @@ export const SwipeCard = (props: SwipeCardProps) => {
         }
       });
     }
-    zIndex: -10
     setCardMode(cardMode === 'card' ? 'description' : 'card');
   };
 
