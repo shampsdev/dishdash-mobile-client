@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Canvas } from "@shopify/react-native-skia";
 import { GradientAlongPath, prepare } from './path-along-gradient';
 import useCustomLoop from './useCustomLoop';

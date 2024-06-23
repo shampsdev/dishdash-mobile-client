@@ -26,9 +26,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <SafeAreaProvider>
-      <Match/>
+      {/* <Match/> */}
 
-      {/* <ToastProvider>
+      <ToastProvider>
         <NavigationContainer
           theme={{
             ...DefaultTheme,
@@ -40,10 +40,11 @@ export default function App() {
         >
           <Stack.Navigator
             screenOptions={{
-              animationEnabled: false,
+              animationEnabled: false,              
+              cardStyle: { backgroundColor: '#fff' }
             }}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
@@ -52,20 +53,21 @@ export default function App() {
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
-            />
-            <Stack.Screen
+            /> */}
+            {/* <Stack.Screen
               options={{ header: UsersHeader }}
               name='lobby'
               component={LobbyPage}
-            />
+            /> */}
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='voting'
               component={VotingPage}
             />
+            
           </Stack.Navigator>
         </NavigationContainer>
-      </ToastProvider> */}
+      </ToastProvider>
     </SafeAreaProvider>
   );
 }
