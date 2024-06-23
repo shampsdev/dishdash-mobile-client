@@ -58,7 +58,9 @@ export const HomePage = () => {
                 message: 'Looking for a lobby',
               })
               .finally(() => {
-                navigation.navigate('lobby');
+                setTimeout(() => {
+                  navigation.navigate('lobby')
+                }, 1000)
               });
           }}
           className='h-5/6 w-screen'
