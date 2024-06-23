@@ -16,23 +16,13 @@ import { useToast } from '@/entities/toast/hooks/useToast';
 export const Settings = () => {
   const [categories, setCategories] = useState<CategorySelectorType[]>([
     {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Пицца',
-      type: 'default',
-    },
-    {
-      imgSrc: require('./assets/pizza.png'),
+      imgSrc: require('./assets/coffee.png'),
       title: 'Кофе',
       type: 'default',
     },
     {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Кофе',
-      type: 'default',
-    },
-    {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Кофе',
+      imgSrc: require('./assets/bar.png'),
+      title: 'Бары',
       type: 'default',
     },
     {
@@ -41,20 +31,15 @@ export const Settings = () => {
       type: 'default',
     },
     {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Кофе',
+      imgSrc: require('./assets/sushi.png'),
+      title: 'Суши',
       type: 'default',
     },
     {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Кофе',
+      imgSrc: require('./assets/pastry.png'),
+      title: 'Кондитерская',
       type: 'default',
-    },
-    {
-      imgSrc: require('./assets/pizza.png'),
-      title: 'Кофе',
-      type: 'default',
-    },
+    }
   ]);
 
   const [price, setPrice] = useState(1000);

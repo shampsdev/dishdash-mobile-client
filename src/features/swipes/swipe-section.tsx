@@ -1,14 +1,8 @@
-import { useLobby } from '@/app/stores/useLobby';
+import { useLobby } from '@/app/stores/lobby.store';
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import { HeartIcon } from './assets/icons/heart.icon';
-import { CrossIcon } from './assets/icons/cross.icon';
-import { ButtonIcon } from '@/shared/ui/button.icon';
-import io from 'socket.io-client';
 import { ICard } from '@/entities/swiped-card/card.interface';
-import { CardModeProvider } from '@/entities/swiped-card/swipe-card.provider';
-import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
 
 const apiHost = 'https://dishdash.ru';
 

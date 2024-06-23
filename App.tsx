@@ -45,13 +45,13 @@ export default function App() {
             />
             <Stack.Screen
               options={{ header: UsersHeader }}
-              name='swipes'
-              component={SwipePage}
+              name='lobby'
+              component={LobbyPage}
             />
             <Stack.Screen
               options={{ header: UsersHeader }}
-              name='lobby'
-              component={LobbyPage}
+              name='swipes'
+              component={SwipePage}
             />
           </Stack.Navigator>
         </NavigationContainer>
