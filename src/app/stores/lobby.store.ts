@@ -1,11 +1,11 @@
 import { create } from "zustand"
 
-type LoobbyProps = {
+type LobbyProps = {
   lobbyID: number
   setLobbyID: (lobbyID: number) => void
 }
 
-export const useLobby = create<LoobbyProps>()((set) => ({
+export const useLobby = create<LobbyProps>()((set) => ({
   lobbyID: 1,
   setLobbyID: () => set((state) => ({ lobbyID: state.lobbyID })),
 }))

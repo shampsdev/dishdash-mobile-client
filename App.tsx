@@ -38,20 +38,20 @@ export default function App() {
               animationEnabled: false,
             }}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
+            /> */}
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='lobby'
+              component={LobbyPage}
             />
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='lobby'
-              component={LobbyPage}
             />
           </Stack.Navigator>
         </NavigationContainer>
