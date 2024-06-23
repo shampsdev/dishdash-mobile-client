@@ -1,4 +1,4 @@
-import { MainHeader, UsersHeader } from '@/entities/header';
+import { MainHeader, SimpleHeader, UsersHeader } from '@/entities/header';
 import { HomePage } from '@/pages/home.page';
 import { SwipePage } from '@/pages/swipes.page';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
@@ -9,11 +9,13 @@ import {
 } from '@react-navigation/stack';
 import { ToastProvider } from '@/entities/toast/toast-provider';
 import { LobbyPage } from '@/pages/lobby.page';
+import { ProfilePage } from '@/pages/profile.page';
 
 export type RootStackParamList = {
   home: undefined;
   swipes: undefined;
   lobby: undefined;
+  profile: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
@@ -42,6 +44,11 @@ export default function App() {
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
+            />
+            <Stack.Screen
+              options={{ header: SimpleHeader }}
+              name='profile'
+              component={ProfilePage}
             />
             <Stack.Screen
               options={{ header: UsersHeader }}

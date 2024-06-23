@@ -1,21 +1,35 @@
 import { useDrawer } from '@/app/stores/drawer.store';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { useCallback, useEffect, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Text, View } from 'react-native';
+import { CopyIcon } from './icon/copy';
 
 interface User {
   name: string;
+  src: ImageSourcePropType;
 }
 
 export const UsersDrawer = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const data: User[] = [
-    { name: 'Mike' },
-    { name: 'Mitya' },
-    { name: 'Vanya' },
-    { name: 'Vika' },
-    { name: 'Sanya' },
+    { name: 'Mike', src: require('./assets/0.png') },
+    {
+      name: 'Mitya',
+      src: require('./assets/1.png'),
+    },
+    {
+      name: 'Vanya',
+      src: require('./assets/2.png'),
+    },
+    {
+      name: 'Vika',
+      src: require('./assets/1.png'),
+    },
+    {
+      name: 'Sanya',
+      src: require('./assets/0.png'),
+    },
   ];
 
   const { open, setOpen } = useDrawer();
@@ -37,27 +51,23 @@ export const UsersDrawer = () => {
     }
   }, [open]);
 
-  const renderItem = useCallback(
-    ({ item }: { item: User }) => (
+  const renderItem = useCallback(({ item }: { item: User }) => {
+    return (
       <View
-        className='space-x-4'
         style={{
-          borderWidth: 2,
-          borderColor: '#efefef',
-          flexDirection: 'row',
+          flex: 1 / 3,
+          backgroundColor: 'white',
+          paddingBottom: 16,
+          paddingTop: 25,
+          borderRadius: 24,
           alignItems: 'center',
-          width: '100%',
-          height: 64,
-          borderRadius: 18,
-          paddingHorizontal: 16,
-          marginBottom: 12,
         }}
       >
-        <Text style={{ fontSize: 18 }}>{item.name}</Text>
+        <Image source={item.src} style={{ width: 60, height: 60 }} />
+        <Text style={{ marginTop: 8 }}>{item.name}</Text>
       </View>
-    ),
-    []
-  );
+    );
+  }, []);
 
   return (
     <BottomSheet
@@ -66,9 +76,12 @@ export const UsersDrawer = () => {
       snapPoints={['75%']}
       ref={bottomSheetRef}
       onChange={handleSheetChanges}
-      style={{
-        shadowOpacity: 0.1,
-        shadowRadius: 30,
+      backgroundStyle={{
+        backgroundColor: '#F5F5F5',
+        borderRadius: 30,
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: '#D2D2D2',
       }}
     >
       <View
@@ -76,19 +89,39 @@ export const UsersDrawer = () => {
           width: '85%',
           marginHorizontal: 'auto',
           marginBottom: 12,
+          marginTop: 24,
         }}
       >
-        <Text className='text-3xl'>Участники</Text>
+        <View className='pb-8 space-y-2'>
+          <Text className='text-xl'>Скопировать ссылку</Text>
+          <View className='p-4 px-6 bg-white rounded-full flex-row justify-between'>
+            <Text
+              className='text-[#7F7F7F]'
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
+              https://dishdash.ru/room3647
+            </Text>
+            <View className='justify-center items-center'>
+              <CopyIcon />
+            </View>
+          </View>
+        </View>
+        <Text className='text-xl'>Участники</Text>
       </View>
       <BottomSheetFlatList
         data={data}
         keyExtractor={(user: User) => user.name}
         renderItem={renderItem}
         contentContainerStyle={{
-          flex: 1,
           width: '85%',
           marginHorizontal: 'auto',
+          rowGap: 10,
         }}
+        columnWrapperStyle={{
+          columnGap: 10,
+        }}
+        numColumns={3}
       />
     </BottomSheet>
   );
