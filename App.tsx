@@ -48,12 +48,12 @@ export default function App() {
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
-            />
+            /> */}
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
-            /> */}
+            />
             {/* <Stack.Screen
               options={{ header: UsersHeader }}
               name='lobby'
@@ -64,7 +64,6 @@ export default function App() {
               name='voting'
               component={VotingPage}
             />
-            
           </Stack.Navigator>
         </NavigationContainer>
       </ToastProvider>

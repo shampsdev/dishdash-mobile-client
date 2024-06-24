@@ -1,19 +1,23 @@
 import { useEffect } from 'react';
-import { Easing, useSharedValue, withDelay, withRepeat, withTiming } from 'react-native-reanimated';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useMatchStore } from './useMatchStatus';
 
-const useCustomLoop = (duration = 1000) => {
+const useCustomLoop = (duration = 1000, promise?: () => void) => {
   const progress = useSharedValue(0);
+  const { setCard, setMatchStatus } = useMatchStore(); 
 
   useEffect(() => {
-    progress.value = withDelay(2000, withRepeat(
-      withTiming(1, {
-        duration,
-        easing: Easing.linear,
-      }),
-      -1,
-      false,
-    ));
+    progress.value = withTiming(1, {
+      duration,
+      easing: Easing.linear,
+    });
   }, [duration]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMatchStatus('matchCard');
+    }, duration)
+  }, [duration + 1000])
 
   return progress;
 };
