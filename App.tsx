@@ -9,11 +9,14 @@ import {
 } from '@react-navigation/stack';
 import { ToastProvider } from '@/entities/toast/toast-provider';
 import { LobbyPage } from '@/pages/lobby.page';
+import { VotingPage } from '@/pages/vote.page';
+import { Match } from '@/features/match/match';
 
 export type RootStackParamList = {
   home: undefined;
   swipes: undefined;
   lobby: undefined;
+  voting: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;
@@ -35,7 +38,8 @@ export default function App() {
         >
           <Stack.Navigator
             screenOptions={{
-              animationEnabled: false,
+              animationEnabled: false,              
+              cardStyle: { backgroundColor: '#fff' }
             }}
           >
             <Stack.Screen
@@ -50,8 +54,19 @@ export default function App() {
             />
             <Stack.Screen
               options={{ header: UsersHeader }}
+
+              name='lobby'
+              component={LobbyPage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='voting'
+              component={VotingPage}
             />
           </Stack.Navigator>
         </NavigationContainer>

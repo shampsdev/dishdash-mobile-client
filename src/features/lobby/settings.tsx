@@ -12,6 +12,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../App';
 import { useToast } from '@/entities/toast/hooks/useToast';
+import { Header } from '@/shared/ui/header';
+import { useBottomInsets } from '@/shared/hooks/getBottomInsets';
 
 export const Settings = () => {
   const [categories, setCategories] = useState<CategorySelectorType[]>([
@@ -44,8 +46,7 @@ export const Settings = () => {
 
   const [price, setPrice] = useState(1000);
   const [distance, setDistance] = useState(5000);
-  const insets = useSafeAreaInsets();
-
+  const bottomInsets = useBottomInsets();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const toast = useToast();
 
@@ -71,10 +72,10 @@ export const Settings = () => {
 
   return (
     <View className='flex-col h-full w-[85%] mx-auto'>
-      <Text className='text-2xl font-medium pb-2'>Настройки</Text>
+      <Header>Настройки</Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        className='h-max rounded-b-[18]'
+        className='h-max rounded-b-[18px]'
       >
         {categories.map((item, index) => (
           <CategorySelector
@@ -133,7 +134,7 @@ export const Settings = () => {
         style={{
           width: '100%',
           position: 'absolute',
-          bottom: insets.bottom,
+          bottom: bottomInsets,
         }}
         type='primary'
         onPress={sendSettings}
