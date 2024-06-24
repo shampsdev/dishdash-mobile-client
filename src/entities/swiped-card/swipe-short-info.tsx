@@ -1,8 +1,7 @@
 import React from 'react'
 import { ImageBackground, View, Text, ViewStyle } from 'react-native'
 import { SwipeCardHader } from './swipe-card-header'
-import { ICard } from './card.interface'
-import { BlurView } from 'expo-blur';
+import { ICard } from '@/shared/interfaces/card.interface';
 
 const categories = ['Кофе', 'Развлечения', 'Чай', 'Новые ощущения'];
 

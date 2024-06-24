@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { SwipeCardHader } from './swipe-card-header'
-import { ICard } from './card.interface'
+import { ICard } from '@/shared/interfaces/card.interface'
 
 export const SwipeExtendedInfo = ({
   card,
