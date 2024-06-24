@@ -1,14 +1,15 @@
-import BottomSheet from '@gorhom/bottom-sheet';
-import { useCallback, useRef } from 'react';
 import { View, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Added } from './icon/added';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
+import { useDrawer } from '@/app/stores/drawer.store';
 
 export const MainHeader = ({ ...props }) => {
   const insets = useSafeAreaInsets();
 
   return (
     <View
-      className='flex px-4 pb-3 flex-row justify-between'
+      className='flex pb-3 flex-row justify-between items-center w-[85%] mx-auto'
       style={{
         paddingTop: insets.top,
       }}
@@ -28,31 +29,33 @@ export const MainHeader = ({ ...props }) => {
 
 export const UsersHeader = ({ ...props }) => {
   const insets = useSafeAreaInsets();
-
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+  const { setOpen } = useDrawer();
 
   return (
-    <View
-      className='flex px-4 pb-3 flex-row justify-between'
-      style={{
-        paddingTop: insets.top,
-      }}
-      {...props}
-    >
-      <Image
-        source={require('./assets/logo.png')}
+    <View>
+      <View
+        className='flex pb-3 flex-row justify-between items-center w-[85%] mx-auto'
         style={{
-          height: 34,
-          width: 134,
-          position: 'relative',
+          paddingTop: insets.top,
         }}
-      />
+        {...props}
+      >
+        <Image
+          source={require('./assets/logo.png')}
+          style={{
+            height: 34,
+            width: 134,
+            position: 'relative',
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            setOpen(true);
+          }}
+        >
+          <Added />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -26,8 +26,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <SafeAreaProvider>
-      {/* <Match/> */}
-
       <ToastProvider>
         <NavigationContainer
           theme={{
@@ -44,21 +42,27 @@ export default function App() {
               cardStyle: { backgroundColor: '#fff' }
             }}
           >
-            {/* <Stack.Screen
+            <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
-            /> */}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='lobby'
+              component={LobbyPage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+
+              name='lobby'
+              component={LobbyPage}
+            />
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
             />
-            {/* <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='lobby'
-              component={LobbyPage}
-            /> */}
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='voting'
