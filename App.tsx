@@ -60,12 +60,6 @@ export default function App() {
             />
             <Stack.Screen
               options={{ header: UsersHeader }}
-
-              name='lobby'
-              component={LobbyPage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
             />

@@ -1,6 +1,6 @@
 import { useLobby } from '@/app/stores/lobby.store';
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import io from 'socket.io-client';
 import { ICard } from '@/shared/interfaces/card.interface';
