@@ -4,8 +4,9 @@ import {
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import { useCallback, useRef } from 'react';
-import { Image, ImageSourcePropType, View, Pressable, Button } from 'react-native';
+import { Image, ImageSourcePropType, View, Pressable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 interface User {
   name: string;
@@ -34,6 +35,20 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
 }) => {
   const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
 
+  const pickImageFromGallery = () => {
+    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+      } else if (response.assets && response.assets.length > 0) {
+        const selectedImage = response.assets[0];
+        setImage({ uri: selectedImage.uri });
+        closeBottomSheetModal(bottomSheetSourceSelectRef);
+      }
+    });
+  };
+
   const renderItem = useCallback(({ item }: { item: User }) => {
     return (
       <Pressable
@@ -54,18 +69,13 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
       >
         <Image
           source={
-           item.src
+            item.src
           }
           style={{ width: 60, height: 60 }}
         />
       </Pressable>
     );
   }, []);
-
-  const closeAllModals = () => {
-    closeBottomSheetModal(bottomSheetSourceSelectRef);
-    closeBottomSheetModal(bottomSheetImagePickRef);
-  };
 
   return (
     <>
@@ -99,7 +109,10 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
           >
             <CustomText>Выбрать аватарку</CustomText>
           </TouchableOpacity>
-          <TouchableOpacity className='p-6 bg-white rounded-xl'>
+          <TouchableOpacity
+            onPress={pickImageFromGallery}
+            className='p-6 bg-white rounded-xl'
+          >
             <CustomText>Выбрать из галереи</CustomText>
           </TouchableOpacity>
         </View>

@@ -1,4 +1,4 @@
-import { View, Image, TextInput, Text, Pressable } from 'react-native';
+import { View, Image, TextInput, Text, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { AddIcon } from './icon/add';
 import { ImageSelectorDrawer, openBottomSheetModal } from './bottom-drawer';
 import { useRef, useState } from 'react';
@@ -14,9 +14,13 @@ export const Profile = () => {
   const bottomInsets = useBottomInsets();
 
   return (
-    <View style={{
-      rowGap: 14
-    }} className='flex relative justify-center items-center h-full w-full'>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{
+        rowGap: 14
+      }} 
+      className='flex relative justify-center items-center h-full w-full'
+    >
       <View>
         <View className='bg-secondary h-[25vh] w-[25vh] rounded-full justify-center items-center'>
           <Image
@@ -54,6 +58,6 @@ export const Profile = () => {
       >
         Начать
       </CustomButton>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
