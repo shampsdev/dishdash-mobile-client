@@ -14,8 +14,6 @@ import { VotingPage } from '@/pages/vote.page';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
-import { Text, View } from 'react-native'
-
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,7 +48,6 @@ export default function App() {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <ToastProvider>
-        <View className='w-full h-full justify-center items-center'>
         <NavigationContainer
           theme={{
             ...DefaultTheme,
