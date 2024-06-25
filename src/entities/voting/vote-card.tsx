@@ -42,6 +42,7 @@ export const VoteCard = ({
 
   return (
     <Pressable
+      className='m-2'
       onPress={onPress}
     >
       <Animated.View

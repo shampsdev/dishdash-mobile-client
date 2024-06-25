@@ -5,7 +5,7 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useDrawer } from '@/app/stores/drawer.store';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../App';
+import { RootStackParamList } from '@/app/navigation.interface';
 
 export const MainHeader = ({ ...props }) => {
   const insets = useSafeAreaInsets();

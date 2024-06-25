@@ -3,6 +3,7 @@ import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { useCallback, useEffect, useRef } from 'react';
 import { Image, ImageSourcePropType, Text, View } from 'react-native';
 import { CopyIcon } from './icon/copy';
+import { CustomText } from '@/shared/ui/custom-text';
 
 interface User {
   name: string;
@@ -64,7 +65,7 @@ export const UsersDrawer = () => {
         }}
       >
         <Image source={item.src} style={{ width: 60, height: 60 }} />
-        <Text style={{ marginTop: 8 }}>{item.name}</Text>
+        <CustomText style={{ marginTop: 8 }}>{item.name}</CustomText>
       </View>
     );
   }, []);
@@ -96,13 +97,13 @@ export const UsersDrawer = () => {
         <View className='pb-8 space-y-2'>
           <Text className='text-xl'>Скопировать ссылку</Text>
           <View className='p-4 px-6 bg-white rounded-full flex-row justify-between'>
-            <Text
+            <CustomText
               className='text-[#7F7F7F]'
-              adjustsFontSizeToFit={true}
+              // adjustsFontSizeToFit={true}
               numberOfLines={1}
             >
               https://dishdash.ru/room3647
-            </Text>
+            </CustomText>
             <View className='justify-center items-center'>
               <CopyIcon />
             </View>

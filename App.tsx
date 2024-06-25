@@ -8,28 +8,19 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import { ToastProvider } from '@/entities/toast/toast-provider';
-import { LobbyPage } from '@/pages/lobby.page';
-import { ProfilePage } from '@/pages/profile.page';
 import { VotingPage } from '@/pages/vote.page';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
+import { ResultPage } from '@/pages/result.page';
+import { RootStackParamList } from '@/app/navigation.interface';
 
 SplashScreen.preventAutoHideAsync();
-
-export type RootStackParamList = {
-  home: undefined;
-  swipes: undefined;
-  lobby: undefined;
-  profile: undefined;
-  voting: undefined;
-};
-
-export type NavigationProps = StackNavigationProp<RootStackParamList>;
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
+
   const [fontsLoaded, fontError] = useFonts({
     'FormaDJRCyrillicText': require('./assets/fonts/FormaDJRCyrillicText.ttf'),
     'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
@@ -63,7 +54,7 @@ export default function App() {
               cardStyle: { backgroundColor: '#fff' }
             }}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
@@ -72,21 +63,26 @@ export default function App() {
               options={{ header: SimpleHeader }}
               name='profile'
               component={ProfilePage}
-            />
-            <Stack.Screen
+            /> */}
+            {/* <Stack.Screen
               options={{ header: UsersHeader }}
               name='lobby'
               component={LobbyPage}
-            />
-            <Stack.Screen
+            /> */}
+            {/* <Stack.Screen
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
-            />
+            /> */}
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='voting'
               component={VotingPage}
+            />
+            <Stack.Screen
+              options={{ header: UsersHeader }}
+              name='result'
+              component={ResultPage}
             />
           </Stack.Navigator>
         </NavigationContainer>

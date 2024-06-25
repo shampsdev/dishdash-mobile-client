@@ -1,0 +1,13 @@
+import { UsersDrawer } from '@/entities/bottom-sheet'
+import { ResultSection } from '@/features/result/result-section'
+import React from 'react'
+import { View } from 'react-native'
+
+export const ResultPage = () => {
+  return (
+    <View className='h-full'>
+      <ResultSection/>
+      <UsersDrawer/>
+    </View>
+  )
+}
