@@ -2,12 +2,12 @@ import axios from 'axios';
 import { Radar } from '@/entities/radar';
 import React from 'react';
 import { View } from 'react-native';
-import { API_HOST } from '@/app/app.settings';
+import { API_URL } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/lobby.store';
-import { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/app/navigation.interface';
 
 const locationData = {
   lat: 59.957441,
@@ -22,7 +22,7 @@ export const HomePage = () => {
   const createLobby = async () => {
     try {
       const response = await axios.post(
-        `${API_HOST}/api/v1/lobby`,
+        `${API_URL}/api/v1/lobby`,
         JSON.stringify(locationData),
         {
           headers: {

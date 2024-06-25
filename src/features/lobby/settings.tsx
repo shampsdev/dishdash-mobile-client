@@ -10,10 +10,10 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { RootStackParamList } from '../../../App';
 import { useToast } from '@/entities/toast/hooks/useToast';
 import { Header } from '@/shared/ui/header';
 import { useBottomInsets } from '@/shared/hooks/getBottomInsets';
+import { RootStackParamList } from '@/app/navigation.interface';
 
 export const Settings = () => {
   const [categories, setCategories] = useState<CategorySelectorType[]>([

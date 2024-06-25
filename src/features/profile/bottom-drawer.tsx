@@ -6,6 +6,7 @@ import {
 import { useCallback, useRef } from 'react';
 import { Image, ImageSourcePropType, View, Pressable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
 
 interface User {
   name: string;
@@ -62,6 +63,24 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
     );
   }, []);
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.info(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      
+      closeBottomSheetModal(bottomSheetSourceSelectRef);
+      closeBottomSheetModal(bottomSheetImagePickRef);
+    }
+  };
+
   return (
     <>
       <BottomSheetModal
@@ -95,6 +114,7 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
             <CustomText>Выбрать аватарку</CustomText>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={pickImage}
             className='p-6 bg-white rounded-xl'
           >
             <CustomText>Выбрать из галереи</CustomText>
