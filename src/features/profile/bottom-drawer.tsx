@@ -6,7 +6,6 @@ import {
 import { useCallback, useRef } from 'react';
 import { Image, ImageSourcePropType, View, Pressable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { launchImageLibrary } from 'react-native-image-picker';
 
 interface User {
   name: string;
@@ -34,20 +33,6 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
   bottomSheetSourceSelectRef: React.RefObject<BottomSheetModal>
 }) => {
   const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
-
-  const pickImageFromGallery = () => {
-    launchImageLibrary({ mediaType: 'photo' }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode) {
-        console.log('ImagePicker Error: ', response.errorCode);
-      } else if (response.assets && response.assets.length > 0) {
-        const selectedImage = response.assets[0];
-        setImage({ uri: selectedImage.uri });
-        closeBottomSheetModal(bottomSheetSourceSelectRef);
-      }
-    });
-  };
 
   const renderItem = useCallback(({ item }: { item: User }) => {
     return (
@@ -110,7 +95,6 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
             <CustomText>Выбрать аватарку</CustomText>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={pickImageFromGallery}
             className='p-6 bg-white rounded-xl'
           >
             <CustomText>Выбрать из галереи</CustomText>
