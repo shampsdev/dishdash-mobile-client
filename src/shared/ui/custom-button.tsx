@@ -1,9 +1,10 @@
-import { Pressable, Text, PressableProps } from 'react-native';
+import { Pressable, PressableProps } from 'react-native';
 import React from 'react';
+import { CustomText } from './custom-text';
 
 interface ButtonProps extends PressableProps {
   type?: 'default' | 'primary';
-  children: React.ReactNode;
+  children: string;
 }
 
 export const CustomButton: React.FC<ButtonProps> = ({ type = 'default', children, ...rest }) => {
@@ -27,7 +28,7 @@ export const CustomButton: React.FC<ButtonProps> = ({ type = 'default', children
       className={buttonStyles} 
       {...rest}
     >
-      <Text adjustsFontSizeToFit numberOfLines={1}  className={textStyle}>{children}</Text>
+      <CustomText numberOfLines={1} adjustsFontSizeToFit className={textStyle}>{children}</CustomText>
     </Pressable>
   );
 };

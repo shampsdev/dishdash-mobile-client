@@ -15,6 +15,9 @@ module.exports = {
         },
       },
     },
+    fontFamily: {
+      'inter': 'Inter-Regular'
+    }
   },
   plugins: [],
 };

@@ -1,9 +1,10 @@
+import { CustomText } from '@/shared/ui/custom-text';
 import {
   BottomSheetFlatList,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import { useCallback, useRef } from 'react';
-import { Image, ImageSourcePropType, Text, View, Button } from 'react-native';
+import { Image, ImageSourcePropType, View, Pressable, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface User {
@@ -11,48 +12,63 @@ interface User {
   src: ImageSourcePropType;
 }
 
-export const ImageSelectorDrawer = () => {
-  const bottomSheetSourceSelectRef = useRef<BottomSheetModal>(null);
-  const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
+const data: User[] = [
+  { name: 'Mike', src: require('./assets/0.png') },
+  { name: 'Mitya', src: require('./assets/1.png') },
+  { name: 'Vanya', src: require('./assets/2.png') },
+  { name: 'Vika', src: require('./assets/1.png') },
+  { name: 'Sanya', src: require('./assets/0.png') },
+];
 
-  const data: User[] = [
-    { name: 'Mike', src: require('./assets/0.png') },
-    { name: 'Mitya', src: require('./assets/1.png') },
-    { name: 'Vanya', src: require('./assets/2.png') },
-    { name: 'Vika', src: require('./assets/1.png') },
-    { name: 'Sanya', src: require('./assets/0.png') },
-  ];
+export const openBottomSheetModal = (ref: React.RefObject<BottomSheetModal>) => {
+  ref.current?.present();
+}
+
+export const closeBottomSheetModal = (ref: React.RefObject<BottomSheetModal>) => {
+  ref.current?.close();
+}
+
+export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
+  setImage: (imgSrc: any) => void,
+  bottomSheetSourceSelectRef: React.RefObject<BottomSheetModal>
+}) => {
+  const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
 
   const renderItem = useCallback(({ item }: { item: User }) => {
     return (
-      <View
+      <Pressable
         style={{
           flex: 1 / 3,
           backgroundColor: 'white',
-          paddingBottom: 16,
-          paddingTop: 25,
+          paddingVertical: 24,
           borderRadius: 24,
           alignItems: 'center',
         }}
+        onPress={
+          () => {
+            setImage(item.src);
+            closeBottomSheetModal(bottomSheetImagePickRef);
+            closeBottomSheetModal(bottomSheetSourceSelectRef);
+          }
+        }
       >
-        <Image source={item.src} style={{ width: 60, height: 60 }} />
-        <Text style={{ marginTop: 8 }}>{item.name}</Text>
-      </View>
+        <Image
+          source={
+           item.src
+          }
+          style={{ width: 60, height: 60 }}
+        />
+      </Pressable>
     );
   }, []);
 
-  const openSourceSelect = () => {
-    bottomSheetSourceSelectRef.current?.present();
-  };
-
-  const openImagePicker = () => {
-    bottomSheetImagePickRef.current?.present();
+  const closeAllModals = () => {
+    closeBottomSheetModal(bottomSheetSourceSelectRef);
+    closeBottomSheetModal(bottomSheetImagePickRef);
   };
 
   return (
     <>
-      <Button title='Open Source Select' onPress={openSourceSelect} />
-
       <BottomSheetModal
         name='select-source'
         enablePanDownToClose
@@ -76,13 +92,15 @@ export const ImageSelectorDrawer = () => {
           }}
         >
           <TouchableOpacity
-            onPress={openImagePicker}
+            onPress={() => {
+              openBottomSheetModal(bottomSheetImagePickRef)
+            }}
             className='p-6 bg-white rounded-xl'
           >
-            <Text>Выбрать аватарку</Text>
+            <CustomText>Выбрать аватарку</CustomText>
           </TouchableOpacity>
           <TouchableOpacity className='p-6 bg-white rounded-xl'>
-            <Text>Выбрать из галереи</Text>
+            <CustomText>Выбрать из галереи</CustomText>
           </TouchableOpacity>
         </View>
       </BottomSheetModal>

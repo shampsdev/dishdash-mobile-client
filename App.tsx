@@ -63,11 +63,11 @@ export default function App() {
               cardStyle: { backgroundColor: '#fff' }
             }}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
-            />
+            /> */}
             <Stack.Screen
               options={{ header: SimpleHeader }}
               name='profile'
