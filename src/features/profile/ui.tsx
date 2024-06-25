@@ -1,20 +1,32 @@
-import { View, Image } from 'react-native';
+import { View, Image, TextInput, Text } from 'react-native';
 import { AddIcon } from './icon/add';
 import { ImageSelectorDrawer } from './bottom-drawer';
+import { useState } from 'react';
 
 export const Profile = () => {
+  const [name, setName] = useState<string>('');
+
   return (
-    <View className='flex justify-center items-center h-full w-full'>
-      <View className='bg-secondary h-[25vh] w-[25vh] rounded-full justify-center items-center'>
-        <Image
-          className='h-2/3 w-2/3'
-          source={require('./assets/profile.png')}
-        ></Image>
-        <View className='bg-black h-[6vh] w-[6vh] rounded-full absolute bottom-0 right-4 justify-center items-center'>
-          <AddIcon />
+    <View style={{
+      rowGap: 14
+    }} className='flex justify-center items-center h-full w-full'>
+      <View>
+        <View className='bg-secondary h-[25vh] w-[25vh] rounded-full justify-center items-center'>
+          <Image
+            className='h-2/3 w-2/3'
+            source={require('./assets/profile.png')}
+          ></Image>
+          <View className='bg-black h-[6vh] w-[6vh] rounded-full absolute bottom-0 right-4 justify-center items-center'>
+            <AddIcon />
+          </View>
         </View>
+        <ImageSelectorDrawer />
       </View>
-      <ImageSelectorDrawer />
+      <Text className='text-2xl'
+      >Ваше имя</Text>
+      <TextInput
+        className='w-[85%] h-16 px-6 border-[#EFEFEF] text-2xl rounded-xl border-2'
+      />
     </View>
   );
 };

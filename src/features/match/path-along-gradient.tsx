@@ -61,13 +61,13 @@ export const GradientAlongPath = ({
 
   return (
     <Group>
-      <SweepGradient
+      {/* <SweepGradient
         c={{
           x: size.height / 5 * 2,
           y: size.width / 5 * 2,
         }}
         colors={colors}
-      />
+      /> */}
       <Path
         path={path}
         end={progress}

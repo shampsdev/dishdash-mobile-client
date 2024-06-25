@@ -31,6 +31,15 @@
         {
           "motionPermission": "Allow $(PRODUCT_NAME) to access your device motion."
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/FormaDJRCyrillicText.ttf",
+            "./assets/fonts/Inter-Regular.ttf"
+          ]
+        }
       ]
     ],
     "extra": {

@@ -5,7 +5,7 @@ import { CustomButton } from '@/shared/ui/custom-button';
 import { Header } from '@/shared/ui/header';
 import { ProgressBar } from '@/shared/ui/progress-bar-timer';
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -140,7 +140,6 @@ export const VotingCardSection = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={{
-          // columnGap: 8,
           rowGap: 8
         }} className='w-max flex-row justify-between flex-wrap'>
           {
@@ -158,7 +157,6 @@ export const VotingCardSection = () => {
 
       <CustomButton
         style={{
-          width: '100%',
           position: 'absolute',
           bottom: bottomInsets,
         }}

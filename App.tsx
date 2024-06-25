@@ -11,6 +11,13 @@ import { ToastProvider } from '@/entities/toast/toast-provider';
 import { LobbyPage } from '@/pages/lobby.page';
 import { ProfilePage } from '@/pages/profile.page';
 import { VotingPage } from '@/pages/vote.page';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { useCallback } from 'react';
+import { Text, View } from 'react-native'
+
+
+SplashScreen.preventAutoHideAsync();
 
 export type RootStackParamList = {
   home: undefined;
@@ -25,9 +32,25 @@ export type NavigationProps = StackNavigationProp<RootStackParamList>;
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts({
+    'FormaDJRCyrillicText': require('./assets/fonts/FormaDJRCyrillicText.ttf'),
+    'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+  
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider onLayout={onLayoutRootView}>
       <ToastProvider>
+        <View className='w-full h-full justify-center items-center'>
         <NavigationContainer
           theme={{
             ...DefaultTheme,

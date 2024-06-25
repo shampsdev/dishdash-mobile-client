@@ -1,9 +1,8 @@
-import BottomSheet, {
+import {
   BottomSheetFlatList,
   BottomSheetModal,
-  useBottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 import { Image, ImageSourcePropType, Text, View, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
