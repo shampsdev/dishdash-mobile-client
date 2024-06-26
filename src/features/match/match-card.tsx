@@ -9,7 +9,7 @@ import { NavigationProps } from '@/app/navigation.interface'
 
 
 export const MatchCard = () => {
-  const { card, setMatchStatus, setCard } = useMatchStore();
+  const { card, setMatchStatus, setMatchCard: setCard } = useMatchStore();
   const opacity = useSharedValue(0);
   const navigation = useNavigation<NavigationProps>();
 

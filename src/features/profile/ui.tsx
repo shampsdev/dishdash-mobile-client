@@ -2,13 +2,11 @@ import {
   View,
   Image,
   TextInput,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
+  Pressable
 } from 'react-native';
 import { AddIcon } from './icon/add';
 import { ImageSelectorDrawer, openBottomSheetModal } from './bottom-drawer';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { CustomText } from '@/shared/ui/custom-text';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { ImageFile } from '@/app/app.settings';
@@ -24,8 +22,7 @@ export const Profile = ({ avatar, setAvatar, name, setName }: ProfileProps) => {
   const bottomSheetSourceSelectRef = useRef<BottomSheetModal>(null);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <View
       style={{
         rowGap: 14,
       }}
@@ -55,6 +52,6 @@ export const Profile = ({ avatar, setAvatar, name, setName }: ProfileProps) => {
         onChangeText={(input) => setName(input)}
         value={name}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 };

@@ -1,28 +1,39 @@
-import React, { useEffect, useRef } from 'react';
-import { Image, Text, Pressable, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image, Text, Pressable, Animated, ImageSourcePropType } from 'react-native';
+import { tagImages } from '@/features/lobby/tag-images';
 
-export type CategorySelectorType = {
-  imgSrc: any;
-  title: string;
-  type?: 'active' | 'default';
-};
+export interface CardTag {
+  id: number;
+  name: string;
+  icon: string;
+}
+
+export type TagSelectorsType = 'default' | 'active';
 
 export const CategorySelector = ({
   category,
+  type,
   onPress
 }: {
-  category: CategorySelectorType;
+  category: CardTag;
+  type: TagSelectorsType;
   onPress: () => void;
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const [image, setImage] = useState<ImageSourcePropType>();
 
   useEffect(() => {
     Animated.timing(animatedValue, {
-      toValue: category.type === 'active' ? 1 : 0,
+      toValue: type === 'active' ? 1 : 0,
       duration: 100,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
-  }, [category.type]);
+
+    const tagImage = tagImages.find((value) => value.title === category.icon);
+    if (tagImage) {
+      setImage(tagImage.src);
+    }
+  }, [type, category.icon]);
 
   const borderColor = animatedValue.interpolate({
     inputRange: [0, 1],
@@ -32,7 +43,6 @@ export const CategorySelector = ({
   return (
     <Pressable onPress={onPress}>
       <Animated.View
-        className='space-x-4'
         style={{
           borderWidth: 2,
           borderColor: borderColor,
@@ -45,8 +55,8 @@ export const CategorySelector = ({
           marginBottom: 12,
         }}
       >
-        <Image source={category.imgSrc} />
-        <Text style={{ fontSize: 18 }}>{category.title}</Text>
+        {image ? <Image source={image} style={{ width: 40, height: 40 }} /> : null}
+        <Text style={{ fontSize: 18, marginLeft: 8 }}>{category.name}</Text>
       </Animated.View>
     </Pressable>
   );
