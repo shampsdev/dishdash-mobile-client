@@ -4,7 +4,7 @@ import { useMatchStore } from './useMatchStatus';
 
 const useCustomLoop = (duration = 1000, promise?: () => void) => {
   const progress = useSharedValue(0);
-  const { setCard, setMatchStatus } = useMatchStore(); 
+  const { setMatchCard: setCard, setMatchStatus } = useMatchStore(); 
 
   useEffect(() => {
     progress.value = withTiming(1, {

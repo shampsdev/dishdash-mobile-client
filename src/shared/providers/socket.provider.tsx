@@ -1,17 +1,19 @@
 import { API_URL, avatars } from '@/app/app.settings';
 import { useAuth } from '@/app/stores/auth.store';
 import { useToast } from '@/entities/toast/hooks/useToast';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { SimpleUser } from '../interfaces/simple-user.interface';
 import { Image } from 'react-native';
 
 interface ContextProps {
   joinLobby: (lobbyId: string) => void;
+  subscribe: (event: string, callback: (...args: any[]) => void) => void;
 }
 
 export const SocketContext = React.createContext<ContextProps>({
-  joinLobby: () => {},
+  joinLobby: () => { },
+  subscribe: () => { },
 });
 
 interface SocketProviderProps {
@@ -50,20 +52,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     });
 
     // newSocket.on('card', (data) => {
-    //   const cardData = data['card'];
-    //   setCards((prevCards) => [...prevCards, cardData]);
-    //   console.info(cards);
-    //   console.info('card');
-    // });
-
-    // newSocket.on('match', (data) => {
-    //   const matchData = data['card'];
-    //   setCards((prevCards) => [...prevCards, matchData]);
-
-    //   setCard(matchData);
-    //   setMatchStatus('match');
-    //   console.info(matchStatus);
-    // });
+    //   console.info(data)
+    // })
 
     return () => {
       newSocket.disconnect();
@@ -71,6 +61,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   }, []);
 
   const joinLobby = (lobbyId: string) => {
+    console.info("hell yea", lobbyId, user?.id);
+
     socket?.emit(
       'joinLobby',
       JSON.stringify({
@@ -78,15 +70,31 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
         userId: user?.id,
       })
     );
+
+    socket?.emit(
+      'startSwipes'
+    )
+  };
+
+  const subscribe = (event: string, callback: (...args: any[]) => void) => {
+    socket?.on(event, (data: any) => {
+      console.info('ovo')
+      callback(data)
+    });
   };
 
   return (
     <SocketContext.Provider
       value={{
         joinLobby,
+        subscribe
       }}
     >
       {children}
     </SocketContext.Provider>
   );
+};
+
+export const useSocket = () => {
+  return useContext(SocketContext);
 };

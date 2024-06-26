@@ -7,7 +7,7 @@ type Store = {
   card: ICard | null;
   matchStatus: MatchStatusType;
   setMatchStatus: (matchStatus: MatchStatusType) => void;
-  setCard: (card: ICard | null) => void;
+  setMatchCard: (card: ICard | null) => void;
 }
 
 export const useMatchStore = create<Store>()((set) => ({
@@ -24,5 +24,5 @@ export const useMatchStore = create<Store>()((set) => ({
     type: 'RESTAURANT',
     price: 900,
   },
-  setCard: (card: ICard | null) => set({ card }),
+  setMatchCard: (card: ICard | null) => set({ card }),
 }))

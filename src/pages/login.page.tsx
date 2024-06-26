@@ -9,7 +9,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
 export const LoginPage = () => {
   const bottomInsets = useBottomInsets();
@@ -25,40 +25,45 @@ export const LoginPage = () => {
 
   return (
     <BottomSheetModalProvider>
-      <Profile
-        name={name}
-        setName={setName}
-        avatar={avatar}
-        setAvatar={setAvatar}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          bottom: bottomInsets,
-        }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
       >
-        <CustomButton
-          type='primary'
+        <Profile
+          name={name}
+          setName={setName}
+          avatar={avatar}
+          setAvatar={setAvatar}
+        />
+        <View
           style={{
-            marginHorizontal: 'auto',
-          }}
-          onPress={() => {
-            const promise = loginUser({
-              name,
-              avatar: avatar.src.toString(),
-            });
-
-            toast.promise(promise, {
-              message: 'Создаем аккаунт',
-            });
-
-            navigation.navigate('home');
+            position: 'absolute',
+            width: '100%',
+            bottom: bottomInsets,
           }}
         >
-          Начать
-        </CustomButton>
-      </View>
+          <CustomButton
+            type='primary'
+            style={{
+              marginHorizontal: 'auto',
+            }}
+            onPress={() => {
+              const promise = loginUser({
+                name,
+                avatar: avatar.src.toString(),
+              });
+
+              toast.promise(promise, {
+                message: 'Создаем аккаунт',
+              });
+
+              navigation.navigate('home');
+            }}
+          >
+            Начать
+          </CustomButton>
+        </View>
+      </KeyboardAvoidingView>
     </BottomSheetModalProvider>
   );
 };

@@ -1,8 +1,6 @@
-import { CustomText } from '@/shared/ui/custom-text';
 import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useCallback, useRef } from 'react';
-import { Image, View, Pressable } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, Pressable } from 'react-native';
 import { ImageFile, avatars } from '@/app/app.settings';
 import * as ImagePicker from 'expo-image-picker';
 

@@ -2,63 +2,38 @@ import { useLobby } from '@/app/stores/lobby.store';
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import io from 'socket.io-client';
 import { ICard } from '@/shared/interfaces/card.interface';
 import { Match } from '../match/match';
 import { useMatchStore } from '../match/useMatchStatus';
 import { MatchCard } from '../match/match-card';
-
-const apiHost = 'https://dishdash.ru';
-
-interface Socket {
-  on(event: string, callback: (...args: any[]) => void): this;
-  emit(event: string, ...args: any[]): this;
-  disconnect(): this;
-}
+import { socket } from '@/app/socket';
 
 export const SwipeSection = ({ ...props }) => {
-  const { lobbyID } = useLobby();
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [cards, setCards] = useState<ICard[]>([]);
-  const { matchStatus, setMatchStatus, setCard } = useMatchStore();
+  const { matchStatus, setMatchStatus, setMatchCard } = useMatchStore();
 
   useEffect(() => {
-    const newSocket = io(apiHost, {
-      transports: ['websocket'],
-      reconnectionAttempts: 5,
-      timeout: 20000,
-    });
-    setSocket(newSocket);
+    const handleCardEvent = (data: any) => {
+      const newCard: ICard = data["card"];
+      setCards([newCard]);
+    }
 
-    newSocket.on('connect', () => {
-      newSocket.emit('joinLobby', JSON.stringify({ lobbyID }));
-    });
+    const handleMatchEvent = (data: any) => {
+      const matchCard: ICard = data["card"];
+      setMatchCard(matchCard)
+      setMatchStatus('matchCard')
+    }
 
-    newSocket.on('card', (data) => {
-      const cardData = data["card"];
-      setCards((prevCards) => [...prevCards, cardData]);
-      console.info(cards)
-      console.info("card")
-    });
+    socket.subscribe('card', handleCardEvent);
+    socket.subscribe('match', handleMatchEvent);
 
-    newSocket.on('match', (data) => {
-      const matchData = data["card"];
-      setCards((prevCards) => [...prevCards, matchData]);
-
-      setCard(matchData)
-      setMatchStatus('match')
-      console.info(matchStatus);
-    });
-
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [lobbyID]);
+    socket.sendEvent('startSwipes')
+   }, []);
 
   const handleSwipe = (id: number) => {
     setTimeout(() => {
       setCards((prevCards) => prevCards.filter((card) => card.id !== id));
-      socket?.emit('swipe', JSON.stringify({ swipeType: 'LIKE' }));
+      socket.sendEvent('swipe', JSON.stringify({swipeType: 'like'}))
     }, 100);
   };
 
@@ -80,32 +55,12 @@ export const SwipeSection = ({ ...props }) => {
       ) : matchStatus === 'match' ? (
         <Match />
       ) : (
-        <MatchCard/>
+        <MatchCard />
       )}
     </View>
   );
 };
 
-{
-  /* <View className='flex-row h-[20%] w-4/5 mx-auto justify-around'>
-        <ButtonIcon styles={{
-          backgroundColor: 'rgb(220, 220, 220)'
-        }}>
-          <CrossIcon color='black'/>
-        </ButtonIcon>
-        <ButtonIcon
-          onPress={ () => {} }
-          styles={{
-            backgroundColor: 'black'
-          }}
-        >
-          <HeartIcon color='white'/>
-        </ButtonIcon>
-      </View> */
-}
-
-
-// const [cards, setCards] = useState<ICard[]>([
 //   {
 //     id: 1,
 //     title: 'Вольчек 1',

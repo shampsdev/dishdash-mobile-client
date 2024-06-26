@@ -14,7 +14,6 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { ICard } from '@/shared/interfaces/card.interface';
 import { SwipeShortInfo } from './swipe-short-info';
 import { SwipeExtendedInfo } from './swipe-extended-info';
-import { useCardMode } from './swipe-card.provider';
 import { CardModeType } from './card-mode.interface';
 
 export interface SwipeCardProps {
@@ -31,8 +30,6 @@ export const SwipeCard = (props: SwipeCardProps) => {
   const offsetX = useSharedValue(0);
   const rotate = useSharedValue(0);
   const rotateY = useSharedValue(0);
-
-  // const { cardMode } = useCardMode();
 
   const swipePan = Gesture.Pan()
     .onUpdate((event) => {
