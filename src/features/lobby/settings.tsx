@@ -46,6 +46,22 @@ export const Settings = () => {
       }
     };
 
+    socket.subscribe('settingsUpdate', (data: ISettings) => {
+      setPrice(data.priceMax);
+      setDistance(data.maxDistance);
+      
+      data.tags.forEach((value) => {
+        tagSelectorStates[value] = 'active';
+      })
+
+      setTagSelectorStates([...tagSelectorStates]);
+    })
+
+    socket.sendEvent('joinLobby', JSON.stringify({
+      "lobbyId": "SP5MW",
+      "userId": "GXIF26N4"
+    }))
+
     fetchTags();
   }, []);
 
@@ -56,21 +72,11 @@ export const Settings = () => {
     tagSelectorStates[index] = tagSelectorStates[index] === 'default' ? 'active' : 'default';
     setTagSelectorStates([...tagSelectorStates]);
 
-    updateSettings({
-      priceMin: 0,
-      priceMax: price,
-      maxDistance: distance,
-      tags: [],
-    });
+    updateSettings();
   };
 
   const sendSettings = () => {
-    updateSettings({
-      priceMin: 0,
-      priceMax: price,
-      maxDistance: distance,
-      tags: [],
-    });
+    updateSettings();
 
     toast
       .message(500, {
@@ -81,15 +87,26 @@ export const Settings = () => {
       });
   };
 
-  const updateSettings = (data: ISettings) => {
-    socket.sendEvent('update', JSON.stringify(data))
+  const updateSettings = () => {
+    socket.sendEvent('settingsUpdate', JSON.stringify({
+      priceMin: 0,
+      priceMax: price,
+      maxDistance: distance,
+      tags: getActiveTags(),
+    }))
   }
 
-  useEffect(() => {
-    socket.subscribe('updateSettings', (data) => {
-      console.info(data);
+  const getActiveTags = (): number[] => {
+    const activeTagIds: number[] = [];
+
+    tagSelectorStates.forEach((value, index) => {
+      if (value === 'active') {
+        activeTagIds.push(tags[index].id);
+      } 
     })
-  }, [])
+
+    return activeTagIds;
+  }
 
   return (
     <View className='flex-col h-full w-[85%] mx-auto'>
@@ -121,7 +138,10 @@ export const Settings = () => {
             maximumValue={10000}
             step={100}
             value={price}
-            onValueChange={setPrice}
+            onValueChange={(value: number) => {
+              setPrice(value)
+              updateSettings()
+            }}
             minimumTrackTintColor='#000000'
             maximumTrackTintColor='#000000'
             thumbTintColor='black'
@@ -142,7 +162,10 @@ export const Settings = () => {
             maximumValue={10000}
             step={100}
             value={distance}
-            onValueChange={setDistance}
+            onValueChange={(value: number) => {
+              setDistance(value)
+              updateSettings()
+            }}
             minimumTrackTintColor='#000000'
             maximumTrackTintColor='#000000'
             thumbTintColor='black'

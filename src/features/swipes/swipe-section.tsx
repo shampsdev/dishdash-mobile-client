@@ -1,4 +1,3 @@
-import { useLobby } from '@/app/stores/lobby.store';
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
