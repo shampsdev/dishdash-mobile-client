@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Radar } from '@/entities/radar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { API_URL } from '@/app/app.settings';
 import { useLobby } from '@/app/stores/lobby.store';
@@ -8,25 +8,41 @@ import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation.interface';
-import { useAuth } from '@/app/stores/auth.store';
 import { useSwipes } from '@/shared/hooks/useSwipes';
-
-const locationData = {
-  lat: 0,
-  lng: 0,
-};
+import * as Location from 'expo-location';
+import { LocationObject } from 'expo-location';
 
 export const HomePage = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const { lobbyID, setLobbyID } = useLobby();
+  const { setLobbyID } = useLobby();
   const { joinLobby } = useSwipes();
+
+  const [location, setLocation] = useState<LocationObject | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
 
   const findLobby = async () => {
     try {
       const response = await axios.post(
         `${API_URL}api/v1/lobbies/find`,
-        JSON.stringify(locationData),
+        {
+          dist: 10,
+          location: {
+            lat: location?.coords.latitude ?? 0,
+            lon: location?.coords.longitude ?? 0,
+          },
+        },
         {
           headers: {
             'Content-Type': 'application/json',
