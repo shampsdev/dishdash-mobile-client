@@ -68,7 +68,7 @@ export const ImageSelectorDrawer = ({
 
   return (
     <>
-      <BottomSheetModal
+      {/* <BottomSheetModal
         name='select-source'
         enablePanDownToClose
         snapPoints={['35%']}
@@ -105,13 +105,14 @@ export const ImageSelectorDrawer = ({
             <CustomText>Выбрать из галереи</CustomText>
           </TouchableOpacity>
         </View>
-      </BottomSheetModal>
+      </BottomSheetModal> */}
 
       <BottomSheetModal
         name='image-picker'
         enablePanDownToClose
         snapPoints={['80%']}
-        ref={bottomSheetImagePickRef}
+        // ref={bottomSheetImagePickRef}
+        ref={bottomSheetSourceSelectRef}
         backgroundStyle={{
           backgroundColor: '#F5F5F5',
           borderRadius: 30,
