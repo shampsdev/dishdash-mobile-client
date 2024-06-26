@@ -9,6 +9,7 @@ type AuthProps = {
   user?: User;
   loginUser: (user: Omit<User, 'id' | 'createdAt'>) => Promise<void>;
   logoutUser: () => void;
+  updateUser: (user: Omit<User, 'createdAt'>) => Promise<void>;
 };
 
 export const useAuth = create<AuthProps>((set, get) => {
@@ -46,6 +47,24 @@ export const useAuth = create<AuthProps>((set, get) => {
       };
       set(newState);
       await storeData('auth', newState);
+    },
+    updateUser: async (userData: Omit<User, 'createdAt'>) => {
+      try {
+        const res = await axios.put<User>(`${API_URL}api/v1/users`, userData, {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+          },
+        });
+        const newState = {
+          ...get(),
+          user: res.data,
+        };
+        set(newState);
+        await storeData('auth', newState);
+      } catch (error) {
+        console.error('Update failed:', error);
+      }
     },
   };
 });
