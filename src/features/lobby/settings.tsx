@@ -57,11 +57,6 @@ export const Settings = () => {
       setTagSelectorStates([...tagSelectorStates]);
     })
 
-    socket.sendEvent('joinLobby', JSON.stringify({
-      "lobbyId": "SP5MW",
-      "userId": "GXIF26N4"
-    }))
-
     fetchTags();
   }, []);
 
