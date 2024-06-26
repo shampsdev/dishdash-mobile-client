@@ -83,6 +83,13 @@ export const Settings = () => {
   };
 
   const updateSettings = () => {
+    console.log(JSON.stringify({
+      priceMin: 0,
+      priceMax: price,
+      maxDistance: distance,
+      tags: getActiveTags(),
+    }))
+
     socket.sendEvent('settingsUpdate', JSON.stringify({
       priceMin: 0,
       priceMax: price,

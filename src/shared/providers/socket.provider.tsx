@@ -61,8 +61,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   }, []);
 
   const joinLobby = (lobbyId: string) => {
-    console.info("hell yea", lobbyId, user?.id);
-
     socket?.emit(
       'joinLobby',
       JSON.stringify({
@@ -70,10 +68,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
         userId: user?.id,
       })
     );
-
-    socket?.emit(
-      'startSwipes'
-    )
   };
 
   const subscribe = (event: string, callback: (...args: any[]) => void) => {

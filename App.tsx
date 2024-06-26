@@ -11,7 +11,7 @@ import { ToastProvider } from '@/entities/toast/toast-provider';
 import { VotingPage } from '@/pages/vote.page';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { ResultPage } from '@/pages/result.page';
 import { RootStackParamList } from '@/app/navigation.interface';
 import { ProfilePage } from '@/pages/profile.page';
@@ -19,8 +19,6 @@ import { LobbyPage } from '@/pages/lobby.page';
 import { useAuth } from '@/app/stores/auth.store';
 import { LoginPage } from '@/pages/login.page';
 import { SocketProvider } from '@/shared/providers/socket.provider';
-import { API_URL } from '@/app/app.settings';
-import axios from 'axios';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -63,7 +61,7 @@ export default function App() {
                 cardStyle: { backgroundColor: '#fff' },
               }}
             >
-              {/* {!authenticated && (
+              {!authenticated && (
                 <Stack.Screen
                   options={{ header: SimpleHeader }}
                   name='login'
@@ -79,7 +77,7 @@ export default function App() {
                 options={{ header: SimpleHeader }}
                 name='profile'
                 component={ProfilePage}
-              /> */}
+              />
               <Stack.Screen
                 options={{ header: UsersHeader }}
                 name='lobby'
