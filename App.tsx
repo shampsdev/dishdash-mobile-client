@@ -14,17 +14,23 @@ import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import { ResultPage } from '@/pages/result.page';
 import { RootStackParamList } from '@/app/navigation.interface';
+import { ProfilePage } from '@/pages/profile.page';
+import { LobbyPage } from '@/pages/lobby.page';
+import { useAuth } from '@/app/stores/auth.store';
+import { LoginPage } from '@/pages/login.page';
+import { SocketProvider } from '@/shared/providers/socket.provider';
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
-
   const [fontsLoaded, fontError] = useFonts({
-    'FormaDJRCyrillicText': require('./assets/fonts/FormaDJRCyrillicText.ttf'),
+    FormaDJRCyrillicText: require('./assets/fonts/FormaDJRCyrillicText.ttf'),
     'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
   });
+
+  const { authenticated } = useAuth();
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
@@ -35,57 +41,66 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-  
+
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <ToastProvider>
-        <NavigationContainer
-          theme={{
-            ...DefaultTheme,
-            colors: {
-              ...DefaultTheme.colors,
-              background: 'white',
-            },
-          }}
-        >
-          <Stack.Navigator
-            screenOptions={{
-              animationEnabled: false,              
-              cardStyle: { backgroundColor: '#fff' }
+        <SocketProvider>
+          <NavigationContainer
+            theme={{
+              ...DefaultTheme,
+              colors: {
+                ...DefaultTheme.colors,
+                background: 'white',
+              },
             }}
           >
-            {/* <Stack.Screen
-              options={{ header: MainHeader }}
-              name='home'
-              component={HomePage}
-            />
-            <Stack.Screen
-              options={{ header: SimpleHeader }}
-              name='profile'
-              component={ProfilePage}
-            /> */}
-            {/* <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='lobby'
-              component={LobbyPage}
-            /> */}
-            {/* <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='swipes'
-              component={SwipePage}
-            /> */}
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='voting'
-              component={VotingPage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='result'
-              component={ResultPage}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                animationEnabled: false,
+                cardStyle: { backgroundColor: '#fff' },
+              }}
+            >
+              {!authenticated && (
+                <Stack.Screen
+                  options={{ header: SimpleHeader }}
+                  name='login'
+                  component={LoginPage}
+                />
+              )}
+              <Stack.Screen
+                options={{ header: MainHeader }}
+                name='home'
+                component={HomePage}
+              />
+              <Stack.Screen
+                options={{ header: SimpleHeader }}
+                name='profile'
+                component={ProfilePage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='lobby'
+                component={LobbyPage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='swipes'
+                component={SwipePage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='voting'
+                component={VotingPage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='result'
+                component={ResultPage}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SocketProvider>
       </ToastProvider>
     </SafeAreaProvider>
   );

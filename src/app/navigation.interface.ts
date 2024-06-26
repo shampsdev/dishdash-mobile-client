@@ -7,6 +7,7 @@ export type RootStackParamList = {
   profile: undefined;
   voting: undefined;
   result: undefined;
+  login: undefined;
 };
 
 export type NavigationProps = StackNavigationProp<RootStackParamList>;

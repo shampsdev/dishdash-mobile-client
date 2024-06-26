@@ -5,7 +5,8 @@ import { useMatchStore } from './useMatchStatus'
 import { CustomButton } from '@/shared/ui/custom-button'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../../App'
+import { NavigationProps } from '@/app/navigation.interface'
+
 
 export const MatchCard = () => {
   const { card, setMatchStatus, setCard } = useMatchStore();
