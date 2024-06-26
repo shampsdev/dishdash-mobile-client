@@ -9,6 +9,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 export const LoginPage = () => {
   const bottomInsets = useBottomInsets();
@@ -30,27 +31,34 @@ export const LoginPage = () => {
         avatar={avatar}
         setAvatar={setAvatar}
       />
-      <CustomButton
-        type='primary'
+      <View
         style={{
           position: 'absolute',
+          width: '100%',
           bottom: bottomInsets,
         }}
-        onPress={() => {
-          const promise = loginUser({
-            name,
-            avatar: avatar.src.toString(),
-          });
-
-          toast.promise(promise, {
-            message: 'Создаем аккаунт',
-          });
-
-          navigation.navigate('home');
-        }}
       >
-        Начать
-      </CustomButton>
+        <CustomButton
+          type='primary'
+          style={{
+            marginHorizontal: 'auto',
+          }}
+          onPress={() => {
+            const promise = loginUser({
+              name,
+              avatar: avatar.src.toString(),
+            });
+
+            toast.promise(promise, {
+              message: 'Создаем аккаунт',
+            });
+
+            navigation.navigate('home');
+          }}
+        >
+          Начать
+        </CustomButton>
+      </View>
     </BottomSheetModalProvider>
   );
 };

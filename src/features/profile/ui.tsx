@@ -29,7 +29,7 @@ export const Profile = ({ avatar, setAvatar, name, setName }: ProfileProps) => {
       style={{
         rowGap: 14,
       }}
-      className='flex relative justify-center items-center h-full w-full'
+      className='flex relative justify-center items-center h-5/6 w-full'
     >
       <View>
         <View className='bg-secondary h-[25vh] w-[25vh] rounded-full justify-center items-center'>

@@ -8,6 +8,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 export const ProfilePage = () => {
   const bottomInsets = useBottomInsets();
@@ -28,18 +29,25 @@ export const ProfilePage = () => {
         avatar={avatar}
         setAvatar={setAvatar}
       />
-      <CustomButton
-        type='primary'
+      <View
         style={{
           position: 'absolute',
+          width: '100%',
           bottom: bottomInsets,
         }}
-        onPress={() => {
-          navigation.navigate('home');
-        }}
       >
-        Обратно
-      </CustomButton>
+        <CustomButton
+          type='primary'
+          onPress={() => {
+            navigation.navigate('home');
+          }}
+          style={{
+            marginHorizontal: 'auto',
+          }}
+        >
+          Обратно
+        </CustomButton>
+      </View>
     </BottomSheetModalProvider>
   );
 };
