@@ -14,17 +14,22 @@ import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import { ResultPage } from '@/pages/result.page';
 import { RootStackParamList } from '@/app/navigation.interface';
+import { ProfilePage } from '@/pages/profile.page';
+import { LobbyPage } from '@/pages/lobby.page';
+import { useAuth } from '@/app/stores/auth.store';
+import { LoginPage } from '@/pages/login.page';
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
-
   const [fontsLoaded, fontError] = useFonts({
-    'FormaDJRCyrillicText': require('./assets/fonts/FormaDJRCyrillicText.ttf'),
+    FormaDJRCyrillicText: require('./assets/fonts/FormaDJRCyrillicText.ttf'),
     'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
   });
+
+  const { authenticated } = useAuth();
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded || fontError) {
@@ -35,7 +40,7 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-  
+
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <ToastProvider>
@@ -50,11 +55,18 @@ export default function App() {
         >
           <Stack.Navigator
             screenOptions={{
-              animationEnabled: false,              
-              cardStyle: { backgroundColor: '#fff' }
+              animationEnabled: false,
+              cardStyle: { backgroundColor: '#fff' },
             }}
           >
-            {/* <Stack.Screen
+            {!authenticated && (
+              <Stack.Screen
+                options={{ header: SimpleHeader }}
+                name='login'
+                component={LoginPage}
+              />
+            )}
+            <Stack.Screen
               options={{ header: MainHeader }}
               name='home'
               component={HomePage}
@@ -63,17 +75,17 @@ export default function App() {
               options={{ header: SimpleHeader }}
               name='profile'
               component={ProfilePage}
-            /> */}
-            {/* <Stack.Screen
+            />
+            <Stack.Screen
               options={{ header: UsersHeader }}
               name='lobby'
               component={LobbyPage}
-            /> */}
-            {/* <Stack.Screen
+            />
+            <Stack.Screen
               options={{ header: UsersHeader }}
               name='swipes'
               component={SwipePage}
-            /> */}
+            />
             <Stack.Screen
               options={{ header: UsersHeader }}
               name='voting'

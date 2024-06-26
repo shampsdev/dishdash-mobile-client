@@ -1,41 +1,33 @@
 import { CustomText } from '@/shared/ui/custom-text';
-import {
-  BottomSheetFlatList,
-  BottomSheetModal,
-} from '@gorhom/bottom-sheet';
+import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useCallback, useRef } from 'react';
-import { Image, ImageSourcePropType, View, Pressable } from 'react-native';
+import { Image, View, Pressable } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageFile, avatars } from '@/app/app.settings';
 import * as ImagePicker from 'expo-image-picker';
 
-interface User {
-  name: string;
-  src: ImageSourcePropType;
-}
-
-const data: User[] = [
-  { name: 'Mike', src: require('./assets/0.png') },
-  { name: 'Mitya', src: require('./assets/1.png') },
-  { name: 'Vanya', src: require('./assets/2.png') },
-  { name: 'Vika', src: require('./assets/1.png') },
-  { name: 'Sanya', src: require('./assets/0.png') },
-];
-
-export const openBottomSheetModal = (ref: React.RefObject<BottomSheetModal>) => {
+export const openBottomSheetModal = (
+  ref: React.RefObject<BottomSheetModal>
+) => {
   ref.current?.present();
-}
+};
 
-export const closeBottomSheetModal = (ref: React.RefObject<BottomSheetModal>) => {
+export const closeBottomSheetModal = (
+  ref: React.RefObject<BottomSheetModal>
+) => {
   ref.current?.close();
-}
+};
 
-export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
-  setImage: (imgSrc: any) => void,
-  bottomSheetSourceSelectRef: React.RefObject<BottomSheetModal>
+export const ImageSelectorDrawer = ({
+  setImage,
+  bottomSheetSourceSelectRef,
+}: {
+  setImage: (imgSrc: ImageFile) => void;
+  bottomSheetSourceSelectRef: React.RefObject<BottomSheetModal>;
 }) => {
   const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
 
-  const renderItem = useCallback(({ item }: { item: User }) => {
+  const renderItem = useCallback(({ item }: { item: ImageFile }) => {
     return (
       <Pressable
         style={{
@@ -45,20 +37,13 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
           borderRadius: 24,
           alignItems: 'center',
         }}
-        onPress={
-          () => {
-            setImage(item.src);
-            closeBottomSheetModal(bottomSheetImagePickRef);
-            closeBottomSheetModal(bottomSheetSourceSelectRef);
-          }
-        }
+        onPress={() => {
+          setImage(item);
+          closeBottomSheetModal(bottomSheetImagePickRef);
+          closeBottomSheetModal(bottomSheetSourceSelectRef);
+        }}
       >
-        <Image
-          source={
-            item.src
-          }
-          style={{ width: 60, height: 60 }}
-        />
+        <Image source={item.src} style={{ width: 60, height: 60 }} />
       </Pressable>
     );
   }, []);
@@ -74,8 +59,8 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
     console.info(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      
+      // setImage(result.assets[0].uri);
+
       closeBottomSheetModal(bottomSheetSourceSelectRef);
       closeBottomSheetModal(bottomSheetImagePickRef);
     }
@@ -107,7 +92,7 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
         >
           <TouchableOpacity
             onPress={() => {
-              openBottomSheetModal(bottomSheetImagePickRef)
+              openBottomSheetModal(bottomSheetImagePickRef);
             }}
             className='p-6 bg-white rounded-xl'
           >
@@ -125,7 +110,7 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
       <BottomSheetModal
         name='image-picker'
         enablePanDownToClose
-        snapPoints={['90%']}
+        snapPoints={['80%']}
         ref={bottomSheetImagePickRef}
         backgroundStyle={{
           backgroundColor: '#F5F5F5',
@@ -138,8 +123,8 @@ export const ImageSelectorDrawer = ({ setImage, bottomSheetSourceSelectRef }: {
         }}
       >
         <BottomSheetFlatList
-          data={data}
-          keyExtractor={(user: User) => user.name}
+          data={avatars}
+          keyExtractor={(image: ImageFile) => image.src.toString()}
           renderItem={renderItem}
           contentContainerStyle={{
             width: '85%',

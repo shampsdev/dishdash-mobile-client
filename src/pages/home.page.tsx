@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation.interface';
+import { useAuth } from '@/app/stores/auth.store';
 
 const locationData = {
   lat: 59.957441,
@@ -18,6 +19,7 @@ export const HomePage = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const { lobbyID, setLobbyID } = useLobby();
+  const { logoutUser } = useAuth();
 
   const createLobby = async () => {
     try {
@@ -59,8 +61,8 @@ export const HomePage = () => {
               })
               .finally(() => {
                 setTimeout(() => {
-                  navigation.navigate('lobby')
-                }, 1000)
+                  navigation.navigate('lobby');
+                }, 1000);
               });
           }}
           className='h-5/6 w-screen'
