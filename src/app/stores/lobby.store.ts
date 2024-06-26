@@ -1,11 +1,11 @@
-import { create } from "zustand"
+import { create } from 'zustand';
 
 type LobbyProps = {
-  lobbyID: number
-  setLobbyID: (lobbyID: number) => void
-}
+  lobbyID: string;
+  setLobbyID: (lobbyID: string) => void;
+};
 
 export const useLobby = create<LobbyProps>()((set) => ({
-  lobbyID: 1,
+  lobbyID: '',
   setLobbyID: () => set((state) => ({ lobbyID: state.lobbyID })),
-}))
+}));

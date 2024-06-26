@@ -18,6 +18,7 @@ import { ProfilePage } from '@/pages/profile.page';
 import { LobbyPage } from '@/pages/lobby.page';
 import { useAuth } from '@/app/stores/auth.store';
 import { LoginPage } from '@/pages/login.page';
+import { SocketProvider } from '@/shared/providers/socket.provider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,60 +45,62 @@ export default function App() {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <ToastProvider>
-        <NavigationContainer
-          theme={{
-            ...DefaultTheme,
-            colors: {
-              ...DefaultTheme.colors,
-              background: 'white',
-            },
-          }}
-        >
-          <Stack.Navigator
-            screenOptions={{
-              animationEnabled: false,
-              cardStyle: { backgroundColor: '#fff' },
+        <SocketProvider>
+          <NavigationContainer
+            theme={{
+              ...DefaultTheme,
+              colors: {
+                ...DefaultTheme.colors,
+                background: 'white',
+              },
             }}
           >
-            {!authenticated && (
+            <Stack.Navigator
+              screenOptions={{
+                animationEnabled: false,
+                cardStyle: { backgroundColor: '#fff' },
+              }}
+            >
+              {!authenticated && (
+                <Stack.Screen
+                  options={{ header: SimpleHeader }}
+                  name='login'
+                  component={LoginPage}
+                />
+              )}
+              <Stack.Screen
+                options={{ header: MainHeader }}
+                name='home'
+                component={HomePage}
+              />
               <Stack.Screen
                 options={{ header: SimpleHeader }}
-                name='login'
-                component={LoginPage}
+                name='profile'
+                component={ProfilePage}
               />
-            )}
-            <Stack.Screen
-              options={{ header: MainHeader }}
-              name='home'
-              component={HomePage}
-            />
-            <Stack.Screen
-              options={{ header: SimpleHeader }}
-              name='profile'
-              component={ProfilePage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='lobby'
-              component={LobbyPage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='swipes'
-              component={SwipePage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='voting'
-              component={VotingPage}
-            />
-            <Stack.Screen
-              options={{ header: UsersHeader }}
-              name='result'
-              component={ResultPage}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='lobby'
+                component={LobbyPage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='swipes'
+                component={SwipePage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='voting'
+                component={VotingPage}
+              />
+              <Stack.Screen
+                options={{ header: UsersHeader }}
+                name='result'
+                component={ResultPage}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SocketProvider>
       </ToastProvider>
     </SafeAreaProvider>
   );

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import { Context } from '../toast-provider';
+import { ToastContext } from '../toast-provider';
 import { ToastProps } from '../ui';
 
 export const useToast = () => {
-  const { addToast, activeToast } = useContext(Context);
+  const { addToast, activeToast } = useContext(ToastContext);
   const [list, setList] = useState<
     (ToastProps & { duration: number; resolve: () => void })[]
   >([]);

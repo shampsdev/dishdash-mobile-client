@@ -6,7 +6,7 @@ interface ContextProps {
   activeToast: (ToastProps & InternalToastProps) | null;
 }
 
-export const Context = React.createContext<ContextProps>({
+export const ToastContext = React.createContext<ContextProps>({
   addToast: () => {},
   activeToast: null,
 });
@@ -41,9 +41,9 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   }, [queue, activeToast]);
 
   return (
-    <Context.Provider value={{ addToast, activeToast }}>
+    <ToastContext.Provider value={{ addToast, activeToast }}>
       {activeToast && <Toast index={0} {...activeToast} />}
       {children}
-    </Context.Provider>
+    </ToastContext.Provider>
   );
 };
