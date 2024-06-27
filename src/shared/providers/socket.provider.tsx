@@ -51,10 +51,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       });
     });
 
-    // newSocket.on('card', (data) => {
-    //   console.info(data)
-    // })
-
     return () => {
       newSocket.disconnect();
     };

@@ -17,6 +17,8 @@ import { RootStackParamList } from '@/app/navigation.interface';
 import { socket } from '@/app/socket';
 import axios from 'axios';
 import { API_URL } from '@/app/app.settings';
+import { useLobby } from '@/app/stores/lobby.store';
+import { ICard } from '@/shared/interfaces/card.interface';
 
 type ISettings = {
   priceMin: number,
@@ -34,30 +36,39 @@ export const Settings = () => {
   const bottomInsets = useBottomInsets();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const toast = useToast();
+  const { setCards } = useLobby();
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
         const response = await axios.get(`${API_URL}api/v1/cards/tags`);
         setTags(response.data);
-        setTagSelectorStates(Array.from({ length: tags.length }, () => 'default'));
+        setTagSelectorStates(Array.from({ length: response.data.length }, () => 'default'));
       } catch (error) {
         console.error('Error fetching tags:', error);
       }
     };
+
+    fetchTags();
 
     socket.subscribe('settingsUpdate', (data: ISettings) => {
       setPrice(data.priceMax);
       setDistance(data.maxDistance);
       
       data.tags.forEach((value) => {
+        console.info(value)
         tagSelectorStates[value] = 'active';
       })
 
       setTagSelectorStates([...tagSelectorStates]);
     })
 
-    fetchTags();
+    const handleCardEvent = (data: any) => {
+      const newCard: ICard = data["card"];
+      setCards([newCard]);
+    }
+  
+    socket.subscribe('card', handleCardEvent);
   }, []);
 
   const toggleCategoryType = (index: number) => {
@@ -65,6 +76,7 @@ export const Settings = () => {
       return;
 
     tagSelectorStates[index] = tagSelectorStates[index] === 'default' ? 'active' : 'default';
+    console.info(tagSelectorStates)
     setTagSelectorStates([...tagSelectorStates]);
 
     updateSettings();
@@ -72,6 +84,8 @@ export const Settings = () => {
 
   const sendSettings = () => {
     updateSettings();
+
+    socket.sendEvent('startSwipes');
 
     toast
       .message(500, {

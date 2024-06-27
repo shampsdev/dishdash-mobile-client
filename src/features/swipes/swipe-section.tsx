@@ -6,32 +6,28 @@ import { Match } from '../match/match';
 import { useMatchStore } from '../match/useMatchStatus';
 import { MatchCard } from '../match/match-card';
 import { socket } from '@/app/socket';
+import { useLobby } from '@/app/stores/lobby.store';
 
 export const SwipeSection = ({ ...props }) => {
-  const [cards, setCards] = useState<ICard[]>([]);
+  const { cards, setCards } = useLobby();
   const { matchStatus, setMatchStatus, setMatchCard } = useMatchStore();
 
   useEffect(() => {
-    const handleCardEvent = (data: any) => {
-      const newCard: ICard = data["card"];
-      setCards([newCard]);
-    }
-
     const handleMatchEvent = (data: any) => {
       const matchCard: ICard = data["card"];
       setMatchCard(matchCard)
       setMatchStatus('matchCard')
     }
 
-    socket.subscribe('card', handleCardEvent);
-    socket.subscribe('match', handleMatchEvent);
+    console.info("match", cards)
 
-    socket.sendEvent('startSwipes')
+    socket.subscribe('match', handleMatchEvent);
    }, []);
 
   const handleSwipe = (id: number) => {
     setTimeout(() => {
-      setCards((prevCards) => prevCards.filter((card) => card.id !== id));
+      const newCards = cards.filter((card) => card.id !== id)
+      setCards(newCards);
       socket.sendEvent('swipe', JSON.stringify({swipeType: 'like'}))
     }, 100);
   };
