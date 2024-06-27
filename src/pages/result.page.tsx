@@ -3,11 +3,11 @@ import { ResultSection } from '@/features/result/result-section';
 import React, { memo } from 'react';
 import { View } from 'react-native';
 
-export const ResultPage = memo(() => {
+export const ResultPage = () => {
   return (
     <View className='h-full'>
       <ResultSection />
       <UsersDrawer />
     </View>
   );
-});
+};

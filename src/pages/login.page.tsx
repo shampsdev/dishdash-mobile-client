@@ -11,7 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { memo, useState } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
-export const LoginPage = memo(() => {
+export const LoginPage = () => {
   const bottomInsets = useBottomInsets();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const toast = useToast();
@@ -67,4 +67,4 @@ export const LoginPage = memo(() => {
       </KeyboardAvoidingView>
     </BottomSheetModalProvider>
   );
-});
+};
