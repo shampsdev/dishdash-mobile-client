@@ -60,7 +60,7 @@ export default function App() {
                   cardStyle: { backgroundColor: '#fff' },
                 }}
               >
-                {/* {!authenticated && (
+                {!authenticated && (
                   <Stack.Screen
                     options={{ header: SimpleHeader }}
                     name='login'
@@ -91,7 +91,7 @@ export default function App() {
                   options={{ header: UsersHeader }}
                   name='voting'
                   component={VotingPage}
-                /> */}
+                />
                 <Stack.Screen
                   options={{ header: UsersHeader }}
                   name='result'
