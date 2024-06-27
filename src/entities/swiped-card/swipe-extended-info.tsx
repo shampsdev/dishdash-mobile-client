@@ -14,7 +14,7 @@ export const SwipeExtendedInfo = ({
     <View className='h-full relative flex-col justify-center scale-x-[-1] bg-secondary rounded-3xl'>
       <SwipeCardHader
         onInfoPress={onInfoPress} 
-        title={card.title}
+        title={card.Title}
       />
 
     <Text className='px-4 text-base mx-auto'>

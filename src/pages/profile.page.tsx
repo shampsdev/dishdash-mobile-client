@@ -9,13 +9,14 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const ProfilePage = () => {
   const bottomInsets = useBottomInsets();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logoutUser } = useAuth();
   const toast = useToast();
 
   const [name, setName] = useState<string>(user?.name ?? '');
@@ -36,8 +37,21 @@ export const ProfilePage = () => {
           position: 'absolute',
           width: '100%',
           bottom: bottomInsets,
+          rowGap: 50,
         }}
       >
+        <TouchableOpacity
+          style={{
+            width: '85%',
+            marginHorizontal: 'auto',
+          }}
+          onPressOut={() => {
+            logoutUser();
+            navigation.popToTop();
+          }}
+        >
+          <Text className='text-xl text-muted mx-auto'>Выйти</Text>
+        </TouchableOpacity>
         <CustomButton
           type='primary'
           onPress={() => {

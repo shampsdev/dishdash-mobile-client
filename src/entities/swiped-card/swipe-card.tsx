@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  StyleSheet
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
+  withSpring,
 } from 'react-native-reanimated';
 
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -25,7 +22,7 @@ export interface SwipeCardProps {
 const VALUE_FOR_SWIPING = 100;
 
 export const SwipeCard = (props: SwipeCardProps) => {
-  const [cardMode, setCardMode] = useState<CardModeType>('card'); 
+  const [cardMode, setCardMode] = useState<CardModeType>('card');
 
   const offsetX = useSharedValue(0);
   const rotate = useSharedValue(0);
@@ -42,11 +39,11 @@ export const SwipeCard = (props: SwipeCardProps) => {
       if (valueX < -VALUE_FOR_SWIPING) {
         rotate.value = withSpring(-10);
         offsetX.value = withSpring(-300);
-        runOnJS(props.onSwipe)(props.card.id);
+        runOnJS(props.onSwipe)(props.card.ID);
       } else if (valueX > VALUE_FOR_SWIPING) {
         rotate.value = withSpring(10);
         offsetX.value = withSpring(300);
-        runOnJS(props.onSwipe)(props.card.id);
+        runOnJS(props.onSwipe)(props.card.ID);
       } else {
         offsetX.value = withSpring(0);
         rotate.value = withSpring(0);
@@ -101,19 +98,11 @@ export const SwipeCard = (props: SwipeCardProps) => {
             shadowStyle,
           ]}
         >
-          {
-            cardMode === "card"
-              ?
-              <SwipeShortInfo
-                onInfoPress={handlePress}
-                card={{ ...props.card }}
-              />
-              :
-              <SwipeExtendedInfo
-                onInfoPress={handlePress}
-                card={{...props.card}}
-              />
-          }
+          {cardMode === 'card' ? (
+            <SwipeShortInfo onInfoPress={handlePress} card={props.card} />
+          ) : (
+            <SwipeExtendedInfo onInfoPress={handlePress} card={props.card} />
+          )}
         </Animated.View>
       </GestureDetector>
     </View>

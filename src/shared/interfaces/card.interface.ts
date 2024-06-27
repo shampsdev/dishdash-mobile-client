@@ -1,13 +1,13 @@
 export type CardType = "BAR" | "CAFE" | "RESTAURANT";
 
 export interface Card {
-  id: number;
-  title: string;
-  shortDescription: string;
-  description: string;
-  image: string;
-  location: string;
-  address: string;
-  type: CardType;
-  price: number;
+  ID: number;
+  Title: string;
+  ShortDescription: string;
+  Description: string;
+  Image: string;
+  Location: string;
+  Address: string;
+  Type: CardType;
+  Price: number;
 }

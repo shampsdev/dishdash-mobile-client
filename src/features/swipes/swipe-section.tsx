@@ -1,46 +1,32 @@
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import { Card } from '@/shared/interfaces/card.interface';
 import { Match } from '../match/match';
-import { useMatchStore } from '../match/useMatchStatus';
+import { useMatchStore } from '../match/useMatchStore';
 import { MatchCard } from '../match/match-card';
-import { socket } from '@/app/socket';
 import { useLobbyStore } from '@/app/stores/lobby.store';
+import { useSocket } from '@/shared/providers/socket.provider';
 
 export const SwipeSection = ({ ...props }) => {
   const { cards, setCards } = useLobbyStore();
-  const { matchStatus, setMatchStatus, setMatchCard } = useMatchStore();
-
-  useEffect(() => {
-    const handleMatchEvent = (data: any) => {
-      const matchCard: Card = data["card"];
-      setMatchCard(matchCard)
-      setMatchStatus('matchCard')
-    }
-
-    console.info("match", cards)
-
-    socket.subscribe('match', handleMatchEvent);
-   }, []);
+  const { matchStatus } = useMatchStore();
+  const { emit } = useSocket();
 
   const handleSwipe = (id: number) => {
     setTimeout(() => {
-      const newCards = cards.filter((card) => card.id !== id)
+      const newCards = cards.filter((card) => card.ID !== id);
       setCards(newCards);
-      socket.sendEvent('swipe', JSON.stringify({swipeType: 'like'}))
+      emit('swipe', { swipeType: 'like' });
     }, 100);
   };
-
-  const visibleCards = cards.slice(0, 3);
 
   return (
     <View className='h-full relative justify-center'>
       {matchStatus === 'swiping' ? (
         <View className='h-3/4'>
-          {visibleCards.map((value, index) => (
+          {cards.map((value, index) => (
             <SwipeCard
-              key={value.id}
+              key={index}
               index={index}
               card={value}
               onSwipe={handleSwipe}

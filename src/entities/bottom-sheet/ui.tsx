@@ -4,35 +4,14 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Image, ImageSourcePropType, Text, View } from 'react-native';
 import { CopyIcon } from './icon/copy';
 import { CustomText } from '@/shared/ui/custom-text';
-
-interface User {
-  name: string;
-  src: ImageSourcePropType;
-}
+import { useLobbyStore } from '@/app/stores/lobby.store';
+import { User } from '@/shared/interfaces/user.interface';
+import { avatars } from '@/app/app.settings';
 
 export const UsersDrawer = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const data: User[] = [
-    { name: 'Mike', src: require('../../app/assets/avatars/0.png') },
-    {
-      name: 'Mitya',
-      src: require('../../app/assets/avatars/1.png'),
-    },
-    {
-      name: 'Vanya',
-      src: require('../../app/assets/avatars/2.png'),
-    },
-    {
-      name: 'Vika',
-      src: require('../../app/assets/avatars/3.png'),
-    },
-    {
-      name: 'Sanya',
-      src: require('../../app/assets/avatars/4.png'),
-    },
-  ];
-
+  const { users, lobbyId } = useLobbyStore();
   const { open, setOpen } = useDrawer();
 
   const handleSheetChanges = useCallback(
@@ -64,7 +43,10 @@ export const UsersDrawer = () => {
           alignItems: 'center',
         }}
       >
-        <Image source={item.src} style={{ width: 60, height: 60 }} />
+        <Image
+          source={avatars[Number(item.avatar)].src}
+          style={{ width: 60, height: 60 }}
+        />
         <CustomText style={{ marginTop: 8 }}>{item.name}</CustomText>
       </View>
     );
@@ -99,10 +81,10 @@ export const UsersDrawer = () => {
           <View className='p-4 px-6 bg-white rounded-full flex-row justify-between'>
             <CustomText
               className='text-[#7F7F7F]'
-              // adjustsFontSizeToFit={true}
+              adjustsFontSizeToFit
               numberOfLines={1}
             >
-              https://dishdash.ru/room3647
+              {`https://dishdash.ru/${lobbyId}`}
             </CustomText>
             <View className='justify-center items-center'>
               <CopyIcon />
@@ -112,8 +94,8 @@ export const UsersDrawer = () => {
         <Text className='text-xl'>Участники</Text>
       </View>
       <BottomSheetFlatList
-        data={data}
-        keyExtractor={(user: User) => user.name}
+        data={users}
+        keyExtractor={(user: User) => user.id}
         renderItem={renderItem}
         contentContainerStyle={{
           width: '85%',

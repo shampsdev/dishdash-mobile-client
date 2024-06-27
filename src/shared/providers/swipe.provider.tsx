@@ -9,6 +9,9 @@ import { Settings } from '../interfaces/settings.interface';
 import { RootStackParamList } from '@/app/navigation.interface';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useMatchStore } from '@/features/match/useMatchStore';
+import { Match } from '../interfaces/match.interface';
+import { Card } from '../interfaces/card.interface';
 
 interface ContextProps {
   startSwipes: () => void;
@@ -24,7 +27,8 @@ interface SwipeProviderProps {
 
 export const SwipeProvider = ({ children }: SwipeProviderProps) => {
   const { subscribe, emit } = useSocket();
-  const { addUser, removeUser, setSettings } = useLobbyStore();
+  const { addUser, removeUser, setSettings, setCards, cards } = useLobbyStore();
+  const { setMatchCard, setMatchStatus } = useMatchStore();
 
   const toast = useToast();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -71,6 +75,16 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
 
     subscribe('settingsUpdate', (settings: Settings) => {
       setSettings(settings);
+    });
+
+    subscribe('card', (card: { card: Card }) => {
+      console.log(card.card);
+      setCards([...cards, card.card]);
+    });
+
+    subscribe('match', (match: Match) => {
+      setMatchCard(match.card);
+      setMatchStatus('matchCard');
     });
 
     subscribe('startSwipes', () => {

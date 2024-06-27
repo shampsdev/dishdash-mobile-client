@@ -58,7 +58,7 @@ export const VoteCard = ({
           className='h-40 w-full'
           borderBottomLeftRadius={12}
           borderBottomRightRadius={12}
-          src={card.image}
+          src={card.Image}
         />
 
         <View
@@ -81,7 +81,7 @@ export const VoteCard = ({
               borderRadius: 999,
             }}
           >
-            <Text className='rounded-3xl'>{card.title}</Text>
+            <Text className='rounded-3xl'>{card.Title}</Text>
           </View>
         </View>
 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
-import { useMatchStore } from './useMatchStatus';
+import { useMatchStore } from './useMatchStore';
 
 const useCustomLoop = (duration = 1000, promise?: () => void) => {
   const progress = useSharedValue(0);

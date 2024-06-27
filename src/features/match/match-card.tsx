@@ -1,7 +1,7 @@
 import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info'
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { useMatchStore } from './useMatchStatus'
+import { useMatchStore } from './useMatchStore'
 import { CustomButton } from '@/shared/ui/custom-button'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useNavigation } from '@react-navigation/native'

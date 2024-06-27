@@ -19,21 +19,21 @@ export const ResultSection = () => {
       }} className='h-full w-[85%] mx-auto relative items-center'>
         <Image
           className='w-full min-h-[240px] h-[33vh] rounded-2xl'
-          src={card.image}
+          src={card.Image}
         />
         <View className='w-full'>
-          <CustomText className='font-semibold text-2xl'>{card.title}</CustomText>
+          <CustomText className='font-semibold text-2xl'>{card.Title}</CustomText>
           <View className='flex-row space-x-1'>
             <MapPointIcon
               width={24}
               height={24}
             />
-            <CustomText className='text-[#7F7F7F] text-xl'>{card.address}</CustomText>
+            <CustomText className='text-[#7F7F7F] text-xl'>{card.Address}</CustomText>
           </View>
         </View>
         <ScrollView className='h-min' style={styles.textContainer}>
           <CustomText>
-            {card.description}
+            {card.Description}
           </CustomText>
         </ScrollView>
         <View
