@@ -12,6 +12,9 @@ import { useNavigation } from '@react-navigation/native';
 import { useMatchStore } from '@/features/match/useMatchStore';
 import { Match } from '../interfaces/match.interface';
 import { Card } from '../interfaces/card.interface';
+import { useResultCardStore } from '@/app/stores/result-card.store';
+import { useFinalVoteStore } from '@/app/stores/final-vote.store';
+import { Vote } from '../interfaces/vote.interface';
 
 interface ContextProps {
   startSwipes: () => void;
@@ -28,7 +31,9 @@ interface SwipeProviderProps {
 export const SwipeProvider = ({ children }: SwipeProviderProps) => {
   const { subscribe, emit } = useSocket();
   const { addUser, removeUser, setSettings, setCards, cards } = useLobbyStore();
-  const { setMatchCard, setMatchStatus } = useMatchStore();
+  const { setMatchCard, setMatchStatus, setMatchId } = useMatchStore();
+  const { setResultCard } = useResultCardStore();
+  const { setCards: setFinalVoteCards, addVote } = useFinalVoteStore();
 
   const toast = useToast();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -47,7 +52,6 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
 
   useEffect(() => {
     subscribe('userJoined', (user: User) => {
-      console.log(user);
       addUser(user);
       toast.message(700, {
         message: `Пользователь ${user.name} присоеденился`,
@@ -78,13 +82,36 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     });
 
     subscribe('card', (card: { card: Card }) => {
-      console.log(card.card);
       setCards([...cards, card.card]);
     });
 
     subscribe('match', (match: Match) => {
       setMatchCard(match.card);
       setMatchStatus('matchCard');
+      setMatchId(match.id);
+    });
+
+    subscribe('releaseMatch', () => {
+      setMatchCard(null);
+      setMatchStatus('swiping');
+      setMatchId(null);
+    });
+
+    subscribe('finalVote', (finalVote: { options: Card[] }) => {
+      setFinalVoteCards(finalVote.options);
+      navigation.navigate('voting');
+    });
+
+    subscribe('voted', (vote: Vote) => {
+      // This is very bad by the way, but better than nothing, if it's final the vote is -1 :)
+      if (vote.voteId < 0) {
+        addVote(vote);
+      }
+    });
+
+    subscribe('finish', (result: { result: Card }) => {
+      setResultCard(result.result);
+      navigation.navigate('result');
     });
 
     subscribe('startSwipes', () => {

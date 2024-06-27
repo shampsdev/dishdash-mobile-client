@@ -7,16 +7,18 @@ import { MatchCard } from '../match/match-card';
 import { useLobbyStore } from '@/app/stores/lobby.store';
 import { useSocket } from '@/shared/providers/socket.provider';
 
+export type SwipeType = 'like' | 'dislike';
+
 export const SwipeSection = ({ ...props }) => {
   const { cards, setCards } = useLobbyStore();
   const { matchStatus } = useMatchStore();
   const { emit } = useSocket();
 
-  const handleSwipe = (id: number) => {
+  const handleSwipe = (id: number, type: SwipeType) => {
     setTimeout(() => {
       const newCards = cards.filter((card) => card.ID !== id);
       setCards(newCards);
-      emit('swipe', { swipeType: 'like' });
+      emit('swipe', { swipeType: type });
     }, 100);
   };
 

@@ -13,28 +13,41 @@ import {
 } from 'react-native-reanimated';
 import { Icon } from './icon';
 import { Ring } from './ring';
+import { useIsFocused } from '@react-navigation/native';
 
 interface RadarProps {
   onSpin: () => void;
   [key: string]: any;
 }
 
+
 export interface RadarHandle {
   stopAnimation: () => void;
 }
 
 export const Radar = forwardRef<RadarHandle, RadarProps>(({ onSpin, ...props }, ref) => {
+  const isFocused = useIsFocused();
   const spin = useSharedValue(0);
   const scale = useSharedValue(1);
   const offset_anim = useSharedValue(0);
   const gestureActive = useSharedValue(true);
 
+  const stopAnimation = () => {
+    offset_anim.value = 0;
+    gestureActive.value = true;
+  }
+  
   useEffect(() => {
-    spin.value = withRepeat(
-      withTiming(5, { duration: 50000, easing: Easing.linear }),
-      -1
-    );
-  }, []);
+    if (isFocused) {
+      spin.value = withRepeat(
+        withTiming(5, { duration: 50000, easing: Easing.linear }),
+        -1
+      );
+    } else {
+      spin.value = 0;
+      stopAnimation();
+    }
+  }, [isFocused]);
 
   const startAnimation = () => {
     scale.value = withRepeat(
@@ -51,12 +64,6 @@ export const Radar = forwardRef<RadarHandle, RadarProps>(({ onSpin, ...props }, 
   useImperativeHandle(ref, () => ({
     stopAnimation,
   }));
-
-  const stopAnimation = () => {
-    console.info("hello");
-    offset_anim.value = 0;
-    gestureActive.value = true;
-  }
 
   const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));
