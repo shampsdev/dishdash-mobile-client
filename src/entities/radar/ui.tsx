@@ -1,5 +1,5 @@
 import { Canvas, Image, useImage } from '@shopify/react-native-skia';
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {
@@ -19,7 +19,11 @@ interface RadarProps {
   [key: string]: any;
 }
 
-export const Radar = ({ onSpin, ...props }: RadarProps) => {
+export interface RadarHandle {
+  stopAnimation: () => void;
+}
+
+export const Radar = forwardRef<RadarHandle, RadarProps>(({ onSpin, ...props }, ref) => {
   const spin = useSharedValue(0);
   const scale = useSharedValue(1);
   const offset_anim = useSharedValue(0);
@@ -43,6 +47,16 @@ export const Radar = ({ onSpin, ...props }: RadarProps) => {
       true
     );
   };
+
+  useImperativeHandle(ref, () => ({
+    stopAnimation,
+  }));
+
+  const stopAnimation = () => {
+    console.info("hello");
+    offset_anim.value = 0;
+    gestureActive.value = true;
+  }
 
   const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));
@@ -187,4 +201,4 @@ export const Radar = ({ onSpin, ...props }: RadarProps) => {
       </Canvas>
     </GestureDetector>
   );
-};
+});

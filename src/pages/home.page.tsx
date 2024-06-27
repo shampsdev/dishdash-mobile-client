@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Radar } from '@/entities/radar';
-import React, { useEffect, useState } from 'react';
+import { Radar, RadarHandle } from '@/entities/radar';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { API_URL } from '@/app/app.settings';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,7 @@ export const HomePage = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [location, setLocation] = useState<LocationObject | null>(null);
   const { joinLobby } = useLobby();
+  const radarRef = useRef<RadarHandle | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -50,7 +51,6 @@ export const HomePage = () => {
       const data = response.data;
       if (data.id) {
         joinLobby(data.id);
-        navigation.navigate('lobby');
       } else {
         throw Error('Response did not contain an "id" field');
       }
@@ -59,25 +59,36 @@ export const HomePage = () => {
     }
   };
 
+  const handleStopAnimation = new Promise<void>((resolve, reject) => {
+    if (radarRef.current) {
+      radarRef.current.stopAnimation();
+    }
+
+    reject();
+  })
+
+  const onSpin = () => {
+    const promise = findLobby();
+
+    toast
+      .promise(promise, {
+        message: 'Looking for a lobby',
+      })
+      .then(() => {
+        setTimeout(() => {
+          navigation.navigate('lobby');
+        }, 1000);
+      });
+  }
+
   const toast = useToast();
 
   return (
     <View className='flex-1'>
       <View className='flex-1 bg-whit items-center'>
         <Radar
-          onSpin={() => {
-            const promise = findLobby();
-
-            toast
-              .promise(promise, {
-                message: 'Looking for a lobby',
-              })
-              .finally(() => {
-                setTimeout(() => {
-                  navigation.navigate('lobby');
-                }, 1000);
-              });
-          }}
+          ref={radarRef}
+          onSpin={onSpin}
           className='h-5/6 w-screen'
         />
       </View>

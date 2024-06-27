@@ -60,7 +60,7 @@ export default function App() {
                   cardStyle: { backgroundColor: '#fff' },
                 }}
               >
-                {authenticated && (
+                {!authenticated && (
                   <Stack.Screen
                     options={{ header: SimpleHeader }}
                     name='login'
