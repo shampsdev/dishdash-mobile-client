@@ -44,7 +44,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   };
 
   const emit = (event: string, data: any) => {
-    console.info(`Emitted event ${event} with data ${data}`);
     socket?.emit(event, JSON.stringify(data));
   };
 

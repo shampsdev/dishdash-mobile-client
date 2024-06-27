@@ -13,6 +13,7 @@ import {
 } from 'react-native-reanimated';
 import { Icon } from './icon';
 import { Ring } from './ring';
+import { useIsFocused } from '@react-navigation/native';
 
 interface RadarProps {
   onSpin: () => void;
@@ -20,17 +21,24 @@ interface RadarProps {
 }
 
 export const Radar = ({ onSpin, ...props }: RadarProps) => {
+  const isFocused = useIsFocused();
   const spin = useSharedValue(0);
   const scale = useSharedValue(1);
   const offset_anim = useSharedValue(0);
   const gestureActive = useSharedValue(true);
 
   useEffect(() => {
-    spin.value = withRepeat(
-      withTiming(5, { duration: 50000, easing: Easing.linear }),
-      -1
-    );
-  }, []);
+    if (isFocused) {
+      spin.value = withRepeat(
+        withTiming(5, { duration: 50000, easing: Easing.linear }),
+        -1
+      );
+    } else {
+      spin.value = 0;
+      offset_anim.value = 0;
+      gestureActive.value = true;
+    }
+  }, [isFocused]);
 
   const startAnimation = () => {
     scale.value = withRepeat(

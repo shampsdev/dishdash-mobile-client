@@ -12,11 +12,12 @@ import { Card } from '@/shared/interfaces/card.interface';
 import { SwipeShortInfo } from './swipe-short-info';
 import { SwipeExtendedInfo } from './swipe-extended-info';
 import { CardModeType } from './card-mode.interface';
+import { SwipeType } from '@/features/swipes';
 
 export interface SwipeCardProps {
   card: Card;
   index: number;
-  onSwipe: (id: number) => void;
+  onSwipe: (id: number, type: SwipeType) => void;
 }
 
 const VALUE_FOR_SWIPING = 100;
@@ -39,11 +40,11 @@ export const SwipeCard = (props: SwipeCardProps) => {
       if (valueX < -VALUE_FOR_SWIPING) {
         rotate.value = withSpring(-10);
         offsetX.value = withSpring(-300);
-        runOnJS(props.onSwipe)(props.card.ID);
+        runOnJS(props.onSwipe)(props.card.ID, 'dislike');
       } else if (valueX > VALUE_FOR_SWIPING) {
         rotate.value = withSpring(10);
         offsetX.value = withSpring(300);
-        runOnJS(props.onSwipe)(props.card.ID);
+        runOnJS(props.onSwipe)(props.card.ID, 'like');
       } else {
         offsetX.value = withSpring(0);
         rotate.value = withSpring(0);

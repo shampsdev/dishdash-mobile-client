@@ -24,10 +24,18 @@ export const useLobby = () => {
     emit('settingsUpdate', settings);
   };
 
+  const vote = (id: number, option: number) => {
+    emit('vote', {
+      id,
+      option,
+    });
+  };
+
   return {
     joinLobby,
     updateSettings,
     setUsers,
     startSwipes,
+    vote,
   };
 };
