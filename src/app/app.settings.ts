@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from 'react-native';
 
-export const API_URL = "http://172.28.29.236:8000/"
+export const API_URL = "https://dishdash.ru/"
 // "https://dishdash.ru/"
 // process.env.EXPO_PUBLIC_API_URL
 // "https://dishdash.ru";
