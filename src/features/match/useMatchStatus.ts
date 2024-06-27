@@ -1,13 +1,13 @@
-import { ICard } from "@/shared/interfaces/card.interface"
+import { Card } from "@/shared/interfaces/card.interface"
 import { create } from "zustand"
 
 type MatchStatusType = 'match' | 'swiping' | 'matchCard'; 
 
 type Store = {
-  card: ICard | null;
+  card: Card | null;
   matchStatus: MatchStatusType;
   setMatchStatus: (matchStatus: MatchStatusType) => void;
-  setMatchCard: (card: ICard | null) => void;
+  setMatchCard: (card: Card | null) => void;
 }
 
 export const useMatchStore = create<Store>()((set) => ({
@@ -24,5 +24,5 @@ export const useMatchStore = create<Store>()((set) => ({
     type: 'RESTAURANT',
     price: 900,
   },
-  setMatchCard: (card: ICard | null) => set({ card }),
+  setMatchCard: (card: Card | null) => set({ card }),
 }))

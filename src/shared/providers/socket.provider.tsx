@@ -1,19 +1,16 @@
-import { API_URL, avatars } from '@/app/app.settings';
+import { API_URL } from '@/app/app.settings';
 import { useAuth } from '@/app/stores/auth.store';
-import { useToast } from '@/entities/toast/hooks/useToast';
 import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { SimpleUser } from '../interfaces/simple-user.interface';
-import { Image } from 'react-native';
 
 interface ContextProps {
-  joinLobby: (lobbyId: string) => void;
   subscribe: (event: string, callback: (...args: any[]) => void) => void;
+  emit: (event: string, ...args: any[]) => void;
 }
 
 export const SocketContext = React.createContext<ContextProps>({
-  joinLobby: () => { },
-  subscribe: () => { },
+  subscribe: () => {},
+  emit: () => {},
 });
 
 interface SocketProviderProps {
@@ -28,56 +25,33 @@ interface Socket {
 
 export const SocketProvider = ({ children }: SocketProviderProps) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const { user } = useAuth();
-  const toast = useToast();
 
   useEffect(() => {
-    const newSocket = io(API_URL ?? '', {
+    const newSocket: Socket = io(API_URL ?? '', {
       transports: ['websocket'],
       reconnectionAttempts: 5,
       timeout: 20000,
     });
     setSocket(newSocket);
 
-    newSocket.on('userJoined', (data: SimpleUser) => {
-      toast.message(500, {
-        message: `${data.name} присоеденился`,
-        icon: (
-          <Image
-            className='h-5 w-5 mr-2'
-            source={avatars[Number(data.avatar) - 1].src}
-          />
-        ),
-      });
-    });
-
     return () => {
       newSocket.disconnect();
     };
   }, []);
 
-  const joinLobby = (lobbyId: string) => {
-    socket?.emit(
-      'joinLobby',
-      JSON.stringify({
-        lobbyId,
-        userId: user?.id,
-      })
-    );
+  const subscribe = (event: string, callback: (...args: any[]) => void) => {
+    socket?.on(event, callback);
   };
 
-  const subscribe = (event: string, callback: (...args: any[]) => void) => {
-    socket?.on(event, (data: any) => {
-      console.info('ovo')
-      callback(data)
-    });
+  const emit = (event: string, data: any) => {
+    socket?.emit(event, JSON.stringify(data));
   };
 
   return (
     <SocketContext.Provider
       value={{
-        joinLobby,
-        subscribe
+        subscribe,
+        emit,
       }}
     >
       {children}

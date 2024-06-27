@@ -3,10 +3,7 @@ import { HomePage } from '@/pages/home.page';
 import { SwipePage } from '@/pages/swipes.page';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {
-  StackNavigationProp,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { ToastProvider } from '@/entities/toast/toast-provider';
 import { VotingPage } from '@/pages/vote.page';
 import * as SplashScreen from 'expo-splash-screen';
@@ -19,6 +16,7 @@ import { LobbyPage } from '@/pages/lobby.page';
 import { useAuth } from '@/app/stores/auth.store';
 import { LoginPage } from '@/pages/login.page';
 import { SocketProvider } from '@/shared/providers/socket.provider';
+import { SwipeProvider } from '@/shared/providers/swipe.provider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,50 +53,52 @@ export default function App() {
               },
             }}
           >
-            <Stack.Navigator
-              screenOptions={{
-                animationEnabled: false,
-                cardStyle: { backgroundColor: '#fff' },
-              }}
-            >
-              {!authenticated && (
+            <SwipeProvider>
+              <Stack.Navigator
+                screenOptions={{
+                  animationEnabled: false,
+                  cardStyle: { backgroundColor: '#fff' },
+                }}
+              >
+                {!authenticated && (
+                  <Stack.Screen
+                    options={{ header: SimpleHeader }}
+                    name='login'
+                    component={LoginPage}
+                  />
+                )}
+                <Stack.Screen
+                  options={{ header: MainHeader }}
+                  name='home'
+                  component={HomePage}
+                />
                 <Stack.Screen
                   options={{ header: SimpleHeader }}
-                  name='login'
-                  component={LoginPage}
+                  name='profile'
+                  component={ProfilePage}
                 />
-              )}
-              <Stack.Screen
-                options={{ header: MainHeader }}
-                name='home'
-                component={HomePage}
-              />
-              <Stack.Screen
-                options={{ header: SimpleHeader }}
-                name='profile'
-                component={ProfilePage}
-              />
-              <Stack.Screen
-                options={{ header: UsersHeader }}
-                name='lobby'
-                component={LobbyPage}
-              />
-              <Stack.Screen
-                options={{ header: UsersHeader }}
-                name='swipes'
-                component={SwipePage}
-              />
-              <Stack.Screen
-                options={{ header: UsersHeader }}
-                name='voting'
-                component={VotingPage}
-              />
-              <Stack.Screen
-                options={{ header: UsersHeader }}
-                name='result'
-                component={ResultPage}
-              />
-            </Stack.Navigator>
+                <Stack.Screen
+                  options={{ header: UsersHeader }}
+                  name='lobby'
+                  component={LobbyPage}
+                />
+                <Stack.Screen
+                  options={{ header: UsersHeader }}
+                  name='swipes'
+                  component={SwipePage}
+                />
+                <Stack.Screen
+                  options={{ header: UsersHeader }}
+                  name='voting'
+                  component={VotingPage}
+                />
+                <Stack.Screen
+                  options={{ header: UsersHeader }}
+                  name='result'
+                  component={ResultPage}
+                />
+              </Stack.Navigator>
+            </SwipeProvider>
           </NavigationContainer>
         </SocketProvider>
       </ToastProvider>

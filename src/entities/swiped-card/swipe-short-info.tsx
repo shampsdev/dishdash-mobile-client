@@ -1,7 +1,7 @@
 import React from 'react'
 import { ImageBackground, View, Text, ViewStyle } from 'react-native'
 import { SwipeCardHader } from './swipe-card-header'
-import { ICard } from '@/shared/interfaces/card.interface';
+import { Card } from '@/shared/interfaces/card.interface';
 
 const categories = ['Кофе', 'Развлечения', 'Чай', 'Новые ощущения'];
 
@@ -10,7 +10,7 @@ export const SwipeShortInfo = ({
   onInfoPress,
   style
 }: {
-  card: ICard,
+  card: Card,
   onInfoPress?: () => void,
   style?: ViewStyle
 }) => {

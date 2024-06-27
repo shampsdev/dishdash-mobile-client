@@ -1,4 +1,4 @@
-import { ICard } from '@/shared/interfaces/card.interface'
+import { Card } from '@/shared/interfaces/card.interface'
 import React, { useEffect, useRef } from 'react'
 import { Image, View, Text, Animated, Pressable } from 'react-native'
 
@@ -23,7 +23,7 @@ export const VoteCard = ({
 }: {
   type?: VoteCardType,
   onPress: () => void,
-  card: ICard,
+  card: Card,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 

@@ -14,22 +14,22 @@ export const UsersDrawer = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const data: User[] = [
-    { name: 'Mike', src: require('./assets/0.png') },
+    { name: 'Mike', src: require('../../app/assets/avatars/0.png') },
     {
       name: 'Mitya',
-      src: require('./assets/1.png'),
+      src: require('../../app/assets/avatars/1.png'),
     },
     {
       name: 'Vanya',
-      src: require('./assets/2.png'),
+      src: require('../../app/assets/avatars/2.png'),
     },
     {
       name: 'Vika',
-      src: require('./assets/1.png'),
+      src: require('../../app/assets/avatars/3.png'),
     },
     {
       name: 'Sanya',
-      src: require('./assets/0.png'),
+      src: require('../../app/assets/avatars/4.png'),
     },
   ];
 

@@ -20,7 +20,7 @@ export const ProfilePage = () => {
 
   const [name, setName] = useState<string>(user?.name ?? '');
   const [avatar, setAvatar] = useState<ImageFile>(
-    user?.avatar != undefined ? avatars[Number(user.avatar) - 1] : avatars[0]
+    user?.avatar != undefined ? avatars[Number(user.avatar)] : avatars[0]
   );
 
   return (
@@ -44,7 +44,7 @@ export const ProfilePage = () => {
             const promise = updateUser({
               id: user?.id ?? '',
               name,
-              avatar: avatar.src.toString(),
+              avatar: avatars.indexOf(avatar).toString(),
             });
 
             toast
@@ -56,6 +56,7 @@ export const ProfilePage = () => {
               });
           }}
           style={{
+            width: '85%',
             marginHorizontal: 'auto',
           }}
         >

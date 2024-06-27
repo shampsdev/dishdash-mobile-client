@@ -1,17 +1,17 @@
 import { NavigationProps } from '@/app/navigation.interface';
 import { VoteCard } from '@/entities/voting/vote-card';
 import { useBottomInsets } from '@/shared/hooks/getBottomInsets';
-import { ICard } from '@/shared/interfaces/card.interface'
+import { Card } from '@/shared/interfaces/card.interface'
 import { CustomButton } from '@/shared/ui/custom-button';
 import { Header } from '@/shared/ui/header';
 import { ProgressBar } from '@/shared/ui/progress-bar-timer';
-import { useResultCardStore } from '@/widgets/stores/result-card.store';
+import { useResultCardStore } from '@/app/stores/result-card.store';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const cards: ICard[] = [
+const cards: Card[] = [
   {
     id: 1,
     title: 'Вольчек 1',

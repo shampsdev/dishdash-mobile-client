@@ -8,10 +8,10 @@ import { CustomButton } from '@/shared/ui/custom-button';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
-export const LoginPage = () => {
+export const LoginPage = memo(() => {
   const bottomInsets = useBottomInsets();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const toast = useToast();
@@ -45,6 +45,7 @@ export const LoginPage = () => {
           <CustomButton
             type='primary'
             style={{
+              width: '85%',
               marginHorizontal: 'auto',
             }}
             onPress={() => {
@@ -66,4 +67,4 @@ export const LoginPage = () => {
       </KeyboardAvoidingView>
     </BottomSheetModalProvider>
   );
-};
+});

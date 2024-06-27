@@ -1,20 +1,20 @@
 import { SwipeCard } from '@/entities/swiped-card/swipe-card';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { ICard } from '@/shared/interfaces/card.interface';
+import { Card } from '@/shared/interfaces/card.interface';
 import { Match } from '../match/match';
 import { useMatchStore } from '../match/useMatchStatus';
 import { MatchCard } from '../match/match-card';
 import { socket } from '@/app/socket';
-import { useLobby } from '@/app/stores/lobby.store';
+import { useLobbyStore } from '@/app/stores/lobby.store';
 
 export const SwipeSection = ({ ...props }) => {
-  const { cards, setCards } = useLobby();
+  const { cards, setCards } = useLobbyStore();
   const { matchStatus, setMatchStatus, setMatchCard } = useMatchStore();
 
   useEffect(() => {
     const handleMatchEvent = (data: any) => {
-      const matchCard: ICard = data["card"];
+      const matchCard: Card = data["card"];
       setMatchCard(matchCard)
       setMatchStatus('matchCard')
     }

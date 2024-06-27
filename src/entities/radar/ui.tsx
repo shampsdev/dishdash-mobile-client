@@ -1,11 +1,7 @@
 import { Canvas, Image, useImage } from '@shopify/react-native-skia';
 import React, { useEffect, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  PanGesture,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {
   Easing,
   runOnJS,

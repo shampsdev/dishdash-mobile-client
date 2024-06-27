@@ -11,13 +11,13 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { ICard } from '@/shared/interfaces/card.interface';
+import { Card } from '@/shared/interfaces/card.interface';
 import { SwipeShortInfo } from './swipe-short-info';
 import { SwipeExtendedInfo } from './swipe-extended-info';
 import { CardModeType } from './card-mode.interface';
 
 export interface SwipeCardProps {
-  card: ICard;
+  card: Card;
   index: number;
   onSwipe: (id: number) => void;
 }

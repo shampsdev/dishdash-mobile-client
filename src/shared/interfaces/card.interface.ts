@@ -1,6 +1,6 @@
 export type CardType = "BAR" | "CAFE" | "RESTAURANT";
 
-export interface ICard {
+export interface Card {
   id: number;
   title: string;
   shortDescription: string;

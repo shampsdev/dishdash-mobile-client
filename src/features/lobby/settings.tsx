@@ -1,128 +1,58 @@
 import {
-  CardTag,
   CategorySelector,
-  TagSelectorsType,
 } from '@/entities/lobby/category-selector';
 import { CustomButton } from '@/shared/ui/custom-button';
 import Slider from '@react-native-community/slider';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useToast } from '@/entities/toast/hooks/useToast';
 import { Header } from '@/shared/ui/header';
 import { useBottomInsets } from '@/shared/hooks/getBottomInsets';
-import { RootStackParamList } from '@/app/navigation.interface';
-import { socket } from '@/app/socket';
 import axios from 'axios';
 import { API_URL } from '@/app/app.settings';
-import { useLobby } from '@/app/stores/lobby.store';
-import { ICard } from '@/shared/interfaces/card.interface';
-
-type ISettings = {
-  priceMin: number,
-  priceMax: number,
-  maxDistance: number,
-  tags: number[]
-}
+import { useLobbyStore } from '@/app/stores/lobby.store';
+import { useLobby } from '@/shared/hooks/useLobby';
+import { Tag } from '@/shared/interfaces/tag.interface';
 
 export const Settings = () => {
-  const [tags, setTags] = useState<CardTag[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
-  const [tagSelectorStates, setTagSelectorStates] = useState<TagSelectorsType[]>([]);
-  const [price, setPrice] = useState(1000);
-  const [distance, setDistance] = useState(5000);
   const bottomInsets = useBottomInsets();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const toast = useToast();
-  const { setCards } = useLobby();
+  const { settings } = useLobbyStore();
+  const { updateSettings, startSwipes } = useLobby();
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get(`${API_URL}api/v1/cards/tags`);
+        const response = await axios.get<Tag[]>(`${API_URL}api/v1/cards/tags`);
         setTags(response.data);
-        setTagSelectorStates(Array.from({ length: response.data.length }, () => 'default'));
       } catch (error) {
         console.error('Error fetching tags:', error);
       }
     };
 
     fetchTags();
-
-    socket.subscribe('settingsUpdate', (data: ISettings) => {
-      setPrice(data.priceMax);
-      setDistance(data.maxDistance);
-      
-      data.tags.forEach((value) => {
-        console.info(value)
-        tagSelectorStates[value] = 'active';
-      })
-
-      setTagSelectorStates([...tagSelectorStates]);
-    })
-
-    const handleCardEvent = (data: any) => {
-      const newCard: ICard = data["card"];
-      setCards([newCard]);
-    }
-  
-    socket.subscribe('card', handleCardEvent);
   }, []);
 
-  const toggleCategoryType = (index: number) => {
-    if (tagSelectorStates === undefined)
-      return;
+  const toggleCategoryType = (tagId: number) => {
+    const found = settings.tags.find((x) => x.id == tagId);
+    let updatedTags: Tag[] = [];
+    if (found != undefined) {
+      updatedTags = settings.tags.filter((x) => x.id != found.id);
+    } else {
+      updatedTags = [
+        ...settings.tags,
+        tags.find((x) => x.id == tagId) ?? tags[0],
+      ];
+    }
 
-    tagSelectorStates[index] = tagSelectorStates[index] === 'default' ? 'active' : 'default';
-    console.info(tagSelectorStates)
-    setTagSelectorStates([...tagSelectorStates]);
-
-    updateSettings();
-  };
-
-  const sendSettings = () => {
-    updateSettings();
-
-    socket.sendEvent('startSwipes');
-
-    toast
-      .message(500, {
-        message: 'Loading swipes',
-      })
-      .finally(() => {
-        navigation.push('swipes');
-      });
-  };
-
-  const updateSettings = () => {
-    console.log(JSON.stringify({
+    updateSettings({
       priceMin: 0,
-      priceMax: price,
-      maxDistance: distance,
-      tags: getActiveTags(),
-    }))
-
-    socket.sendEvent('settingsUpdate', JSON.stringify({
-      priceMin: 0,
-      priceMax: price,
-      maxDistance: distance,
-      tags: getActiveTags(),
-    }))
-  }
-
-  const getActiveTags = (): number[] => {
-    const activeTagIds: number[] = [];
-
-    tagSelectorStates.forEach((value, index) => {
-      if (value === 'active') {
-        activeTagIds.push(tags[index].id);
-      } 
-    })
-
-    return activeTagIds;
-  }
+      priceMax: settings.priceMax,
+      maxDistance: settings.maxDistance,
+      tags: updatedTags,
+    });
+  };
 
   return (
     <View className='flex-col h-full w-[85%] mx-auto'>
@@ -131,13 +61,13 @@ export const Settings = () => {
         showsVerticalScrollIndicator={false}
         className='h-max rounded-b-[18px]'
       >
-        {tags.map((item, index) => (
+        {tags.map((item) => (
           <CategorySelector
             key={item.id}
-            type={tagSelectorStates![index]}
+            type={settings.tags.includes(item) ? 'active' : 'default'}
             category={{ ...item }}
             onPress={() => {
-              toggleCategoryType(index);
+              toggleCategoryType(item.id);
             }}
           />
         ))}
@@ -146,17 +76,21 @@ export const Settings = () => {
         <View className='py-4'>
           <View className='flex-row justify-between mx-4'>
             <Text className='text-lg'>Средняя цена</Text>
-            <Text className='text-lg'>{price} ₽</Text>
+            <Text className='text-lg'>{settings.priceMax} ₽</Text>
           </View>
           <Slider
             style={{ width: '100%', height: 32 }}
             minimumValue={0}
             maximumValue={10000}
             step={100}
-            value={price}
+            value={settings.priceMax}
             onValueChange={(value: number) => {
-              setPrice(value)
-              updateSettings()
+              updateSettings({
+                priceMin: 0,
+                priceMax: value,
+                maxDistance: settings.maxDistance,
+                tags: settings.tags,
+              });
             }}
             minimumTrackTintColor='#000000'
             maximumTrackTintColor='#000000'
@@ -170,17 +104,21 @@ export const Settings = () => {
         <View className='py-4'>
           <View className='flex-row justify-between mx-4'>
             <Text className='text-lg'>Радиус поиска</Text>
-            <Text className='text-lg'>{distance} м</Text>
+            <Text className='text-lg'>{settings.maxDistance} м</Text>
           </View>
           <Slider
             style={{ width: '100%', height: 32 }}
             minimumValue={0}
             maximumValue={10000}
             step={100}
-            value={distance}
+            value={settings.maxDistance}
             onValueChange={(value: number) => {
-              setDistance(value)
-              updateSettings()
+              updateSettings({
+                priceMin: 0,
+                priceMax: settings.priceMax,
+                maxDistance: value,
+                tags: settings.tags,
+              });
             }}
             minimumTrackTintColor='#000000'
             maximumTrackTintColor='#000000'
@@ -200,11 +138,10 @@ export const Settings = () => {
           bottom: bottomInsets,
         }}
         type='primary'
-        onPress={sendSettings}
+        onPress={startSwipes}
       >
         Начать
       </CustomButton>
     </View>
   );
 };
-

@@ -3,20 +3,19 @@ import { Radar } from '@/entities/radar';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { API_URL } from '@/app/app.settings';
-import { useLobby } from '@/app/stores/lobby.store';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from '@/entities/toast/hooks/useToast';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '@/app/navigation.interface';
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
-import { useCustomLobby } from '@/widgets/utils/useLobby';
+
+import { useLobby } from '@/shared/hooks/useLobby';
 
 export const HomePage = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const { setLobbyID } = useLobby();
-  const { joinLobby } = useCustomLobby();
   const [location, setLocation] = useState<LocationObject | null>(null);
+  const { joinLobby } = useLobby();
 
   useEffect(() => {
     (async () => {
@@ -50,7 +49,6 @@ export const HomePage = () => {
 
       const data = response.data;
       if (data.id) {
-        setLobbyID(data.id);
         joinLobby(data.id);
         navigation.navigate('lobby');
       } else {

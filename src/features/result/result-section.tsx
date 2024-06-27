@@ -1,7 +1,7 @@
 import { useBottomInsets } from '@/shared/hooks/getBottomInsets';
 import { CustomButton } from '@/shared/ui/custom-button';
 import { CustomText } from '@/shared/ui/custom-text';
-import { useResultCardStore } from '@/widgets/stores/result-card.store';
+import { useResultCardStore } from '@/app/stores/result-card.store';
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import { MapPointIcon } from './assets/map-point.icon';
