@@ -1,3 +1,5 @@
+import { Location } from "./location.interface";
+
 export type CardType = "BAR" | "CAFE" | "RESTAURANT";
 
 export interface Card {
@@ -6,7 +8,7 @@ export interface Card {
   ShortDescription: string;
   Description: string;
   Image: string;
-  Location: string;
+  Location: Location;
   Address: string;
   Type: CardType;
   Price: number;
