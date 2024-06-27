@@ -3,13 +3,52 @@ import { CustomButton } from '@/shared/ui/custom-button';
 import { CustomText } from '@/shared/ui/custom-text';
 import { useResultCardStore } from '@/app/stores/result-card.store';
 import React from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet, Linking, Alert } from 'react-native'
 import { MapPointIcon } from './assets/map-point.icon';
 import { ScrollView } from 'react-native-gesture-handler';
+import * as Location from 'expo-location';
+
+const openGoogleMaps = async (
+  destinationLatitude: number,
+  destinationLongitude: number
+) => {
+  let location = await Location.getCurrentPositionAsync({});
+
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${location.coords.latitude},${location.coords.longitude}&destination=${destinationLatitude},${destinationLongitude}&travelmode=driving`;
+
+  Linking.canOpenURL(url)
+    .then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert("Error", "Google Maps is not installed or can't be opened");
+      }
+    })
+    .catch((err) => console.error('An error occurred', err));
+};
+
+const openYandexMaps = async (
+  destinationLatitude: number,
+  destinationLongitude: number
+) => {
+  let location = await Location.getCurrentPositionAsync({});
+
+  const url = `https://yandex.ru/maps/?rtext=${location.coords.latitude},${location.coords.longitude}~${destinationLatitude},${destinationLongitude}&rtt=auto`;
+
+  Linking.canOpenURL(url)
+    .then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        Alert.alert("Error", "Yandex Maps cannot be opened");
+      }
+    })
+    .catch((err) => console.error('An error occurred', err));
+};
 
 export const ResultSection = () => {
   const { card } = useResultCardStore();
-  const bottomInsets = useBottomInsets()
+  const bottomInsets = useBottomInsets();
 
   return (
     card
@@ -44,7 +83,10 @@ export const ResultSection = () => {
           }} className='flex-row'
         >
           <CustomButton>Выйти</CustomButton>
-          <CustomButton type='primary'>На карте</CustomButton>
+          <CustomButton
+            onPress={async () => await openGoogleMaps(card.Location.lat, card.Location.lon)}
+            type='primary'
+          >На карте</CustomButton>
         </View>
       </View>
       :
