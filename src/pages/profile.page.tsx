@@ -9,8 +9,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
 export const ProfilePage = () => {
   const bottomInsets = useBottomInsets();
@@ -26,57 +25,59 @@ export const ProfilePage = () => {
 
   return (
     <BottomSheetModalProvider>
-      <Profile
-        name={name}
-        setName={setName}
-        avatar={avatar}
-        setAvatar={setAvatar}
-      />
-      <View
+      <KeyboardAvoidingView
         style={{
-          position: 'absolute',
-          width: '100%',
-          bottom: bottomInsets,
-          rowGap: 50,
+          flex: 1,
+          alignItems: 'center'
         }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <TouchableOpacity
+        <Profile
+          name={name}
+          setName={setName}
+          avatar={avatar}
+          setAvatar={setAvatar}
+        />
+        <View
           style={{
-            width: '85%',
-            marginHorizontal: 'auto',
-          }}
-          onPressOut={() => {
-            logoutUser();
-            navigation.popToTop();
+            position: 'absolute',
+            flexDirection: 'row',
+            bottom: bottomInsets,
+            columnGap: 18,
           }}
         >
-          <Text className='text-xl text-muted mx-auto'>Выйти</Text>
-        </TouchableOpacity>
-        <CustomButton
-          type='primary'
-          onPress={() => {
-            const promise = updateUser({
-              id: user?.id ?? '',
-              name,
-              avatar: avatars.indexOf(avatar).toString(),
-            });
+          <CustomButton
+            type='default'
+            onPressOut={() => {
+              logoutUser();
+              navigation.popToTop();
+            }}
+          >
+            Выйти
+          </CustomButton>
 
-            toast
-              .promise(promise, {
-                message: 'Обновляем пользователя',
-              })
-              .finally(() => {
-                navigation.navigate('home');
+          <CustomButton
+            type='primary'
+            onPress={() => {
+              const promise = updateUser({
+                id: user?.id ?? '',
+                name,
+                avatar: avatars.indexOf(avatar).toString(),
               });
-          }}
-          style={{
-            width: '85%',
-            marginHorizontal: 'auto',
-          }}
-        >
-          Обратно
-        </CustomButton>
-      </View>
+
+              toast
+                .promise(promise, {
+                  message: 'Обновляем пользователя',
+                })
+                .finally(() => {
+                  navigation.navigate('home');
+                });
+            }}
+          >
+            Обратно
+          </CustomButton>
+        </View>
+      </KeyboardAvoidingView>
     </BottomSheetModalProvider>
   );
 };
