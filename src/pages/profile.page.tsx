@@ -9,7 +9,13 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 
 export const ProfilePage = () => {
   const bottomInsets = useBottomInsets();
@@ -41,14 +47,25 @@ export const ProfilePage = () => {
         <View
           style={{
             position: 'absolute',
+            width: '100%',
             bottom: bottomInsets,
-            width: '85%',
-            marginHorizontal: 'auto',
+            rowGap: 50,
           }}
         >
+          <TouchableOpacity
+            style={{
+              width: '85%',
+              marginHorizontal: 'auto',
+            }}
+            onPressOut={() => {
+              logoutUser();
+              navigation.navigate('lobby');
+            }}
+          >
+            <Text className='text-xl text-muted mx-auto'>Выйти</Text>
+          </TouchableOpacity>
           <CustomButton
-            type='default'
-            className='w-full'
+            type='primary'
             onPress={() => {
               const promise = updateUser({
                 id: user?.id ?? '',
@@ -63,6 +80,10 @@ export const ProfilePage = () => {
                 .finally(() => {
                   navigation.navigate('home');
                 });
+            }}
+            style={{
+              width: '85%',
+              marginHorizontal: 'auto',
             }}
           >
             Обратно

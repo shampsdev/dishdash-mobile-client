@@ -1,6 +1,4 @@
-import {
-  CategorySelector,
-} from '@/entities/lobby/category-selector';
+import { CategorySelector } from '@/entities/lobby/category-selector';
 import { CustomButton } from '@/shared/ui/custom-button';
 import Slider from '@react-native-community/slider';
 import React, { useEffect, useState } from 'react';
@@ -138,7 +136,7 @@ export const Settings = () => {
           bottom: bottomInsets,
         }}
         type='primary'
-        onPress={startSwipes}
+        onPress={() => startSwipes()}
       >
         Начать
       </CustomButton>
