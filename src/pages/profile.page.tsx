@@ -28,7 +28,7 @@ export const ProfilePage = () => {
       <KeyboardAvoidingView
         style={{
           flex: 1,
-          alignItems: 'center'
+          alignItems: 'center',
         }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
@@ -41,23 +41,14 @@ export const ProfilePage = () => {
         <View
           style={{
             position: 'absolute',
-            flexDirection: 'row',
             bottom: bottomInsets,
-            columnGap: 18,
+            width: '85%',
+            marginHorizontal: 'auto',
           }}
         >
           <CustomButton
             type='default'
-            onPressOut={() => {
-              logoutUser();
-              navigation.popToTop();
-            }}
-          >
-            Выйти
-          </CustomButton>
-
-          <CustomButton
-            type='primary'
+            className='w-full'
             onPress={() => {
               const promise = updateUser({
                 id: user?.id ?? '',
