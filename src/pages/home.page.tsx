@@ -59,14 +59,6 @@ export const HomePage = () => {
     }
   };
 
-  const handleStopAnimation = new Promise<void>((resolve, reject) => {
-    if (radarRef.current) {
-      radarRef.current.stopAnimation();
-    }
-
-    // reject();
-  })
-
   const onSpin = () => {
     const promise = findLobby();
 
@@ -77,7 +69,7 @@ export const HomePage = () => {
       .then(() => {
         setTimeout(() => {
           navigation.navigate('lobby');
-        }, 1000);
+        }, 250);
       });
   }
 

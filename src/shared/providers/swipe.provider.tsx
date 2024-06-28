@@ -52,6 +52,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
 
   useEffect(() => {
     subscribe('userJoined', (user: User) => {
+      console.log(user);
       addUser(user);
       toast.message(700, {
         message: `Пользователь ${user.name} присоеденился`,
