@@ -64,7 +64,7 @@ export const HomePage = () => {
       radarRef.current.stopAnimation();
     }
 
-    reject();
+    // reject();
   })
 
   const onSpin = () => {
