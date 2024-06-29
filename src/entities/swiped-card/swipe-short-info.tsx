@@ -14,9 +14,8 @@ export const SwipeShortInfo = ({
   onInfoPress?: () => void;
   style?: ViewStyle;
 }) => {
-
   return (
-    <View style={style} className='h-full'>
+    <View style={style} className='h-full shadow-md'>
       <View className='relative h-3/4'>
         <ImageBackground
           className='h-full'
@@ -28,10 +27,10 @@ export const SwipeShortInfo = ({
 
         <SwipeCardHader onInfoPress={onInfoPress} title={card.Title} />
       </View>
-      <View className='py-2 h-44 bg-white -translate-y-10 rounded-3xl items-center'>
+      <View className='py-2 px-2 h-44 bg-white -translate-y-10 rounded-3xl items-center'>
         <View className='flex-row flex-wrap w-full gap-1'>
           {categories.map((category, index) => (
-            <View className='bg-gray-300 px-4 py-2 rounded-full' key={index}>
+            <View className='bg-gray-300 p-2 rounded-full' key={index}>
               <Text>{category}</Text>
             </View>
           ))}

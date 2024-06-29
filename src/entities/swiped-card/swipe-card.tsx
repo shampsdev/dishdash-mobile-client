@@ -10,8 +10,6 @@ import Animated, {
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Card } from '@/shared/interfaces/card.interface';
 import { SwipeShortInfo } from './swipe-short-info';
-import { SwipeExtendedInfo } from './swipe-extended-info';
-import { CardModeType } from './card-mode.interface';
 import { SwipeType } from '@/features/swipes';
 
 export interface SwipeCardProps {
@@ -23,8 +21,6 @@ export interface SwipeCardProps {
 const VALUE_FOR_SWIPING = 100;
 
 export const SwipeCard = (props: SwipeCardProps) => {
-  const [cardMode, setCardMode] = useState<CardModeType>('card');
-
   const offsetX = useSharedValue(0);
   const rotate = useSharedValue(0);
   const rotateY = useSharedValue(0);
@@ -60,32 +56,8 @@ export const SwipeCard = (props: SwipeCardProps) => {
     zIndex: -props.index,
   }));
 
-  const adjustRotation = () => {
-    if (cardMode === 'card') {
-      rotateY.value = 180;
-    } else {
-      rotateY.value = 0;
-    }
-  };
 
   const shadowStyle = props.index === 0 ? styles.activeCardShadow : {};
-
-  const handlePress = () => {
-    if (cardMode === 'card') {
-      rotateY.value = withSpring(rotateY.value + 180, {}, (isFinished) => {
-        if (isFinished) {
-          runOnJS(adjustRotation)();
-        }
-      });
-    } else {
-      rotateY.value = withSpring(rotateY.value - 180, {}, (isFinished) => {
-        if (isFinished) {
-          runOnJS(adjustRotation)();
-        }
-      });
-    }
-    setCardMode(cardMode === 'card' ? 'description' : 'card');
-  };
 
   return (
     <View style={styles.container}>
@@ -99,11 +71,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
             shadowStyle,
           ]}
         >
-          {cardMode === 'card' ? (
-            <SwipeShortInfo onInfoPress={handlePress} card={props.card} />
-          ) : (
-            <SwipeExtendedInfo onInfoPress={handlePress} card={props.card} />
-          )}
+          <SwipeShortInfo card={props.card} />
         </Animated.View>
       </GestureDetector>
     </View>

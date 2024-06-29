@@ -1,5 +1,4 @@
 import { API_URL } from '@/app/app.settings';
-import { useAuth } from '@/app/stores/auth.store';
 import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 

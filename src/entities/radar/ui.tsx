@@ -61,9 +61,9 @@ export const Radar = forwardRef<RadarHandle, RadarProps>(({ onSpin, ...props }, 
     );
   };
 
-  useImperativeHandle(ref, () => ({
-    stopAnimation,
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   stopAnimation,
+  // }));
 
   const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));

@@ -6,7 +6,7 @@ const InfoIcon = (props: IconProps) => (
   <Svg
     fill="none"
     stroke="rgb(20, 20, 20)"
-    strokeWidth={1.5}
+    strokeWidth={1}
     width={40}
     height={40}
     viewBox="0 0 24 24"

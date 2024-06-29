@@ -75,6 +75,7 @@ export const ResultSection = () => {
         </View>
       </View>
       <ScrollView className='h-min' style={styles.textContainer}>
+        <CustomText className='text-xl pb-2'>Коротко о месте</CustomText>
         <CustomText>{card.Description}</CustomText>
       </ScrollView>
       <View
@@ -116,6 +117,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     width: '100%',
     borderRadius: 18,
-    padding: 12,
+    paddingVertical: 12,
   },
 });

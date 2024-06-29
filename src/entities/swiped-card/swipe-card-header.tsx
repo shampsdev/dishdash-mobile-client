@@ -1,7 +1,6 @@
 import React from 'react'
 import { Pressable, View, Text } from 'react-native'
 import InfoIcon from './assets/info.icon'
-import { useCardMode } from './swipe-card.provider'
 
 export const SwipeCardHader = ({ 
   title,
@@ -10,7 +9,6 @@ export const SwipeCardHader = ({
   title: string,
   onInfoPress?: () => void
 }) => {
-  // const { cardMode, setCardMode } = useCardMode();
   
   return (
     <View
