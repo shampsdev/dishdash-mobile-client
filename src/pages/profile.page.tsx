@@ -59,7 +59,9 @@ export const ProfilePage = () => {
             }}
             onPressOut={() => {
               logoutUser();
-              navigation.navigate('login');
+              setTimeout(() => {
+                navigation.navigate('login');
+              }, 200); 
             }}
           >
             <Text className='text-xl text-muted mx-auto'>Выйти</Text>
