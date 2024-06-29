@@ -20,7 +20,7 @@ export const LoginPage = () => {
 
   const [name, setName] = useState<string>('');
   const [avatar, setAvatar] = useState<ImageFile>(
-    user?.avatar != undefined ? avatars[Number(user.avatar) - 1] : avatars[0]
+    user?.avatar != undefined ? avatars[Number(user.avatar)] : avatars[0]
   );
 
   return (
