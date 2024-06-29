@@ -35,7 +35,7 @@ export const HomePage = () => {
       const response = await axios.post(
         `${API_URL}api/v1/lobbies/find`,
         {
-          dist: 10,
+          dist: 100,
           location: {
             lat: location?.coords.latitude ?? 0,
             lon: location?.coords.longitude ?? 0,
@@ -71,18 +71,14 @@ export const HomePage = () => {
           navigation.navigate('lobby');
         }, 250);
       });
-  }
+  };
 
   const toast = useToast();
 
   return (
     <View className='flex-1'>
       <View className='flex-1 bg-whit items-center'>
-        <Radar
-          ref={radarRef}
-          onSpin={onSpin}
-          className='h-5/6 w-screen'
-        />
+        <Radar ref={radarRef} onSpin={onSpin} className='h-5/6 w-screen' />
       </View>
     </View>
   );
