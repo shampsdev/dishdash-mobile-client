@@ -121,7 +121,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     });
 
     subscribe('startSwipes', () => {
-      startSwipes();
+      navigation.navigate('swipes');
     });
   }, [subscribe, addUser, removeUser]);
 
