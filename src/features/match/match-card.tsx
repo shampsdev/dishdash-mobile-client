@@ -25,11 +25,14 @@ export const MatchCard = () => {
 
   return card ? (
     <Animated.View style={animatedStyles} className='h-3/4 w-[85%] mx-auto'>
-      <SwipeShortInfo card={card} />
+      <SwipeShortInfo style={{
+        paddingBottom: 40
+      }} card={card} />
 
       <View
         style={{
           columnGap: 12,
+          // marginTop: 20,
         }}
         className='flex-row mx-auto'
       >
