@@ -84,6 +84,11 @@ export default function App() {
                 />
                 <Stack.Screen
                   options={{ header: UsersHeader }}
+                  name='result'
+                  component={ResultPage}
+                />
+                <Stack.Screen
+                  options={{ header: UsersHeader }}
                   name='swipes'
                   component={SwipePage}
                 />
@@ -91,11 +96,6 @@ export default function App() {
                   options={{ header: UsersHeader }}
                   name='voting'
                   component={VotingPage}
-                />
-                <Stack.Screen
-                  options={{ header: UsersHeader }}
-                  name='result'
-                  component={ResultPage}
                 />
               </Stack.Navigator>
             </SwipeProvider>

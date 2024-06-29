@@ -62,7 +62,7 @@ export const Settings = () => {
         {tags.map((item) => (
           <CategorySelector
             key={item.id}
-            type={settings.tags.includes(item) ? 'active' : 'default'}
+            type={settings.tags.some(tag => tag.id === item.id) ? 'active' : 'default'}
             category={{ ...item }}
             onPress={() => {
               toggleCategoryType(item.id);

@@ -40,14 +40,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
 
   const startSwipes = () => {
     emit('startSwipes');
-
-    toast
-      .message(500, {
-        message: 'Loading swipes',
-      })
-      .finally(() => {
-        navigation.navigate('swipes');
-      });
+    navigation.navigate('swipes');
   };
 
   useEffect(() => {
@@ -111,6 +104,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     });
 
     subscribe('finish', (result: { result: Card }) => {
+      console.log(result);
       setResultCard(result.result);
       navigation.navigate('result');
     });
