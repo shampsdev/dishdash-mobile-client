@@ -32,7 +32,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
   const { subscribe, emit } = useSocket();
   const { addUser, removeUser, setSettings, setCards, cards } = useLobbyStore();
   const { setMatchCard, setMatchStatus, setMatchId } = useMatchStore();
-  const { setResultCard } = useResultCardStore();
+  const { setResultCard, card: resultCard } = useResultCardStore();
   const { setCards: setFinalVoteCards, addVote } = useFinalVoteStore();
 
   const toast = useToast();
@@ -76,7 +76,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     });
 
     subscribe('card', (card: { card: Card }) => {
-      setCards([...cards, card.card]);
+      if (resultCard == null) setCards([...cards, card.card]);
     });
 
     subscribe('match', (match: Match) => {
@@ -98,6 +98,17 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
 
     subscribe('voted', (vote: Vote) => {
       // This is very bad by the way, but better than nothing, if it's final the vote is -1 :)
+      toast.message(300, {
+        message: `${vote.user.name} хочет ${
+          vote.voteOption ? 'продолжить' : 'закончить'
+        }`,
+        icon: (
+          <Image
+            className='h-5 w-5 mr-2'
+            source={avatars[Number(vote.user.avatar)].src}
+          />
+        ),
+      });
       if (vote.voteId < 0) {
         addVote(vote);
       }
