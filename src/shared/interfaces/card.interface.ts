@@ -1,13 +1,15 @@
+import { Location } from "./location.interface";
+
 export type CardType = "BAR" | "CAFE" | "RESTAURANT";
 
-export interface ICard {
-  id: number;
-  title: string;
-  shortDescription: string;
-  description: string;
-  image: string;
-  location: string;
-  address: string;
-  type: CardType;
-  price: number;
+export interface Card {
+  ID: number;
+  Title: string;
+  ShortDescription: string;
+  Description: string;
+  Image: string;
+  Location: Location;
+  Address: string;
+  Type: CardType;
+  Price: number;
 }

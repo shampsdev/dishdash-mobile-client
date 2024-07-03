@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, Text, Pressable, Animated, ImageSourcePropType } from 'react-native';
 import { tagImages } from '@/features/lobby/tag-images';
-
-export interface CardTag {
-  id: number;
-  name: string;
-  icon: string;
-}
+import { Tag } from '@/shared/interfaces/tag.interface';
 
 export type TagSelectorsType = 'default' | 'active';
 
@@ -15,7 +10,7 @@ export const CategorySelector = ({
   type,
   onPress
 }: {
-  category: CardTag;
+  category: Tag;
   type: TagSelectorsType;
   onPress: () => void;
 }) => {

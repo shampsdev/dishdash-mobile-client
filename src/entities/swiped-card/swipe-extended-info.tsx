@@ -1,20 +1,20 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { SwipeCardHader } from './swipe-card-header'
-import { ICard } from '@/shared/interfaces/card.interface'
+import { Card } from '@/shared/interfaces/card.interface'
 
 export const SwipeExtendedInfo = ({
   card,
   onInfoPress
 }: {
-  card: ICard,
+  card: Card,
   onInfoPress: () => void
 }) => {
   return (
     <View className='h-full relative flex-col justify-center scale-x-[-1] bg-secondary rounded-3xl'>
       <SwipeCardHader
         onInfoPress={onInfoPress} 
-        title={card.title}
+        title={card.Title}
       />
 
     <Text className='px-4 text-base mx-auto'>

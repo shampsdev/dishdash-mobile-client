@@ -8,7 +8,7 @@ import { CustomButton } from '@/shared/ui/custom-button';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
 export const LoginPage = () => {
@@ -20,7 +20,7 @@ export const LoginPage = () => {
 
   const [name, setName] = useState<string>('');
   const [avatar, setAvatar] = useState<ImageFile>(
-    user?.avatar != undefined ? avatars[Number(user.avatar) - 1] : avatars[0]
+    user?.avatar != undefined ? avatars[Number(user.avatar)] : avatars[0]
   );
 
   return (
@@ -45,6 +45,7 @@ export const LoginPage = () => {
           <CustomButton
             type='primary'
             style={{
+              width: '85%',
               marginHorizontal: 'auto',
             }}
             onPress={() => {

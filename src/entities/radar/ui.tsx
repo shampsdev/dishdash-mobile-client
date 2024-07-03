@@ -1,11 +1,7 @@
 import { Canvas, Image, useImage } from '@shopify/react-native-skia';
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  PanGesture,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {
   Easing,
   runOnJS,
@@ -17,24 +13,41 @@ import {
 } from 'react-native-reanimated';
 import { Icon } from './icon';
 import { Ring } from './ring';
+import { useIsFocused } from '@react-navigation/native';
 
 interface RadarProps {
   onSpin: () => void;
   [key: string]: any;
 }
 
-export const Radar = ({ onSpin, ...props }: RadarProps) => {
+
+export interface RadarHandle {
+  stopAnimation: () => void;
+}
+
+export const Radar = forwardRef<RadarHandle, RadarProps>(({ onSpin, ...props }, ref) => {
+  const isFocused = useIsFocused();
   const spin = useSharedValue(0);
   const scale = useSharedValue(1);
   const offset_anim = useSharedValue(0);
   const gestureActive = useSharedValue(true);
 
+  const stopAnimation = () => {
+    offset_anim.value = 0;
+    gestureActive.value = true;
+  }
+  
   useEffect(() => {
-    spin.value = withRepeat(
-      withTiming(5, { duration: 50000, easing: Easing.linear }),
-      -1
-    );
-  }, []);
+    if (isFocused) {
+      spin.value = withRepeat(
+        withTiming(5, { duration: 50000, easing: Easing.linear }),
+        -1
+      );
+    } else {
+      spin.value = 0;
+      stopAnimation();
+    }
+  }, [isFocused]);
 
   const startAnimation = () => {
     scale.value = withRepeat(
@@ -47,6 +60,10 @@ export const Radar = ({ onSpin, ...props }: RadarProps) => {
       true
     );
   };
+
+  // useImperativeHandle(ref, () => ({
+  //   stopAnimation,
+  // }));
 
   const logo = useImage(require('./assets/icon_logo.png'));
   const icon1 = useImage(require('./assets/icon.png'));
@@ -191,4 +208,4 @@ export const Radar = ({ onSpin, ...props }: RadarProps) => {
       </Canvas>
     </GestureDetector>
   );
-};
+});

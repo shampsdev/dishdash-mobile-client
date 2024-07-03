@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  StyleSheet
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
+  withSpring,
 } from 'react-native-reanimated';
 
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { ICard } from '@/shared/interfaces/card.interface';
+import { Card } from '@/shared/interfaces/card.interface';
 import { SwipeShortInfo } from './swipe-short-info';
-import { SwipeExtendedInfo } from './swipe-extended-info';
-import { CardModeType } from './card-mode.interface';
+import { SwipeType } from '@/features/swipes';
 
 export interface SwipeCardProps {
-  card: ICard;
+  card: Card;
   index: number;
-  onSwipe: (id: number) => void;
+  onSwipe: (id: number, type: SwipeType) => void;
 }
 
 const VALUE_FOR_SWIPING = 100;
 
 export const SwipeCard = (props: SwipeCardProps) => {
-  const [cardMode, setCardMode] = useState<CardModeType>('card'); 
-
   const offsetX = useSharedValue(0);
   const rotate = useSharedValue(0);
   const rotateY = useSharedValue(0);
@@ -42,11 +36,11 @@ export const SwipeCard = (props: SwipeCardProps) => {
       if (valueX < -VALUE_FOR_SWIPING) {
         rotate.value = withSpring(-10);
         offsetX.value = withSpring(-300);
-        runOnJS(props.onSwipe)(props.card.id);
+        runOnJS(props.onSwipe)(props.card.ID, 'dislike');
       } else if (valueX > VALUE_FOR_SWIPING) {
         rotate.value = withSpring(10);
         offsetX.value = withSpring(300);
-        runOnJS(props.onSwipe)(props.card.id);
+        runOnJS(props.onSwipe)(props.card.ID, 'like');
       } else {
         offsetX.value = withSpring(0);
         rotate.value = withSpring(0);
@@ -62,32 +56,8 @@ export const SwipeCard = (props: SwipeCardProps) => {
     zIndex: -props.index,
   }));
 
-  const adjustRotation = () => {
-    if (cardMode === 'card') {
-      rotateY.value = 180;
-    } else {
-      rotateY.value = 0;
-    }
-  };
 
   const shadowStyle = props.index === 0 ? styles.activeCardShadow : {};
-
-  const handlePress = () => {
-    if (cardMode === 'card') {
-      rotateY.value = withSpring(rotateY.value + 180, {}, (isFinished) => {
-        if (isFinished) {
-          runOnJS(adjustRotation)();
-        }
-      });
-    } else {
-      rotateY.value = withSpring(rotateY.value - 180, {}, (isFinished) => {
-        if (isFinished) {
-          runOnJS(adjustRotation)();
-        }
-      });
-    }
-    setCardMode(cardMode === 'card' ? 'description' : 'card');
-  };
 
   return (
     <View style={styles.container}>
@@ -101,19 +71,7 @@ export const SwipeCard = (props: SwipeCardProps) => {
             shadowStyle,
           ]}
         >
-          {
-            cardMode === "card"
-              ?
-              <SwipeShortInfo
-                onInfoPress={handlePress}
-                card={{ ...props.card }}
-              />
-              :
-              <SwipeExtendedInfo
-                onInfoPress={handlePress}
-                card={{...props.card}}
-              />
-          }
+          <SwipeShortInfo card={props.card} />
         </Animated.View>
       </GestureDetector>
     </View>

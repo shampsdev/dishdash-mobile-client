@@ -3,6 +3,7 @@ import { View, Text, Animated, Easing } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Spinner } from './icons/spinner';
 import { Check } from './icons/check';
+import { Cross } from './icons/cross';
 
 export interface ToastProps {
   message: string;
@@ -27,12 +28,16 @@ export const Toast = ({
   const slideAnim = useRef(new Animated.Value(-20)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
-  const [resolved, setResolved] = useState(false);
+  const [resolved, setResolved] = useState<'resolve' | 'spinning' | 'reject'>('spinning');
 
   useEffect(() => {
     slideIn();
     promise.then(() => {
-      setResolved(true);
+      setResolved('resolve');
+    }).catch((() => {
+      setResolved('reject');
+    }))
+    .finally(() => {
       setTimeout(() => {
         slideOut();
       }, 500);
@@ -88,10 +93,12 @@ export const Toast = ({
           icon
         ) : (
           <View className='h-5 w-5 justify-center items-center mr-3'>
-            {resolved ? (
+            {resolved === 'resolve' ? (
               <Check className='h-5 w-5 justify-center items-center' />
-            ) : (
+            ) : resolved === 'spinning' ? (
               <Spinner className='h-5 w-5 justify-center items-center' />
+            ) : (
+              <Cross className='h-5 w-5 justify-center items-center' />
             )}
           </View>
         )}
