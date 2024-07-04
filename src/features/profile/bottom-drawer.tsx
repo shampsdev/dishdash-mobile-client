@@ -25,26 +25,29 @@ export const ImageSelectorDrawer = ({
 }) => {
   const bottomSheetImagePickRef = useRef<BottomSheetModal>(null);
 
-  const renderItem = useCallback(({ item }: { item: ImageFile }) => {
-    return (
-      <Pressable
-        style={{
-          flex: 1 / 3,
-          backgroundColor: 'white',
-          paddingVertical: 24,
-          borderRadius: 24,
-          alignItems: 'center',
-        }}
-        onPress={() => {
-          setImage(item);
-          closeBottomSheetModal(bottomSheetImagePickRef);
-          closeBottomSheetModal(bottomSheetSourceSelectRef);
-        }}
-      >
-        <Image source={item.src} style={{ width: 60, height: 60 }} />
-      </Pressable>
-    );
-  }, []);
+  const renderItem = useCallback(
+    ({ item, index }: { item: ImageFile; index: number }) => {
+      return (
+        <Pressable
+          style={{
+            flex: 1 / 3,
+            backgroundColor: 'white',
+            paddingVertical: 24,
+            borderRadius: 24,
+            alignItems: 'center',
+          }}
+          onPress={() => {
+            setImage(avatars[index]);
+            closeBottomSheetModal(bottomSheetImagePickRef);
+            closeBottomSheetModal(bottomSheetSourceSelectRef);
+          }}
+        >
+          <Image source={item.src} style={{ width: 60, height: 60 }} />
+        </Pressable>
+      );
+    },
+    []
+  );
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

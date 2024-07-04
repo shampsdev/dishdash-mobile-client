@@ -8,7 +8,7 @@ import { CustomButton } from '@/shared/ui/custom-button';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 
 export const LoginPage = () => {
@@ -51,7 +51,7 @@ export const LoginPage = () => {
             onPress={() => {
               const promise = loginUser({
                 name,
-                avatar: avatar.src.toString(),
+                avatar: avatars.indexOf(avatar).toString(),
               });
 
               toast.promise(promise, {
