@@ -58,6 +58,7 @@ export default function App() {
                 screenOptions={{
                   animationEnabled: false,
                   cardStyle: { backgroundColor: '#fff' },
+                  freezeOnBlur: true,
                 }}
               >
                 {!authenticated && (
