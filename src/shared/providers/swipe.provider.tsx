@@ -29,7 +29,7 @@ interface SwipeProviderProps {
 }
 
 export const SwipeProvider = ({ children }: SwipeProviderProps) => {
-  const { subscribe, emit } = useSocket();
+  const { subscribe, emit, socket } = useSocket();
   const { addUser, removeUser, setSettings, setCards, cards } = useLobbyStore();
   const { setMatchCard, setMatchStatus, setMatchId } = useMatchStore();
   const { setResultCard, card: resultCard } = useResultCardStore();
@@ -44,6 +44,8 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
   };
 
   useEffect(() => {
+    console.log('subscribed');
+
     subscribe('userJoined', (user: User) => {
       console.log(user);
       addUser(user);
@@ -123,7 +125,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     subscribe('startSwipes', () => {
       navigation.navigate('swipes');
     });
-  }, [subscribe, addUser, removeUser]);
+  }, [socket]);
 
   return (
     <SwipeContext.Provider

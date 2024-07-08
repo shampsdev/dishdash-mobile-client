@@ -42,8 +42,8 @@ export default function App() {
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
-      <ToastProvider>
-        <SocketProvider>
+      <SocketProvider>
+        <ToastProvider>
           <NavigationContainer
             theme={{
               ...DefaultTheme,
@@ -101,8 +101,8 @@ export default function App() {
               </Stack.Navigator>
             </SwipeProvider>
           </NavigationContainer>
-        </SocketProvider>
-      </ToastProvider>
+        </ToastProvider>
+      </SocketProvider>
     </SafeAreaProvider>
   );
 }

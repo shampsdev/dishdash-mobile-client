@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { InternalToastProps, Toast, ToastProps } from './ui';
 
 interface ContextProps {
@@ -21,6 +21,8 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
     (ToastProps & InternalToastProps) | null
   >(null);
 
+  console.log('ToastProvider rendered')
+
   const addToast = useCallback((toast: ToastProps, promise: Promise<void>) => {
     setQueue((prevQueue) => [...prevQueue, { ...toast, promise }]);
   }, []);
@@ -40,8 +42,13 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
     }
   }, [queue, activeToast]);
 
+  const contextValue = useMemo(
+    () => ({ addToast, activeToast }),
+    [addToast, activeToast]
+  );
+
   return (
-    <ToastContext.Provider value={{ addToast, activeToast }}>
+    <ToastContext.Provider value={contextValue}>
       {activeToast && <Toast index={0} {...activeToast} />}
       {children}
     </ToastContext.Provider>
