@@ -1,6 +1,6 @@
 import { SwipeShortInfo } from '@/entities/swiped-card/swipe-short-info';
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useMatchStore } from './useMatchStore';
 import { CustomButton } from '@/shared/ui/custom-button';
 import Animated, {
@@ -24,15 +24,25 @@ export const MatchCard = () => {
   }));
 
   return card ? (
-    <Animated.View style={animatedStyles} className='h-3/4 w-[85%] mx-auto'>
-      <SwipeShortInfo style={{
-        paddingBottom: 40
-      }} card={card} />
-
+    <Animated.View
+      style={animatedStyles}
+      className='h-full w-[85%] mx-auto justify-around'
+    >
+      <Text
+        className='py-2 text-2xl text-center font-semibold'
+      >
+        Это метч!
+      </Text>
+      <SwipeShortInfo
+        style={{
+          height: '75%',
+        }}
+        card={card}
+      />
       <View
         style={{
           columnGap: 12,
-          // marginTop: 20,
+          marginBottom: 20,
         }}
         className='flex-row mx-auto'
       >

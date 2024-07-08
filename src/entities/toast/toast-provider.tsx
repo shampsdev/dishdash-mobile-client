@@ -21,8 +21,6 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
     (ToastProps & InternalToastProps) | null
   >(null);
 
-  console.log('ToastProvider rendered')
-
   const addToast = useCallback((toast: ToastProps, promise: Promise<void>) => {
     setQueue((prevQueue) => [...prevQueue, { ...toast, promise }]);
   }, []);

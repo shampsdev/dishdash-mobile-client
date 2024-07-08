@@ -64,7 +64,7 @@ export const HomePage = () => {
 
     toast
       .promise(promise, {
-        message: 'Looking for a lobby',
+        message: 'Ищем лобби...',
       })
       .then(() => {
         setTimeout(() => {
