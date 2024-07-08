@@ -57,24 +57,28 @@ export const ResultSection = () => {
   return card ? (
     <View
       style={{
-        rowGap: 16,
+        rowGap: 16, 
       }}
       className='h-full w-[85%] mx-auto relative items-center'
     >
-      <Image
-        className='w-full min-h-[240px] h-[33vh] rounded-2xl'
-        src={card.Image}
-      />
-      <View className='w-full'>
-        <CustomText className='font-semibold text-2xl'>{card.Title}</CustomText>
-        <View className='flex-row space-x-1'>
-          <MapPointIcon width={24} height={24} />
-          <CustomText className='text-[#7F7F7F] text-xl'>
-            {card.Address}
-          </CustomText>
-        </View>
-      </View>
       <ScrollView className='h-min' style={styles.textContainer}>
+        <View>
+          <Image
+            className='w-full min-h-[240px] h-[33vh] rounded-2xl'
+            src={card.Image}
+          />
+          <View className='w-full p-4 bg-white rounded-2xl'>
+            <CustomText className='font-semibold text-2xl'>
+              {card.Title}
+            </CustomText>
+            <View className='flex-row space-x-1'>
+              <MapPointIcon width={24} height={24} />
+              <CustomText className='text-[#7F7F7F] text-xl'>
+                {card.Address}
+              </CustomText>
+            </View>
+          </View>
+        </View>
         <CustomText className='text-xl pb-2'>Коротко о месте</CustomText>
         <CustomText>{card.Description}</CustomText>
       </ScrollView>

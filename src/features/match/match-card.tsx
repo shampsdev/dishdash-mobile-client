@@ -28,10 +28,8 @@ export const MatchCard = () => {
       style={animatedStyles}
       className='h-full w-[85%] mx-auto justify-around'
     >
-      <Text
-        className='py-2 text-2xl text-center font-semibold'
-      >
-        Это метч!
+      <Text className='py-2 text-2xl text-center font-semibold'>
+        У вас мэтч!
       </Text>
       <SwipeShortInfo
         style={{
