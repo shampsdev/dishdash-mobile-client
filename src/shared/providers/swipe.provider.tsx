@@ -44,10 +44,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
   };
 
   useEffect(() => {
-    console.log('subscribed');
-
     subscribe('userJoined', (user: User) => {
-      console.log(user);
       addUser(user);
       toast.message(700, {
         message: `Пользователь ${user.name} присоеденился`,
@@ -102,7 +99,7 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
       // This is very bad by the way, but better than nothing, if it's final the vote is -1 :)
       toast.message(300, {
         message: `${vote.user.name} хочет ${
-          vote.voteOption ? 'продолжить' : 'закончить'
+          vote.voteOption ? 'закончить' : 'продолжить'
         }`,
         icon: (
           <Image
@@ -117,7 +114,6 @@ export const SwipeProvider = ({ children }: SwipeProviderProps) => {
     });
 
     subscribe('finish', (result: { result: Card }) => {
-      console.log(result);
       setResultCard(result.result);
       navigation.navigate('result');
     });
