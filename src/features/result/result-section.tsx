@@ -26,6 +26,7 @@ const openGoogleMaps = async (
         Linking.openURL(url);
       } else {
         Alert.alert('Error', "Google Maps is not installed or can't be opened");
+        openYandexMaps(destinationLatitude, destinationLongitude)
       }
     })
     .catch((err) => console.error('An error occurred', err));
@@ -62,7 +63,7 @@ export const ResultSection = () => {
       }}
       className='h-full relative items-center'
     >
-      <ScrollView className='h-min' style={styles.textContainer}>
+      <ScrollView style={styles.textContainer}>
         <View className='w-[85%] mx-auto' style={styles.shadow}>
           <Image
             className='w-full min-h-[240px] h-[33vh] rounded-2xl'
@@ -80,28 +81,31 @@ export const ResultSection = () => {
             </View>
           </View>
         </View>
-        <View className='w-[85%] mx-auto pb-6'>
+        <View className='w-[85%] mx-auto pb-8'>
           <CustomText className='text-xl pb-2'>Коротко о месте</CustomText>
           <CustomText>{card.Description}</CustomText>
         </View>
-        <MapView
-          onTouchStart={async () =>
-            await openGoogleMaps(card.Location.lat, card.Location.lon)
-          }
-          scrollEnabled={false}
-          initialRegion={{
-            latitude: card.Location.lat,
-            longitude: card.Location.lon,
-            latitudeDelta: 0.001,
-            longitudeDelta: 0.001,
-          }}
-          style={{
-            height: '30%',
-            width: '85%',
-            marginHorizontal: 'auto',
-            borderRadius: 14,
-          }}
-        />
+        <View className='w-[85%] h-[20%] mx-auto'>
+          <CustomText className='text-xl pb-2'>На карте</CustomText>
+          <MapView
+            onTouchStart={async () =>
+              await openGoogleMaps(card.Location.lat, card.Location.lon)
+            }
+            scrollEnabled={false}
+            initialRegion={{
+              latitude: card.Location.lat,
+              longitude: card.Location.lon,
+              latitudeDelta: 0.001,
+              longitudeDelta: 0.001,
+            }}
+            style={{
+              height: '100%',
+              width: '100%',
+              marginHorizontal: 'auto',
+              borderRadius: 14,
+            }}
+          />
+        </View>
       </ScrollView>
       <View
         style={{
@@ -112,6 +116,7 @@ export const ResultSection = () => {
         className='flex-row'
       >
         <CustomButton
+          type='primary'
           onPress={() => {
             navigation.navigate('home');
           }}
@@ -129,14 +134,13 @@ const styles = StyleSheet.create({
   textContainer: {
     width: '100%',
     borderRadius: 18,
-    paddingTop: 12,
-    paddingBottom: 24,
+    paddingVertical: 12
   },
   shadow: {
     shadowColor: 'black',
     elevation: 8,
     shadowRadius: 10,
-    shadowOffset: { width: 10, height: 5 },
-    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.05,
   },
 });
